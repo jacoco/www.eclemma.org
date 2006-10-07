@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <meta name="LastChangedDate" content="$LastChangedDate$">
+  <meta name="Revision" content="$Revision$">
+  <link rel="stylesheet" href="book.css" charset="ISO-8859-1" type="text/css">
+  <title>Overview</title>
+</head>
+
+<body>
+
+<h1>EclEmma Java Code Coverage</h1>
+
+<a href="images/screen.png"><img align="right" border="0" src="images/smallscreen.gif" alt="Screenshot"></a>
+
+
+<p>
+  EclEmma is a free Java code coverage tool for Eclipse, available under the 
+  <a href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License</a>.
+  Internally it is based on the great <a href="http://emma.sourceforge.net/">EMMA</a>
+  Java code coverage tool, trying to adopt EMMA's philosophy for the Eclipse workbench:
+</p>
+
+<ul>
+  <li>Fast develop/test cycle: Launches from within the workbench like JUnit test runs
+  can directly be analyzed for code coverage.</li>
+  <li>Rich coverage analysis: Coverage results are immediately summarized and highlighted
+  in the Java source code editors.</li>
+  <li>Non-invasive: EclEmma does not require modifying your projects or performing any
+  other setup.</li>
+</ul>
+
+<p>
+  The Eclipse integration has its focus on supporting the individual developer
+  in an highly interactive way.
+</p>
+
+<h1>Features</h1>
+
+<h2>Launching</h2>
+
+<p>
+  EclEmma adds a so called <i>launch mode</i> to the Eclipse workbench. It is
+  called <i>Coverage</i> mode and works exactly like the existing <i>Run</i> and
+  <i>Debug</i> modes. The <i>Coverage</i> launch mode can be activated from the
+  <i>Run</i> menu or the workbench's toolbar:
+</p>
+
+<p>
+  <img src="userdoc/images/launchtoolbar.gif" alt="Launch Toolbar">
+</p>
+
+<p>
+  Simply launch your applications or unit tests in the <i>Coverage</i> mode to
+  collect coverage information. Currently the following launch types are
+  supported:
+</p>
+
+<ul>
+  <li>Local Java application</li>
+  <li>JUnit test</li>
+  <li>JUnit plug-in test</li>
+</ul>
+
+
+<h2>Analysis</h2>
+
+<p>
+  After your application or unit test has terminated code coverage information
+  is automatically available in the Eclipse workbench:
+</p>
+
+<ul>
+  <li><b>Coverage overview:</b> The <i>Coverage</i> view lists coverage
+  summaries for your Java projects, allowing drill-down to method level.</li>
+  
+  <li><b>Source highlighting:</b> The result of a coverage session is also 
+  directly visible in the Java source editors. A customizable color code
+  highlights fully, partly and not covered lines. This works for your own source
+  code as well as for source attached to instrumented external libraries.</li>
+</ul>
+
+<p>
+  Additional features support analysis for your test coverage:
+</p>
+
+<ul>  
+  <li><b>Different counters:</b> Select whether instructions, lines or blocks
+  should be summarized.</li>
+  <li><b>Multiple coverage sessions:</b> Switching between coverage data from
+  multiple sessions is possible.</li>
+  <li><b>Merge Sessions:</b> If multiple different test runs should be considered
+  for analysis coverage sessions can easily be merged.</li>
+</ul>
+
+<h2>Import/Export</h2>
+
+<p>
+  While EclEmma is primarily designed for test runs and analysis within the
+  Eclipse workbench, it provides some import/export features.
+</p>
+
+<ul>
+  <li><b>Coverage data import:</b> A wizard allows to import <code>*.ec</code>
+  coverage data files from external launches.</li>
+  <li><b>Coverage report export:</b> Coverage data can be exported as a
+  <code>*.ec</code> file or in XML or HTML format.</li>
+</ul>
+
+</body>
+</html>

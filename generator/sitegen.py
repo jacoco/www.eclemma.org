@@ -1,0 +1,136 @@
+"""Simple Generator for EclEmma's site at SourceForge
+
+$LastChangedDate: $
+$Revision: $
+"""
+import os, os.path
+import re
+
+_REGEX_BODY = re.compile('<body>(.*)</body>', re.DOTALL)
+_REGEX_METATAG = re.compile('<meta\s*name="(.*)"\s*content="(.*)">')
+_REGEX_TITLE = re.compile('<title>(.*)</title>')
+
+def _loadpage(src, encoding='iso-8859-1'):
+    f = file(src, 'r+b')
+    content = unicode(f.read(), encoding)
+    f.close()
+    page = {}
+    page['title'] = _REGEX_TITLE.findall(content)[0]
+    page['body'] = _REGEX_BODY.findall(content)[0]
+    for (key, value) in _REGEX_METATAG.findall(content):
+        page[key] = value
+    return page
+
+class Template(object):
+    def __init__(self, path, encoding='iso-8859-1'):
+        f = file(path, 'r+b')
+        self.template = unicode(f.read(), encoding)
+        f.close();
+        
+    def render(self, valuemap):
+        return self.template % valuemap
+        
+PAGE      = Template('templates/page.html')
+NAVITEM   = Template('templates/navitem.html')
+NAVITEMHI = Template('templates/navitemhi.html')
+
+def _rellink(base, href):
+    base = base.split('/')
+    href = href.split('/')
+    while len(base) > 1 and len(href) > 1 and base[0] == href[0]:
+        base = base[1:]
+        href = href[1:]
+    while len(base) > 1:
+        base = base[1:]
+        href = ['..'] + href
+    
+    return '/'.join(href)
+    
+def _navigation(root, current):
+    return ''.join(map(lambda n: _navigationEntry(n, current), root.children))
+
+def _navigationEntry(node, current, nesting=0):
+    n = { 'href': _rellink(current, node.href),
+           'label': node.label,
+           'indent': nesting * 10 }
+    if node.href == current:
+        s = NAVITEMHI.render(n)
+    else:
+        s = NAVITEM.render(n)
+    return s + ''.join(map(lambda n: _navigationEntry(n, current, nesting + 1), node.children))
+ 
+
+class Linkable:
+    pass
+    
+    
+class OutputItem(object):
+       
+    def create(self, rootnode):
+        pass
+
+class File(OutputItem):
+    def __init__(self, src):
+        self.src = src
+
+    def create(self, rootnode, current):
+        f = open(self.src, 'r+b')
+        content = f.read()
+        f.close()
+        return content
+        
+class Page(OutputItem):
+    def __init__(self, src, encoding='iso-8859-1'):
+        self.src = src
+        self.encoding = encoding
+
+    def create(self, rootnode, current):
+        p = _loadpage(self.src, self.encoding)
+        p['styleref'] = _rellink(current, 'book.css')
+        p['navigation'] = _navigation(rootnode, current)
+        return PAGE.render(p)
+
+class NavigationNode(object):
+
+    def __init__(self, label, href=None):
+        self.label = label
+        self.href = href
+        self.children = []
+
+
+class Site(object):
+
+    def __init__(self):
+        self.items = {}
+        self.rootnode = NavigationNode('<ROOT>')
+
+    def item(self, path, src):
+        if path in self.items:
+            raise 'Item %s is already defined' % path
+        self.items[path] = src
+        
+    def nav(self, label, href=None, parent=None):
+        if href is not None and href not in self.items:
+            raise 'Item %s is not defined' % href
+        n = NavigationNode(label, href)
+        if parent:
+            parent.children.append(n)
+        else:
+            self.rootnode.children.append(n)
+        return n
+
+    def generate(self, basedir):
+        for (path, item) in self.items.items():
+            outpath = os.path.normpath(os.path.join(basedir, path))
+            try:
+                os.makedirs(os.path.dirname(outpath))
+            except:
+                pass
+            f = open(outpath, 'w+b')
+            content = item.create(self.rootnode, path)
+            f.write(content)
+            f.close()
+            print '%s (%s bytes)' % (path, len(content))
+
+            
+            
