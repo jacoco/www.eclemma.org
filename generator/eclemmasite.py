@@ -43,6 +43,7 @@ site.item('devdoc/checklist.html',     Page('content/devdoc/checklist.html'))
 site.item('support.html', Page('content/support.html'))
 site.item('changes.html', Page('../com.mountainminds.eclemma.doc/pages/changes.html'))
 site.item('license.html', Page('../com.mountainminds.eclemma.doc/pages/license.html'))
+site.item('contact.html', Page('content/contact.html'))
 
 # Site Structure
 
@@ -65,6 +66,7 @@ site.nav('Release Checklist', 'devdoc/checklist.html', devdoc)
 site.nav('Support', 'support.html')
 site.nav('Change Log', 'changes.html')
 site.nav('License', 'license.html')
+site.nav('Contact', 'contact.html')
 
 
 site.generate(sys.argv[1])

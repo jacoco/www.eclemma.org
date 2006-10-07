@@ -52,7 +52,7 @@ def _navigation(root, current):
 def _navigationEntry(node, current, nesting=0):
     n = { 'href': _rellink(current, node.href),
            'label': node.label,
-           'indent': nesting * 10 }
+           'indent': nesting * 15 }
     if node.href == current:
         s = NAVITEMHI.render(n)
     else:
