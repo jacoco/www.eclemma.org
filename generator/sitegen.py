@@ -136,7 +136,9 @@ class Site(object):
 
     def generate(self, basedir):
         bytesum = 0
-        for (path, item) in self.items.items():
+        items = self.items.items()
+        items.sort()
+        for (path, item) in items:
             outpath = os.path.normpath(os.path.join(basedir, path))
             try:
                 os.makedirs(os.path.dirname(outpath))
