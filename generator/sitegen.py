@@ -9,6 +9,7 @@ import re
 _REGEX_BODY = re.compile('<body>(.*)</body>', re.DOTALL)
 _REGEX_METATAG = re.compile('<meta\s*name="(.*)"\s*content="(.*)">')
 _REGEX_TITLE = re.compile('<title>(.*)</title>')
+_REGEX_HREF = re.compile(' (href|src)="([^"]*)"')
 
 def _loadpage(src, encoding='iso-8859-1'):
     f = file(src, 'r+b')
@@ -43,8 +44,16 @@ def _rellink(base, href):
     while len(base) > 1:
         base = base[1:]
         href = ['..'] + href
-    
     return '/'.join(href)
+
+def _joinpaths(base, path):
+    base = base.split('/')[:-1]
+    for seg in path.split('/'):
+        if seg == '..' and len(base) > 0:
+            base = base[:-1]
+        else:
+            base.append(seg)
+    return '/'.join(base)
     
 def _navigation(root, current):
     return ''.join(map(lambda n: _navigationEntry(n, current), root.children))
@@ -59,14 +68,13 @@ def _navigationEntry(node, current, nesting=0):
         s = NAVITEM.render(n)
     return s + ''.join(map(lambda n: _navigationEntry(n, current, nesting + 1), node.children))
  
-
-class Linkable:
-    pass
-    
     
 class OutputItem(object):
        
     def create(self, rootnode):
+        pass
+        
+    def verify_hrefs(self, content, path, allpaths):
         pass
 
 class File(OutputItem):
@@ -89,6 +97,13 @@ class Page(OutputItem):
         p['styleref'] = _rellink(current, 'book.css')
         p['navigation'] = _navigation(rootnode, current)
         return PAGE.render(p)
+
+    def verify_hrefs(self, content, path, allpaths):
+        for (ignore, href) in _REGEX_HREF.findall(content):
+            if href.find('http://') != 0 and href.find('https://') != 0:
+                href = _joinpaths(path, href)
+                if href not in allpaths:
+                    raise str('Invalid reference %s in %s' % (href, path))
 
 class NavigationNode(object):
 
@@ -120,6 +135,7 @@ class Site(object):
         return n
 
     def generate(self, basedir):
+        bytesum = 0
         for (path, item) in self.items.items():
             outpath = os.path.normpath(os.path.join(basedir, path))
             try:
@@ -128,9 +144,13 @@ class Site(object):
                 pass
             f = open(outpath, 'w+b')
             content = item.create(self.rootnode, path)
+            item.verify_hrefs(content, path, self.items.keys())
             f.write(content)
             f.close()
-            print '%s (%s bytes)' % (path, len(content))
+            bytesum += len(content)
+            print '%6d bytes %s' % (len(content), path)
 
+        print '===================================================='
+        print '%6d bytes for %d files' % (bytesum, len(self.items))
             
             
