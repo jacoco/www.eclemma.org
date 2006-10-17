@@ -21,7 +21,7 @@ site.item('images/glass.gif', File('content/images/glass.gif'))
 site.item('images/ok.gif', File('content/images/ok.gif'))
 site.item('images/progress.gif', File('content/images/progress.gif'))
 
-site.item('userdoc/index.html',        Page('../com.mountainminds.eclemma.doc/pages/introduction.html'))
+site.item('userdoc/index.html',        Page('../com.mountainminds.eclemma.doc/pages/userguide.html'))
 site.item('userdoc/launching.html',    Page('../com.mountainminds.eclemma.doc/pages/launching.html'))
 site.item('userdoc/coverageview.html', Page('../com.mountainminds.eclemma.doc/pages/coverageview.html'))
 site.item('userdoc/annotations.html',  Page('../com.mountainminds.eclemma.doc/pages/annotations.html'))
