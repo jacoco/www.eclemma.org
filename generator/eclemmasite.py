@@ -33,6 +33,8 @@ site.item('userdoc/images/coverageview.png', File('../com.mountainminds.eclemma.
 site.item('userdoc/images/coverageviewtools.gif', File('../com.mountainminds.eclemma.doc/pages/images/coverageviewtools.gif'))
 site.item('userdoc/images/launchdialog.png', File('../com.mountainminds.eclemma.doc/pages/images/launchdialog.png'))
 site.item('userdoc/images/launchtoolbar.gif', File('../com.mountainminds.eclemma.doc/pages/images/launchtoolbar.gif'))
+site.item('userdoc/images/importdialog.png', File('../com.mountainminds.eclemma.doc/pages/images/importdialog.png'))
+site.item('userdoc/images/exportdialog.png', File('../com.mountainminds.eclemma.doc/pages/images/exportdialog.png'))
 
 site.item('devdoc/index.html',         Page('content/devdoc/index.html'))
 site.item('devdoc/repository.html',    Page('content/devdoc/repository.html'))
