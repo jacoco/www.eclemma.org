@@ -70,6 +70,11 @@ def _navigationEntry(node, current, nesting=0):
  
     
 class OutputItem(object):
+
+    def __init__(self, basepaths, src):
+        self.svnbasepath = basepaths[0]
+        self.localbasepath = basepaths[1]
+        self.src = src
        
     def create(self, rootnode):
         pass
@@ -78,24 +83,25 @@ class OutputItem(object):
         pass
 
 class File(OutputItem):
-    def __init__(self, src):
-        self.src = src
+    def __init__(self, basepaths, src):
+        OutputItem.__init__(self, basepaths, src)
 
     def create(self, rootnode, current):
-        f = open(self.src, 'r+b')
+        f = open(_joinpaths(self.localbasepath, self.src), 'r+b')
         content = f.read()
         f.close()
         return content
         
 class Page(OutputItem):
-    def __init__(self, src, encoding='iso-8859-1'):
-        self.src = src
+    def __init__(self, basepaths, src, encoding='iso-8859-1'):
+        OutputItem.__init__(self, basepaths, src)
         self.encoding = encoding
 
     def create(self, rootnode, current):
-        p = _loadpage(self.src, self.encoding)
+        p = _loadpage(_joinpaths(self.localbasepath, self.src), self.encoding)
         p['styleref'] = _rellink(current, 'book.css')
         p['navigation'] = _navigation(rootnode, current)
+        p['svnpath'] = _joinpaths(self.svnbasepath, self.src)
         return PAGE.render(p)
 
     def verify_hrefs(self, content, path, allpaths):
