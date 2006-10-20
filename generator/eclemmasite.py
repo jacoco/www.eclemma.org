@@ -56,7 +56,7 @@ site.item('contact.html', Page(SITEBASE, 'content/contact.html'))
 site.nav('Overview', 'index.html')
 site.nav('Download and Installation', 'installation.html')
 
-userdoc = site.nav('User Documentation', 'userdoc/index.html')
+userdoc = site.nav('User Information', 'userdoc/index.html')
 site.nav('Launching in Coverage Mode', 'userdoc/launching.html', userdoc)
 site.nav('Using the Coverage View',    'userdoc/coverageview.html', userdoc)
 site.nav('Source Code Annotations',    'userdoc/annotations.html', userdoc)
