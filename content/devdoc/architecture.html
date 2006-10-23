@@ -27,7 +27,7 @@
   within the Eclipse workbench. For automated instrumentation builds and report
   generation EMMA's Ant tasks are the better choice.</li>
   <li>No project modification: Coverage analysis is a way to look at your
-  projects, but it is not a inherent part of your projects. Therefore a coverage
+  projects, but it is not an inherent part of your projects. Therefore a coverage
   tool should work without touching your project's source tree or configuration.</li>
   <li>Extensibility: Allow other developers to extend EclEmma's functionality
   or build new features using the services provided by EclEmma.</li>
@@ -53,7 +53,7 @@
 <h3>EMMA Data Files</h3>
 
 <p>
-  EMMA creates meta data and coverage results files. To avoid modifying 
+  EMMA creates meta data and coverage result files. To avoid modifying 
   projects these files are stored in the plug-in's state location.
 </p>
 
@@ -113,10 +113,10 @@
 </ul>
 
 <p>
-  Whenever a launch started in coverage mode terminates a coverage session is 
-  automatically created. While there can be a list of coverage sessions, at most
-  one session can be the <i>active session</i> which is used to provide coverage
-  summaries for Java elements and source code highlighting.
+  Whenever a coverage launch terminates a coverage session is automatically
+  created. While there can be a list of coverage sessions, at most one session
+  can be the <i>active session</i> which is used to provide coverage summaries
+  for Java elements and source code highlighting.
 </p>
 
 <h3>Coverage Analysis</h3>
@@ -127,7 +127,7 @@
   package. Coverage information is described by
   <code>com.mountainminds.eclemma.core.analysis.IJavaElementCoverage</code>
   instances for each Java model element (see 
-  <code>org.eclipse.jdt.core</code> package). A adapter factory allows obtaining
+  <code>org.eclipse.jdt.core</code> package). An adapter factory allows obtaining
   the corresponding <code>IJavaElementCoverage</code> instances for a particular
   Java model element via <code>IJavaElement.getAdapter()</code>.
 </p>
