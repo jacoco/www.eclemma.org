@@ -40,16 +40,18 @@ site.item('userdoc/images/launchtoolbar.gif', File(DOCBASE, 'pages/images/launch
 site.item('userdoc/images/importdialog.png', File(DOCBASE, 'pages/images/importdialog.png'))
 site.item('userdoc/images/exportdialog.png', File(DOCBASE, 'pages/images/exportdialog.png'))
 
+site.item('resources.html', Page(SITEBASE, 'content/resources.html'))
+
 site.item('devdoc/index.html',         Page(SITEBASE, 'content/devdoc/index.html'))
 site.item('devdoc/repository.html',    Page(SITEBASE, 'content/devdoc/repository.html'))
 site.item('devdoc/architecture.html',  Page(SITEBASE, 'content/devdoc/architecture.html'))
 site.item('devdoc/todos.html',         Page(SITEBASE, 'content/devdoc/todos.html'))
 site.item('devdoc/checklist.html',     Page(SITEBASE, 'content/devdoc/checklist.html'))
 
-site.item('support.html', Page(SITEBASE, 'content/support.html'))
-site.item('changes.html', Page(DOCBASE, 'pages/changes.html'))
-site.item('license.html', Page(DOCBASE, 'pages/license.html'))
-site.item('contact.html', Page(SITEBASE, 'content/contact.html'))
+site.item('support.html',   Page(SITEBASE, 'content/support.html'))
+site.item('changes.html',   Page(DOCBASE, 'pages/changes.html'))
+site.item('license.html',   Page(DOCBASE, 'pages/license.html'))
+site.item('contact.html',   Page(SITEBASE, 'content/contact.html'))
 
 # Site Structure
 
@@ -63,16 +65,18 @@ site.nav('Source Code Annotations',    'userdoc/annotations.html', userdoc)
 site.nav('Managing Coverage Sessions', 'userdoc/sessions.html', userdoc)
 site.nav('Session Import and Export',  'userdoc/importexport.html', userdoc)
 
+site.nav('Web Resources', 'resources.html')
+
 devdoc = site.nav('Developer Information', 'devdoc/index.html')
 site.nav('Source Repository', 'devdoc/repository.html', devdoc)
 site.nav('Architecture',      'devdoc/architecture.html', devdoc)
 site.nav('Open Issues',       'devdoc/todos.html', devdoc)
 site.nav('Release Checklist', 'devdoc/checklist.html', devdoc)
 
-site.nav('Support', 'support.html')
-site.nav('Change Log', 'changes.html')
-site.nav('License', 'license.html')
-site.nav('Contact', 'contact.html')
+site.nav('Support',       'support.html')
+site.nav('Change Log',    'changes.html')
+site.nav('License',       'license.html')
+site.nav('Contact',       'contact.html')
 
 
 site.generate(sys.argv[1])
