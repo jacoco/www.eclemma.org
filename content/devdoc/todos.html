@@ -83,16 +83,7 @@
       times in the classpath. Make sure that the correct meta data is used and
       the coverage information is assigned to the corresponding Java model
       elements only.</li>
-  <li class="investigate">Handle named inner classes within anonymous inner
-      classes for source based classpath entries correctly
-      (<code>here/mypackage/JavaConstructs$1$NamedInner</code>).</li>
-  <li class="investigate">Perform memory and CPU profiling and check for
-      possible optimizations.</li>
-  <li class="investigate">Memory/performance optimization: Don't map coverage
-      info for all elements, e.g. down to type summary information only.
-      Type details (covered lines/methods) could be created on demand.</li>
-  <li class="investigate">Consider using the ASTParser directly to resolve
-      method signatures.</li>
+  <li class="investigate">Handle inner classes to source mapping correctly.</li>
   <li class="investigate">Mark classes with outdated metadata files with
       a special singleton of ICoverageData.</li>
 </ul>
