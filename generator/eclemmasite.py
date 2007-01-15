@@ -14,6 +14,7 @@ site = Site()
 # (svnbasepath, localbasepath)
 SITEBASE = ('eclemmasite/', '')
 DOCBASE  = ('eclemma/trunk/com.mountainminds.eclemma.doc/', '../com.mountainminds.eclemma.doc/')
+UPDATEBASE = ('eclemma/trunk/com.mountainminds.eclemma.updatesite/', '../com.mountainminds.eclemma.updatesite/')
 
 site.item('book.css', File(SITEBASE, 'content/book.css'))
 site.item('index.html', Page(SITEBASE, 'content/index.html'))
@@ -42,16 +43,18 @@ site.item('userdoc/images/exportdialog.png', File(DOCBASE, 'pages/images/exportd
 
 site.item('resources.html', Page(SITEBASE, 'content/resources.html'))
 
-site.item('devdoc/index.html',         Page(SITEBASE, 'content/devdoc/index.html'))
-site.item('devdoc/repository.html',    Page(SITEBASE, 'content/devdoc/repository.html'))
-site.item('devdoc/architecture.html',  Page(SITEBASE, 'content/devdoc/architecture.html'))
-site.item('devdoc/todos.html',         Page(SITEBASE, 'content/devdoc/todos.html'))
-site.item('devdoc/checklist.html',     Page(SITEBASE, 'content/devdoc/checklist.html'))
+site.item('devdoc/index.html',        Page(SITEBASE, 'content/devdoc/index.html'))
+site.item('devdoc/repository.html',   Page(SITEBASE, 'content/devdoc/repository.html'))
+site.item('devdoc/architecture.html', Page(SITEBASE, 'content/devdoc/architecture.html'))
+site.item('devdoc/todos.html',        Page(SITEBASE, 'content/devdoc/todos.html'))
+site.item('devdoc/checklist.html',    Page(SITEBASE, 'content/devdoc/checklist.html'))
 
-site.item('support.html',   Page(SITEBASE, 'content/support.html'))
-site.item('changes.html',   Page(DOCBASE, 'pages/changes.html'))
-site.item('license.html',   Page(DOCBASE, 'pages/license.html'))
-site.item('contact.html',   Page(SITEBASE, 'content/contact.html'))
+site.item('support.html', Page(SITEBASE, 'content/support.html'))
+site.item('changes.html', Page(DOCBASE,  'pages/changes.html'))
+site.item('license.html', Page(DOCBASE,  'pages/license.html'))
+site.item('contact.html', Page(SITEBASE, 'content/contact.html'))
+
+site.item('updatetest/site.xml', File(UPDATEBASE, 'site.xml'))
 
 # Site Structure
 
