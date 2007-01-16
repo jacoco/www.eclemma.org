@@ -54,7 +54,7 @@ site.item('changes.html', Page(DOCBASE,  'pages/changes.html'))
 site.item('license.html', Page(DOCBASE,  'pages/license.html'))
 site.item('contact.html', Page(SITEBASE, 'content/contact.html'))
 
-site.item('updatetest/site.xml', File(UPDATEBASE, 'site.xml'))
+site.item('site.xml', File(UPDATEBASE, 'site.xml'))
 
 # Site Structure
 
