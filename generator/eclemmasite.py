@@ -25,6 +25,7 @@ site.item('images/screen.png', File(SITEBASE, 'content/images/screen.png'))
 site.item('images/glass.gif', File(SITEBASE, 'content/images/glass.gif'))
 site.item('images/ok.gif', File(SITEBASE, 'content/images/ok.gif'))
 site.item('images/progress.gif', File(SITEBASE, 'content/images/progress.gif'))
+site.item('images/newupdatesite.gif', File(SITEBASE, 'content/images/newupdatesite.gif'))
 
 site.item('userdoc/index.html',        Page(DOCBASE, 'pages/userguide.html'))
 site.item('userdoc/launching.html',    Page(DOCBASE, 'pages/launching.html'))

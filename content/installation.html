@@ -26,28 +26,58 @@
   installation.
 </p>
 
-<h2>Download</h2>
+<h2>Update Site</h2>
 
 <p>
-  The latest version along with release notes is available at the SourceForge.net
-  <a href="http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=205096">file
-  release system</a>.
+  The update site for EclEmma is <b>http://update.eclemma.org/</b>. Perform the
+  following steps to install EclEmma from the update site:
 </p>
 
-<h2>Installation</h2>
+<p>
+  <b> 1. From your Eclipse menu select <i>Help</i> &rarr; <i>Software Updates</i> &rarr; <i>Find and Install...</i></b>
+</p>
 
 <p>
-  The downloaded archive contains three plug-ins:
+  <b>2. Check <i>Search for new features</i> and press <i>Next</i>.</b>
+</p>
+
+<p>
+  <b>3. Press <i>New Remote Site...</i> and enter http://update.eclemma.org/ for the update site URL:</b>
+</p><p>
+  <img src="images/newupdatesite.gif" width="356" height="147" alt="New Update Site"/>
+</p>
+
+<p>
+  <b>4. Press <i>Finish</i>.</b>
+</p>
+
+<p>
+  <b>5. Follow the steps in the installation wizard.</b>
+</p>
+
+
+<h2>Manual Installation</h2>
+
+<p>
+  For manual installation please download the latest EclEmma release from the
+  SourceForge.net <a href="http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=205096">file
+  release system</a>. The downloaded archive contains these files:
 </p>
 
 <ul>
-  <li><code>plugins/com.mountainminds.eclemma.core_x.y.z.jar</code> - Core implementation (required)</li>
-  <li><code>plugins/com.mountainminds.eclemma.ui_x.y.z.jar&nbsp;&nbsp;</code> - User interface (required)</li>
-  <li><code>plugins/com.mountainminds.eclemma.doc_x.y.z.jar&nbsp;</code> - Online help (optional)</li>
+  <li><code>plugins/com.mountainminds.eclemma.feature_x.y.z.jar</code> - EclEmma feature definition</li>
+  <li><code>plugins/com.mountainminds.eclemma.core_x.y.z.jar&nbsp;&nbsp;&nbsp;</code> - Core implementation</li>
+  <li><code>plugins/com.mountainminds.eclemma.ui_x.y.z.jar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> - User interface</li>
+  <li><code>plugins/com.mountainminds.eclemma.doc_x.y.z.jar&nbsp;&nbsp;&nbsp;&nbsp;</code> - Online help</li>
 </ul>
 
 <p>
   Simply unzip the archive into your Eclipse installation and restart Eclipse.
+</p>
+
+<h2>Verification</h2>
+
+<p>
   The installation was successful if you can see the coverage launcher in the
   toolbar of the Java perspective:
 </p>
