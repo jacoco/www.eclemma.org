@@ -51,6 +51,7 @@ site.item('devdoc/todos.html',        Page(SITEBASE, 'content/devdoc/todos.html'
 site.item('devdoc/checklist.html',    Page(SITEBASE, 'content/devdoc/checklist.html'))
 
 site.item('support.html', Page(SITEBASE, 'content/support.html'))
+site.item('faq.html',     Page(DOCBASE,  'pages/faq.html'))
 site.item('changes.html', Page(DOCBASE,  'pages/changes.html'))
 site.item('license.html', Page(DOCBASE,  'pages/license.html'))
 site.item('contact.html', Page(SITEBASE, 'content/contact.html'))
@@ -77,10 +78,12 @@ site.nav('Architecture',      'devdoc/architecture.html', devdoc)
 site.nav('Open Issues',       'devdoc/todos.html', devdoc)
 site.nav('Release Checklist', 'devdoc/checklist.html', devdoc)
 
-site.nav('Support',       'support.html')
-site.nav('Change Log',    'changes.html')
-site.nav('License',       'license.html')
-site.nav('Contact',       'contact.html')
+support = site.nav('Support', 'support.html')
+site.nav('Frequently Asked Questions', 'faq.html', support)
+
+site.nav('Change Log', 'changes.html')
+site.nav('License', 'license.html')
+site.nav('Contact', 'contact.html')
 
 
 site.generate(sys.argv[1])
