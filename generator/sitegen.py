@@ -9,7 +9,7 @@ import re
 _REGEX_BODY = re.compile('<body>(.*)</body>', re.DOTALL)
 _REGEX_METATAG = re.compile('<meta\s*name="(.*)"\s*content="(.*)">')
 _REGEX_TITLE = re.compile('<title>(.*)</title>')
-_REGEX_HREF = re.compile(' (href|src)="([^"]*)"')
+_REGEX_HREF = re.compile(' (href|src)="([^"^#]*)(#.+)?"')
 
 def _loadpage(src, encoding='iso-8859-1'):
     f = file(src, 'r+b')
@@ -105,8 +105,8 @@ class Page(OutputItem):
         return PAGE.render(p)
 
     def verify_hrefs(self, content, path, allpaths):
-        for (ignore, href) in _REGEX_HREF.findall(content):
-            if href.find('http://') != 0 and href.find('https://') != 0:
+        for (ignore, href, ignore) in _REGEX_HREF.findall(content):
+            if href != '' and href.find('http://') != 0 and href.find('https://') != 0:
                 href = _joinpaths(path, href)
                 if href not in allpaths:
                     raise str('Invalid reference %s in %s' % (href, path))
