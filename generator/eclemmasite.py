@@ -18,6 +18,8 @@ UPDATEBASE = ('eclemma/trunk/com.mountainminds.eclemma.updatesite/', '../com.mou
 
 site.item('book.css', File(SITEBASE, 'content/book.css'))
 site.item('index.html', Page(SITEBASE, 'content/index.html'))
+site.item('demo.html', Page(SITEBASE, 'content/demo.html'))
+site.item('demoplain.html', File(SITEBASE, 'content/demoplain.html'))
 site.item('installation.html', Page(SITEBASE, 'content/installation.html'))
 site.item('images/eclemma110_80.gif', File(SITEBASE, 'content/images/eclemma110_80.gif'))
 site.item('images/smallscreen.gif', File(SITEBASE, 'content/images/smallscreen.gif'))
