@@ -63,6 +63,7 @@ site.item('site.xml', File(UPDATEBASE, 'site.xml'))
 # Site Structure
 
 site.nav('Overview', 'index.html')
+site.nav('Screencam Demo', 'demo.html')
 site.nav('Download and Installation', 'installation.html')
 
 userdoc = site.nav('User Guide', 'userdoc/index.html')
