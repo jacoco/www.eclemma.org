@@ -35,6 +35,7 @@ site.item('userdoc/coverageview.html', Page(DOCBASE, 'pages/coverageview.html'))
 site.item('userdoc/annotations.html',  Page(DOCBASE, 'pages/annotations.html'))
 site.item('userdoc/sessions.html',     Page(DOCBASE, 'pages/sessions.html'))
 site.item('userdoc/importexport.html', Page(DOCBASE, 'pages/importexport.html'))
+site.item('userdoc/keyboard.html',     Page(DOCBASE, 'pages/keyboard.html'))
 
 site.item('userdoc/images/annotations.png', File(DOCBASE, 'pages/images/annotations.png'))
 site.item('userdoc/images/coverageview.png', File(DOCBASE, 'pages/images/coverageview.png'))
@@ -72,6 +73,7 @@ site.nav('Using the Coverage View',    'userdoc/coverageview.html', userdoc)
 site.nav('Source Code Annotations',    'userdoc/annotations.html', userdoc)
 site.nav('Managing Coverage Sessions', 'userdoc/sessions.html', userdoc)
 site.nav('Session Import and Export',  'userdoc/importexport.html', userdoc)
+site.nav('Keyboard Usage',             'userdoc/keyboard.html', userdoc)
 
 site.nav('Web Resources', 'resources.html')
 
