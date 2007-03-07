@@ -100,6 +100,7 @@ class Page(OutputItem):
     def create(self, rootnode, current):
         p = _loadpage(_joinpaths(self.localbasepath, self.src), self.encoding)
         p['styleref'] = _rellink(current, 'book.css')
+        p['finalistref'] = _rellink(current, 'images/finalist.png')
         p['navigation'] = _navigation(rootnode, current)
         p['svnpath'] = _joinpaths(self.svnbasepath, self.src)
         return PAGE.render(p)
