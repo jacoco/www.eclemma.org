@@ -59,9 +59,14 @@ def _navigation(root, current):
     return ''.join(map(lambda n: _navigationEntry(n, current), root.children))
 
 def _navigationEntry(node, current, nesting=0):
+    if node.children:
+        icon = 'images/container.gif'
+    else:
+        icon = 'images/topic.gif'
     n = { 'href': _rellink(current, node.href),
-           'label': node.label,
-           'indent': nesting * 16 }
+          'label': node.label,
+          'icon': _rellink(current, icon),
+          'indent': nesting * 16 }
     if node.href == current:
         s = NAVITEMHI.render(n)
     else:
