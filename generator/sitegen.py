@@ -1,7 +1,7 @@
 """Simple Generator for EclEmma's site at SourceForge
 
-$LastChangedDate: $
-$Revision: $
+$LastChangedDate$
+$Revision$
 """
 import os, os.path
 import re
@@ -71,7 +71,9 @@ def _navigationEntry(node, current, nesting=0):
         s = NAVITEMHI.render(n)
     else:
         s = NAVITEM.render(n)
-    return s + ''.join(map(lambda n: _navigationEntry(n, current, nesting + 1), node.children))
+    if node.is_parent(current):
+        s += ''.join(map(lambda n: _navigationEntry(n, current, nesting + 1), node.children))
+    return s
  
     
 class OutputItem(object):
@@ -127,6 +129,13 @@ class NavigationNode(object):
         self.label = label
         self.href = href
         self.children = []
+        
+    def is_parent(self, href):
+        if self.href == href:
+            return 1
+        for c in self.children:
+            if c.is_parent(href):
+                return 1
 
 
 class Site(object):

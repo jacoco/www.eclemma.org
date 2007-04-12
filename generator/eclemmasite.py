@@ -1,7 +1,7 @@
 """EclEmma's site structure at SourceForge
 
-$LastChangedDate: $
-$Revision: $
+$LastChangedDate$
+$Revision$
 """
 
 import sys
@@ -33,23 +33,30 @@ site.item('images/progress.gif', File(SITEBASE, 'content/images/progress.gif'))
 site.item('images/newupdatesite.gif', File(SITEBASE, 'content/images/newupdatesite.gif'))
 site.item('images/yoxos.png', File(SITEBASE, 'content/images/yoxos.png'))
 
-site.item('userdoc/index.html',        Page(DOCBASE, 'pages/userguide.html'))
-site.item('userdoc/launching.html',    Page(DOCBASE, 'pages/launching.html'))
+site.item('userdoc/index.html', Page(DOCBASE, 'pages/userguide.html'))
+site.item('userdoc/launching.html', Page(DOCBASE, 'pages/launching.html'))
 site.item('userdoc/coverageview.html', Page(DOCBASE, 'pages/coverageview.html'))
-site.item('userdoc/annotations.html',  Page(DOCBASE, 'pages/annotations.html'))
-site.item('userdoc/sessions.html',     Page(DOCBASE, 'pages/sessions.html'))
+site.item('userdoc/annotations.html', Page(DOCBASE, 'pages/annotations.html'))
+site.item('userdoc/coverageproperties.html',  Page(DOCBASE, 'pages/coverageproperties.html'))
+site.item('userdoc/decorators.html', Page(DOCBASE, 'pages/decorators.html'))
+site.item('userdoc/sessions.html', Page(DOCBASE, 'pages/sessions.html'))
 site.item('userdoc/importexport.html', Page(DOCBASE, 'pages/importexport.html'))
-site.item('userdoc/keyboard.html',     Page(DOCBASE, 'pages/keyboard.html'))
+site.item('userdoc/keyboard.html', Page(DOCBASE, 'pages/keyboard.html'))
 
 site.item('userdoc/images/annotations.png', File(DOCBASE, 'pages/images/annotations.png'))
+site.item('userdoc/images/coverageproperties.png', File(DOCBASE, 'pages/images/coverageproperties.png'))
 site.item('userdoc/images/coverageview.png', File(DOCBASE, 'pages/images/coverageview.png'))
 site.item('userdoc/images/coverageviewtools.gif', File(DOCBASE, 'pages/images/coverageviewtools.gif'))
 site.item('userdoc/images/launchdialog.png', File(DOCBASE, 'pages/images/launchdialog.png'))
+site.item('userdoc/images/decorators.png', File(DOCBASE, 'pages/images/decorators.png'))
 site.item('userdoc/images/launchtoolbar.gif', File(DOCBASE, 'pages/images/launchtoolbar.gif'))
 site.item('userdoc/images/importdialog.png', File(DOCBASE, 'pages/images/importdialog.png'))
 site.item('userdoc/images/exportdialog.png', File(DOCBASE, 'pages/images/exportdialog.png'))
 
 site.item('resources.html', Page(SITEBASE, 'content/resources.html'))
+
+#site.item('research/index.html', Page(SITEBASE, 'content/research/index.html'))
+#site.item('research/instrumentingosgi.html', Page(SITEBASE, 'content/research/instrumentingosgi.html'))
 
 site.item('devdoc/index.html',        Page(SITEBASE, 'content/devdoc/index.html'))
 site.item('devdoc/repository.html',   Page(SITEBASE, 'content/devdoc/repository.html'))
@@ -75,9 +82,14 @@ userdoc = site.nav('User Guide', 'userdoc/index.html')
 site.nav('Launching in Coverage Mode', 'userdoc/launching.html', userdoc)
 site.nav('Using the Coverage View',    'userdoc/coverageview.html', userdoc)
 site.nav('Source Code Annotations',    'userdoc/annotations.html', userdoc)
+site.nav('Coverage Properties',        'userdoc/coverageproperties.html', userdoc)
+site.nav('Decorators',                 'userdoc/decorators.html', userdoc)
 site.nav('Managing Coverage Sessions', 'userdoc/sessions.html', userdoc)
 site.nav('Session Import and Export',  'userdoc/importexport.html', userdoc)
 site.nav('Keyboard Usage',             'userdoc/keyboard.html', userdoc)
+
+support = site.nav('Support', 'support.html')
+site.nav('Frequently Asked Questions', 'faq.html', support)
 
 site.nav('Web Resources', 'resources.html')
 
@@ -87,8 +99,8 @@ site.nav('Architecture',      'devdoc/architecture.html', devdoc)
 site.nav('Open Issues',       'devdoc/todos.html', devdoc)
 site.nav('Release Checklist', 'devdoc/checklist.html', devdoc)
 
-support = site.nav('Support', 'support.html')
-site.nav('Frequently Asked Questions', 'faq.html', support)
+#research = site.nav('Research', 'research/index.html')
+#site.nav('Instrumenting OSGi Bundles', 'research/instrumentingosgi.html', research)
 
 site.nav('Change Log', 'changes.html')
 site.nav('License', 'license.html')
