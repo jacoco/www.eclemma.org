@@ -55,8 +55,12 @@ site.item('userdoc/images/exportdialog.png', File(DOCBASE, 'pages/images/exportd
 
 site.item('resources.html', Page(SITEBASE, 'content/resources.html'))
 
-#site.item('research/index.html', Page(SITEBASE, 'content/research/index.html'))
-#site.item('research/instrumentingosgi.html', Page(SITEBASE, 'content/research/instrumentingosgi.html'))
+site.item('research/index.html', Page(SITEBASE, 'content/research/index.html'))
+site.item('research/instrumentingosgi/index.html', Page(SITEBASE, 'content/research/instrumentingosgi/index.html'))
+site.item('research/instrumentingosgi/frameworkext.png', File(SITEBASE, 'content/research/instrumentingosgi/frameworkext.png'))
+site.item('research/instrumentingosgi/instrumentation.png', File(SITEBASE, 'content/research/instrumentingosgi/instrumentation.png'))
+
+
 
 site.item('devdoc/index.html',        Page(SITEBASE, 'content/devdoc/index.html'))
 site.item('devdoc/repository.html',   Page(SITEBASE, 'content/devdoc/repository.html'))
@@ -99,8 +103,8 @@ site.nav('Architecture',      'devdoc/architecture.html', devdoc)
 site.nav('Open Issues',       'devdoc/todos.html', devdoc)
 site.nav('Release Checklist', 'devdoc/checklist.html', devdoc)
 
-#research = site.nav('Research', 'research/index.html')
-#site.nav('Instrumenting OSGi Bundles', 'research/instrumentingosgi.html', research)
+research = site.nav('Research', 'research/index.html')
+site.nav('Instrumenting OSGi Bundles', 'research/instrumentingosgi/index.html', research)
 
 site.nav('Change Log', 'changes.html')
 site.nav('License', 'license.html')

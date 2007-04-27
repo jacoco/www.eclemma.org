@@ -115,3 +115,10 @@ li.inwork {
 li.investigate {
 	list-style-image:url(images/glass.gif);
 }
+pre.code {
+  color: #000000;
+  margin: 0px 0px 0px 0px;
+  padding: 10px 10px 10px 10px;
+  background-color:#e0e0e0;
+  border: 1px solid #000000;
+}
