@@ -1,10 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <meta name="LastChangedDate" content="$LastChangedDate$">
-  <meta name="Revision" content="$Revision$">
-  <link rel="stylesheet" href="../../book.css" charset="ISO-8859-1" type="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <meta name="LastChangedDate" content="$LastChangedDate$" />
+  <meta name="Revision" content="$Revision$" />
+  <link rel="stylesheet" href="../../book.css" charset="ISO-8859-1" type="text/css" />
   <title>Instrumenting OSGi Bundles Through Equinox Adaptor Hooks</title>
 </head>
 
@@ -39,7 +40,7 @@
 </p>
 
 <p>
-  <img src="frameworkext.png" width="342" height="160" alt="Instrumentation">
+  <img src="frameworkext.png" width="342" height="160" alt="Framework Extension" />
 </p>
 
 <p>  
@@ -48,7 +49,7 @@
   several hooks that can be used by extension bundles to modify the behaviour of
   the OSGi platform. At <a href="http://www.eclipsecon.org/2007/">EclipseCon 2007</a>
   in Santa Clara I became aware of so called <i>adaptor hooks</i> offered by
-  Equinox. A impressive <a href="http://www.eclipsecon.org/2007/index.php?page=sub/&id=3762">demonstration</a>
+  Equinox. A impressive <a href="http://www.eclipsecon.org/2007/index.php?page=sub/&amp;id=3762">demonstration</a>
   showed how these hooks can be used to dynamically apply aspect-oriented
   techniques: Little flashing planets for each plug-in graphically visualized
   the plug-ins currently executing code. So why shouldn't the same mechanism
@@ -106,7 +107,7 @@
 </p>
 
 <p>
-  <img src="instrumentation.png" width="418" height="212" alt="Instrumentation">
+  <img src="instrumentation.png" width="418" height="212" alt="Instrumentation" />
 </p>
 
 <p>
@@ -270,7 +271,7 @@ public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
 <ul>
   <li>Get the compiled bundle
     <code>com.mountainminds.eclemma.osgihook_1.0.0.jar</code> from the
-    <a href="http://sourceforge.net/project/showfiles.php?group_id=177969&package_id=230021">Sourceforge download page</a>.</il>
+    <a href="http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=230021">Sourceforge download page</a>.</li>
   <li>Place it in your <code>plugins/</code> directory. This must be the same
     directory where the <code>org.eclipse.osgi</code> bundle is located. Using
     e.g. a extension site will not work!</li>
@@ -303,7 +304,7 @@ public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
   <li>On the <i>Arguments</i> tab insert the following definition in the
     <i>VM arguments</i> field:
     <pre>-Dosgi.framework.extensions=com.mountainminds.eclemma.osgihook
--Xbootclasspath/a:${workspace_loc}/com.mountainminds.eclemma.osgihook/emma.jar</pre>
+-Xbootclasspath/a:${workspace_loc}/com.mountainminds.eclemma.osgihook/emma.jar</pre></li>
 </ul>
 
 
@@ -394,8 +395,8 @@ public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
 
 <ul>
   <li>
-    Compiled bundle <code>com.mountainminds.eclemma.osgihook</code></br>
-    <a href="http://sourceforge.net/project/showfiles.php?group_id=177969&package_id=230021">http://sourceforge.net/project/showfiles.php?group_id=177969&package_id=230021</a>
+    Compiled bundle <code>com.mountainminds.eclemma.osgihook</code><br/>
+    <a href="http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=230021">http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=230021</a>
   </li>
   <li>
     SVN URL 
