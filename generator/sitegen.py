@@ -3,37 +3,13 @@
 $LastChangedDate$
 $Revision$
 """
-import os, os.path
-import re
+import os, os.path, sys
+import genshi, genshi.input, genshi.template
 
-_REGEX_BODY = re.compile('<body>(.*)</body>', re.DOTALL)
-_REGEX_METATAG = re.compile('<meta\s*name="(.*)"\s*content="(.*)">')
-_REGEX_TITLE = re.compile('<title>(.*)</title>')
-_REGEX_HREF = re.compile(' (href|src)="([^"^#]*)(#.+)?"')
 
-def _loadpage(src, encoding='iso-8859-1'):
-    f = file(src, 'r+b')
-    content = unicode(f.read(), encoding)
-    f.close()
-    page = {}
-    page['title'] = _REGEX_TITLE.findall(content)[0]
-    page['body'] = _REGEX_BODY.findall(content)[0]
-    for (key, value) in _REGEX_METATAG.findall(content):
-        page[key] = value
-    return page
-
-class Template(object):
-    def __init__(self, path, encoding='iso-8859-1'):
-        f = file(path, 'r+b')
-        self.template = unicode(f.read(), encoding)
-        f.close();
+templateloader = genshi.template.TemplateLoader(['./templates'])
         
-    def render(self, valuemap):
-        return self.template % valuemap
-        
-PAGE      = Template('templates/page.html')
-NAVITEM   = Template('templates/navitem.html')
-NAVITEMHI = Template('templates/navitemhi.html')
+PAGE = templateloader.load('page.html')
 
 def _rellink(base, href):
     base = base.split('/')
@@ -55,73 +31,61 @@ def _joinpaths(base, path):
             base.append(seg)
     return '/'.join(base)
     
-def _navigation(root, current):
-    return ''.join(map(lambda n: _navigationEntry(n, current), root.children))
-
-def _navigationEntry(node, current, nesting=0):
-    if node.children:
-        icon = 'images/container.gif'
-    else:
-        icon = 'images/topic.gif'
-    n = { 'href': _rellink(current, node.href),
-          'label': node.label,
-          'icon': _rellink(current, icon),
-          'indent': nesting * 16 }
-    if node.href == current:
-        s = NAVITEMHI.render(n)
-    else:
-        s = NAVITEM.render(n)
-    if node.is_parent(current):
-        s += ''.join(map(lambda n: _navigationEntry(n, current, nesting + 1), node.children))
-    return s
- 
-    
 class OutputItem(object):
 
-    def __init__(self, basepaths, src):
-        self.svnbasepath = basepaths[0]
-        self.localbasepath = basepaths[1]
+    def __init__(self, src):
         self.src = src
        
-    def create(self, rootnode):
+    def create(self, site, path):
         pass
         
     def verify_hrefs(self, content, path, allpaths):
         pass
 
 class File(OutputItem):
-    def __init__(self, basepaths, src):
-        OutputItem.__init__(self, basepaths, src)
+    def __init__(self, src):
+        OutputItem.__init__(self, src)
 
-    def create(self, rootnode, current):
-        f = open(_joinpaths(self.localbasepath, self.src), 'r+b')
+    def create(self, site, path):
+        f = open(self.src, 'r+b')
         content = f.read()
         f.close()
         return content
         
 class Page(OutputItem):
-    def __init__(self, basepaths, src, encoding='iso-8859-1'):
-        OutputItem.__init__(self, basepaths, src)
-        self.encoding = encoding
+    def __init__(self, src):
+        OutputItem.__init__(self, src)
 
-    def create(self, rootnode, current):
-        p = _loadpage(_joinpaths(self.localbasepath, self.src), self.encoding)
-        p['navigation'] = _navigation(rootnode, current)
-        p['svnpath'] = _joinpaths(self.svnbasepath, self.src)
-        class Resolver:
-            def __getitem__(sel, key):
-                if key in p:
-                    return p[key]
-                else:
-                    return _rellink(current, key)
-        return PAGE.render(Resolver())
-
-    def verify_hrefs(self, content, path, allpaths):
-        for (ignore, href, ignore) in _REGEX_HREF.findall(content):
-            if href != '' and href.find('http://') != 0 and href.find('https://') != 0:
-                href = _joinpaths(path, href)
-                if href not in allpaths:
-                    raise str('Invalid reference %s in %s' % (href, path))
+    def create(self, site, path):
+        content = genshi.Stream(list(genshi.input.XMLParser(file(self.src))))
+        def cond(c, a, b):
+            if c:
+                return a
+            else:
+                return b
+        ctx = genshi.template.Context()
+        ctx.push(dict(
+          content = content,
+          path = path,
+          cond = cond,
+          menuitems = site.rootnode.children,
+          rellink = lambda link: _rellink(path, link),
+          meta = lambda name: tuple(content.select('head/meta[@name="%s"]' % name))[0][1][1].get('content')
+        ))
+        page = genshi.Stream(list(PAGE.generate(ctx)))
+        self._verifyrefs(page, site, path)
+        return page.render('xhtml')
+        
+    def _verifyrefs(self, page, site, path):
+        paths = site.local_paths()
+        for (kind, data, pos) in page:
+            if kind == genshi.input.START:
+                ref = data[1].get('href')
+                if not ref: ref = data[1].get('src')
+                if ref and ref[0] != '#' and ref.find('http://') != 0 and ref.find('https://') != 0:
+                    ref = _joinpaths(path, ref)
+                    if ref not in paths:
+                        raise str('Invalid reference %s in %s' % (ref, path))
 
 class NavigationNode(object):
 
@@ -159,6 +123,9 @@ class Site(object):
             self.rootnode.children.append(n)
         return n
 
+    def local_paths(self):
+        return self.items.keys()
+
     def generate(self, basedir):
         bytesum = 0
         items = self.items.items()
@@ -170,8 +137,7 @@ class Site(object):
             except:
                 pass
             f = open(outpath, 'w+b')
-            content = item.create(self.rootnode, path)
-            item.verify_hrefs(content, path, self.items.keys())
+            content = item.create(self, path)
             f.write(content)
             f.close()
             bytesum += len(content)

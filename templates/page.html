@@ -1,13 +1,17 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <link rel="stylesheet" href="%(book.css)s" charset="ISO-8859-1" type="text/css">
-  <title>EclEmma - %(title)s</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="date" content="${meta('LastChangedDate').split()[1]}" />
+  <link rel="stylesheet" href="${rellink('book.css')}" type="text/css" />
+  <title>EclEmma - ${content.select('head/title/text()')}</title>
   <style type="text/css">
-  <!--
     div.menu {
-      background-image:url(%(images/topic.gif)s);
+      background-image:url(${rellink('images/topic.gif')});
       background-repeat:no-repeat;
       background-position:left center;
       padding-left:17px;
@@ -27,49 +31,68 @@
     div.menuhi {
       color:#ffffff;
       background-color:#000080;
-      background-image:url(%(images/topic.gif)s);
+      background-image:url(${rellink('images/topic.gif')});
       background-repeat:no-repeat;
       background-position:left center;
       padding-left:17px;
       white-space:nowrap;
       margin-bottom:2pt;
     }
-  -->
+    div.menuhi a {
+      color:#ffffff;
+      text-decoration:none;
+    }
   </style>
 </head>
 
 <body>
 
-<table cellspacing="0" cellpadding="0" border="0" style="width:100%%;">
+<table cellspacing="0" cellpadding="0" border="0" style="width:100%;">
 <tr>
-  <td style="padding:5px 10px 5px 10px;font-size:16pt;font-weight:bold;color:#000066;background-color:f7f7f7;border:1px solid #a5b6c6;">
+  <td style="padding:5px 10px 5px 10px;font-size:16pt;font-weight:bold;color:#000066;background-color:#f7f7f7;border:1px solid #a5b6c6;">
     EclEmma
     <span style="color:#8998a5;">1.2.0</span>
   </td>
   <td style="padding:5px 10px 5px 10px;font-size:16pt;font-weight:bold;color:#8998a5;border-bottom:1px solid #a5b6c6;">
     Java Code Coverage for Eclipse
   </td>
-  <td style="padding:0px 0px 5px 0px;border-bottom:1px solid #a5b6c6;text-align:right">
-    <a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=177969&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo"/></a>
+  <td style="padding:0px 0px 0px 0px;border-bottom:1px solid #a5b6c6;text-align:right">
+    <a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=177969&amp;type=1" width="88" height="31" alt="SourceForge.net Logo" style="border:0px solid black"/></a>
   </td>
 </tr>
-<tr><td style="vertical-align:top;padding:20px 10px 80px 10px;background-color:f7f7f7;border-left:1px solid #a5b6c6;border-right:1px solid #a5b6c6;border-bottom:1px solid #a5b6c6;">
-  %(navigation)s
+<tr><td style="vertical-align:top;padding:20px 10px 80px 10px;background-color:#f7f7f7;border-left:1px solid #a5b6c6;border-right:1px solid #a5b6c6;border-bottom:1px solid #a5b6c6;">
+
+  <py:def function="rendermenu(item, indent)">
+    <div class="${cond(path == item.href, 'menuhi', 'menu')}"
+         style="background-image:url(${rellink(cond(item.children, 'images/container.gif', 'images/topic.gif'))});margin-left:${indent}px;">
+      <a href="${rellink(item.href)}">${item.label}</a>&nbsp;
+    </div>
+    <py:if test="item.is_parent(path)">
+      <py:for each="i in item.children">${rendermenu(i, indent + 16)}</py:for>
+    </py:if>
+  </py:def>
+
+  <py:for each="item in menuitems">
+    ${rendermenu(item, 0)}
+  </py:for>
+
   <div class="menu" style="margin-top:15pt;">
     <a href="http://emma.sourceforge.net/">EMMA Project</a>
   </div>
   <div style="text-align:center;margin-top:15pt;">
-    <a href="http://www.eclipse.org/org/press-release/20070306eclipsecommunityawards.php"><img src="%(images/finalist.png)s" width="144" height="144" border="0" alt="Eclipse Community Awards 2007"></a>
+    <a href="http://www.eclipse.org/org/press-release/20070306eclipsecommunityawards.php"><img src="${rellink('images/finalist.png')}" width="144" height="144" alt="Eclipse Community Awards 2007"  style="border:0px solid black"/></a>
   </div>
-</td><td style="vertical-align:top;padding:10px 0px 5px 20px;width:90%%;border-bottom:1px solid #a5b6c6;" colspan="2">
-%(body)s
+</td><td style="vertical-align:top;padding:0px 0px 5px 20px;width:90%;border-bottom:1px solid #a5b6c6;" colspan="2">
+${content.select('body/*')}
 </td></tr>
 </table>
 
-<table cellspacing="0" cellpadding="0" border="0" style="width:100%%;">
+<table cellspacing="0" cellpadding="0" border="0" style="width:100%;">
 <tr>
   <td style="color:#8998a5;font-size:8pt">Copyright &copy; 2006, 2007 Marc R. Hoffmann, Mountainminds GmbH &amp; Co. KG</td>
-  <td style="text-align:right;"><a style="color:#8998a5;font-size:8pt" href="http://eclemma.svn.sourceforge.net/viewvc/eclemma/%(svnpath)s">%(LastChangedDate)s</a></td>
+  <td style="font-size:8pt;text-align:right;">
+    <a style="color:#8998a5" href="http://eclemma.svn.sourceforge.net/viewvc/${meta('HeadURL')[54:-2]}">Last Modified: ${meta('LastChangedDate').split()[1]} (Rev. ${meta('Revision').split()[1]})</a>
+  </td>
 </tr>
 </table>
 
