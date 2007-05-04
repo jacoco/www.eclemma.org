@@ -4,6 +4,7 @@ $LastChangedDate$
 $Revision$
 """
 import os, os.path, sys
+import itertools
 import genshi, genshi.input, genshi.template
 
 
@@ -31,15 +32,33 @@ def _joinpaths(base, path):
             base.append(seg)
     return '/'.join(base)
     
+    
+class LinkCheckFilter(object):
+
+    ATTRIBUTES = ('src', 'href')
+    IGNORE_PREFIXES = ('#', 'http://', 'https://')
+
+    def __init__(self, path, localpaths):
+        self.path = path
+        self.localpaths = localpaths
+
+    def __call__(self, stream):
+        for kind, data, pos in stream:
+            if kind == genshi.Stream.START:
+                attrs = data[1]
+                for ref in filter(lambda v: v, map(lambda n: attrs.get(n), self.ATTRIBUTES)):
+                    if not filter(lambda p: ref.startswith(p), self.IGNORE_PREFIXES):
+                        if _joinpaths(self.path, ref) not in self.localpaths:
+                            raise str('Invalid reference %s in %s' % (ref, self.path))
+            yield kind, data, pos
+
+
 class OutputItem(object):
 
     def __init__(self, src):
         self.src = src
        
     def create(self, site, path):
-        pass
-        
-    def verify_hrefs(self, content, path, allpaths):
         pass
 
 class File(OutputItem):
@@ -70,22 +89,12 @@ class Page(OutputItem):
           cond = cond,
           menuitems = site.rootnode.children,
           rellink = lambda link: _rellink(path, link),
-          meta = lambda name: tuple(content.select('head/meta[@name="%s"]' % name))[0][1][1].get('content')
+          meta = lambda name: str(content.select('head/meta[@name="%s"]/@content' % name))
         ))
-        page = genshi.Stream(list(PAGE.generate(ctx)))
-        self._verifyrefs(page, site, path)
+        page = PAGE.generate(ctx)
+        page |= LinkCheckFilter(path, site.localpaths())
         return page.render('xhtml')
         
-    def _verifyrefs(self, page, site, path):
-        paths = site.local_paths()
-        for (kind, data, pos) in page:
-            if kind == genshi.input.START:
-                ref = data[1].get('href')
-                if not ref: ref = data[1].get('src')
-                if ref and ref[0] != '#' and ref.find('http://') != 0 and ref.find('https://') != 0:
-                    ref = _joinpaths(path, ref)
-                    if ref not in paths:
-                        raise str('Invalid reference %s in %s' % (ref, path))
 
 class NavigationNode(object):
 
@@ -93,6 +102,11 @@ class NavigationNode(object):
         self.label = label
         self.href = href
         self.children = []
+        
+    def nav(self, label, href=None):
+        n = NavigationNode(label, href)
+        self.children.append(n)
+        return n
         
     def is_parent(self, href):
         if self.href == href:
@@ -113,17 +127,12 @@ class Site(object):
             raise 'Item %s is already defined' % path
         self.items[path] = src
         
-    def nav(self, label, href=None, parent=None):
-        if href is not None and href not in self.items:
-            raise 'Item %s is not defined' % href
+    def nav(self, label, href=None):
         n = NavigationNode(label, href)
-        if parent:
-            parent.children.append(n)
-        else:
-            self.rootnode.children.append(n)
+        self.rootnode.children.append(n)
         return n
 
-    def local_paths(self):
+    def localpaths(self):
         return self.items.keys()
 
     def generate(self, basedir):
