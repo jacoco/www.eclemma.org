@@ -3,7 +3,7 @@
 $LastChangedDate$
 $Revision$
 """
-import os, os.path, sys
+import os, os.path, sys, urlparse
 import itertools
 import genshi, genshi.input, genshi.template
 
@@ -22,16 +22,6 @@ def _rellink(base, href):
         base = base[1:]
         href = ['..'] + href
     return '/'.join(href)
-
-def _joinpaths(base, path):
-    base = base.split('/')[:-1]
-    for seg in path.split('/'):
-        if seg == '..' and len(base) > 0:
-            base = base[:-1]
-        else:
-            base.append(seg)
-    return '/'.join(base)
-    
     
 class LinkCheckFilter(object):
 
@@ -48,7 +38,7 @@ class LinkCheckFilter(object):
                 attrs = data[1]
                 for ref in filter(lambda v: v, map(lambda n: attrs.get(n), self.ATTRIBUTES)):
                     if not filter(lambda p: ref.startswith(p), self.IGNORE_PREFIXES):
-                        if _joinpaths(self.path, ref) not in self.localpaths:
+                        if urlparse.urljoin(self.path, ref) not in self.localpaths:
                             raise str('Invalid reference %s in %s' % (ref, self.path))
             yield kind, data, pos
 
