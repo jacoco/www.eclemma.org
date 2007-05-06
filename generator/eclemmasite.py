@@ -12,6 +12,7 @@ site = Site()
 # Site Content
 
 site.item('book.css', File('content/book.css'))
+site.item('favicon.ico', File('content/favicon.ico'))
 site.item('index.html', Page('content/index.html'))
 site.item('demo.html', Page('content/demo.html'))
 site.item('demoplain.html', File('content/demoplain.html'))
