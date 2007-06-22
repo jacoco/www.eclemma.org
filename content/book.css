@@ -105,16 +105,6 @@ div.revision { border-left-style: solid; border-left-width: thin;
 				   border-left-color: #7B68EE; padding-left:5 }
 th	     { font-weight: bold }
 
-
-li.ok {
-	list-style-image:url(images/ok.gif);
-}
-li.inwork {
-	list-style-image:url(images/progress.gif);
-}
-li.investigate {
-	list-style-image:url(images/glass.gif);
-}
 pre.code {
   color: #000000;
   margin: 0px 0px 0px 0px;
