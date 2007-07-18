@@ -22,9 +22,22 @@
   The <a href="http://sourceforge.net/forum/forum.php?forum_id=614869">Open Discussion forum</a>
   at SourceForge is the place to talk about any development specific issues.
 </p>
-  
+
+<h3>Development and Build Environment</h3>
+
+<p>
+  To guarantee backward compatibility the development environment is Eclipse
+  3.1.1. The PDE export functionality is used for to build the EclEmma plug-ins
+  and feature.
+</p>
+
+<h3>EclEmma API</h3>
+
 <p>  
-  <b>Warning:</b> The EclEmma API is not yet considered to be stable.
+  The <code>com.mountainminds.eclemma.core</code> plug-in exposes a public API
+  that is used by the UI plug-in. The same API may be used by third parties e.g.
+  for alternative user interfaces, other use cases or functional extensions. But
+  please note that this API is not yet considered to be stable.
 </p>
   
 </body>
