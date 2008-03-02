@@ -112,3 +112,10 @@ pre.code {
   background-color:#e0e0e0;
   border: 1px solid #000000;
 }
+
+a.extern { 
+  background-image:url(images/extern.gif);
+  background-repeat:no-repeat;
+  background-position:left center;
+  padding-left:15px;
+}
