@@ -60,10 +60,14 @@ ${content.select('body/*')}
 
 <table cellspacing="0" cellpadding="0" border="0" style="width:100%;">
 <tr>
-  <td class="footer">Copyright &copy; 2006, 2007 Marc R. Hoffmann, Mountainminds GmbH &amp; Co. KG</td>
+  <td class="footer">Copyright &copy; 2006, 2007, 2008 Marc R. Hoffmann, Mountainminds GmbH &amp; Co. KG</td>
   <td class="footer" style="text-align:right;">
-    Last Modified: <a href="http://eclemma.svn.sourceforge.net/viewvc/${meta('HeadURL')[54:-2]}">${meta('LastChangedDate').split()[1]}</a>
-    (<a href="http://eclemma.svn.sourceforge.net/viewvc/eclemma?view=rev&amp;revision=${meta('Revision').split()[1]}">Rev. ${meta('Revision').split()[1]}</a>)
+    Validate
+    <a href="http://validator.w3.org/check?uri=http://www.eclemma.org/${path}">XHTML</a>/<a
+       href="http://jigsaw.w3.org/css-validator/validator?uri=http://www.eclemma.org/${path}">CSS</a> &middot;
+    Last Modified
+    <a href="http://eclemma.svn.sourceforge.net/viewvc/${meta('HeadURL')[54:-2]}">${meta('LastChangedDate').split()[1]}</a> in 
+    <a href="http://eclemma.svn.sourceforge.net/viewvc/eclemma?view=rev&amp;revision=${meta('Revision').split()[1]}">rev. ${meta('Revision').split()[1]}</a>
   </td>
 </tr>
 </table>
