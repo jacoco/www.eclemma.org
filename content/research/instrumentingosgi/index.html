@@ -22,22 +22,23 @@
   coverage of any Eclipse application.</b></i>
 </p>
 <p style="text-align:right;margin-bottom:15pt">
-  Marc R. Hoffmann, Mountainminds GmbH &amp; Co. KG, April 2007
+  Marc R. Hoffmann, Mountainminds GmbH &amp; Co. KG, April 2007 (updated March 2008)
 </p>
 
 
 <p>
   The plug-in based architecture of Eclipse is the foundation of modular design
-  and extensibility. <a href="http://www.eclemma.org/">EclEmma</a> for example
-  inserts additional menu items to the workbench or adds the new launch mode
+  and extensibility. <a href="../../index.html">EclEmma</a> for example inserts
+  additional menu items to the workbench or adds the new launch mode
   <i>Coverage</i> to the existing debug infrastructure. The component model
   underneath making this possible is based on the
-  <a href="http://www.osgi.org/">OSGi</a> standard which manages the lifecycle
-  and contracts between all the <i>bundles</i> forming an application. 
-  <a href="http://www.osgi.org/osgi_technology/download_specs.asp?section=2#Release4">OSGi Release 4</a>
-  introduced so called <i>extension bundles</i> which can be configured to
-  become a part of the OSGi runtime itself and contribute implementation
-  specific functionality.
+  <a class="extern" href="http://www.osgi.org/">OSGi</a> standard which manages
+  the lifecycle and contracts between all the <i>bundles</i> forming an
+  application.
+  <a class="extern" href="http://www.osgi.org/osgi_technology/download_specs.asp?section=2#Release4">OSGi
+  Release 4</a> introduced so called <i>extension bundles</i> (chapter 3.14)
+  which can be configured to become a part of the OSGi runtime itself and
+  contribute implementation specific functionality.
 </p>
 
 <p>
@@ -46,11 +47,14 @@
 
 <p>  
   Eclipse comes with its own OSGi implementation called
-  <a href="http://www.eclipse.org/equinox/">Equinox</a>, which itself offers
-  several hooks that can be used by extension bundles to modify the behaviour of
-  the OSGi platform. At <a href="http://www.eclipsecon.org/2007/">EclipseCon 2007</a>
-  in Santa Clara I became aware of so called <i>adaptor hooks</i> offered by
-  Equinox. A impressive <a href="http://www.eclipsecon.org/2007/index.php?page=sub/&amp;id=3762">demonstration</a>
+  <a class="extern" href="http://www.eclipse.org/equinox/">Equinox</a>, which
+  itself offers several hooks that can be used by extension bundles to modify
+  the behaviour of the OSGi platform. At
+  <a class="extern" href="http://www.eclipsecon.org/2007/">EclipseCon 2007</a>
+  in Santa Clara I became aware of so called
+  <a class="extern" href="http://wiki.eclipse.org/index.php/Adaptor_Hooks"><i>adaptor
+  hooks</i></a> offered by Equinox. A impressive
+  <a class="extern" href="http://www.eclipsecon.org/2007/index.php?page=sub/&amp;id=3762">demonstration</a>
   showed how these hooks can be used to dynamically apply aspect-oriented
   techniques: Little flashing planets for each plug-in graphically visualized
   the plug-ins currently executing code. So why shouldn't the same mechanism
@@ -65,7 +69,7 @@
   call-back interfaces in the <code>org.eclipse.osgi.baseadaptor.hooks</code> 
   package of the <code>org.eclipse.osgi</code> plug-in. By providing 
   implementations of these hook interfaces one can inject the OSGi runtime with
-  new or additional behaviour in respect of framework lifecycle, bundle storage
+  new or additional behavior in respect of framework lifecycle, bundle storage
   or class loading. Unfortunately there is no JavaDoc for this package included
   with the online help. To explore the interfaces simply import the
   <code>org.eclipse.osgi</code> into your Eclipse workspace. Enabling your hooks
@@ -76,10 +80,10 @@
   <li>Implement a <code>org.eclipse.osgi.baseadaptor.HookConfigurator</code>
       that registers your adaptor hook implementations with the hook registry 
       in its <code>addHooks()</code> method.</li>
-  <li>Place a file <code>hookconfigurators.properties</code> at the root of
-      your extension bundle containing a property definition 
-      <code>hook.configurators</code> that points to your
-      <code>HookConfigurator</code> implementation class.</li>
+  <li>Place a file <code>hookconfigurators.properties</code> in your extension
+      bundle containing a property definition <code>hook.configurators</code>
+      that points to your  <code>HookConfigurator</code> implementation
+      class.</li>
   <li>To make your bundle a framework extension it must be enlisted in the
       system property <code>osgi.framework.extensions</code> when launching
       Eclipse. This can be achieved by specifying a
@@ -89,16 +93,19 @@
 
 <p>
   Note that Equinox requires extension bundles to be placed in the same
-  directory as the <code>org.eclipse.osgi</code> plug-in.
+  directory as the <code>org.eclipse.osgi</code> plug-in. For a installed
+  Eclipse instance this means extension bundles have to be placed directly in
+  the <code>plugins/</code> directory. If you want to debug extension bundles
+  within PDE, you need to import the source version of the
+  <code>org.eclipse.osgi</code> plug-in into your workspace.
 </p>
-
 
 <h2>Code Coverage via Class File Instrumentation</h2>
 
 <p>
   There are different possible techniques to determine code coverage during a
   program run. The one used by several coverage tools like
-  <a href="http://emma.sourceforge.net/">EMMA</a> is <i>byte code
+  <a class="extern" href="http://emma.sourceforge.net/">EMMA</a> is <i>byte code
   instrumentation</i>: In this approach probes are added to the original Java
   class files. These extra instructions record which parts of the program are
   executed. While the instrumentation process must be performed before the
@@ -124,38 +131,50 @@
 
 <p>
   To hide the complexity of the sparely documented EMMA API we abstract a code
-  coverage analyser with a simple interface that may also work for any other
+  coverage analyzer with a simple interface that may also work for any other
   code coverage technologies. For implementation details you may study the
-  <a href="http://eclemma.svn.sourceforge.net/viewvc/eclemma/research/com.mountainminds.eclemma.osgihook/src/com/mountainminds/eclemma/osgihook/EMMAAnalyzer.java?view=markup">EMMAAnalyzer</a>
+  <a class="extern" href="http://eclemma.svn.sourceforge.net/viewvc/eclemma/research/com.mountainminds.eclemma.osgihook/src/com/mountainminds/eclemma/osgihook/EMMAAnalyzer.java?view=markup">EMMAAnalyzer</a>
   implementation.
 </p>
 
 <pre class="code">
 public interface ICoverageAnalyzer {
-	
+
   /**
    * Called when the OSGi framework is started. Can be used for initialization
    * tasks.
    */
   public void start();
-	
+
   /**
    * Called when the OSGi framework shuts down. Here we can e.g. write a
    * coverage report.
    */
   public void stop();
-	
+
   /**
-   * For each class definition loaded from a bundle this method is called.
-   * The method may return a instrumented version of the class or null, if the
+   * For each class definition loaded from a bundle this method is called. The
+   * method may return a instrumented version of the class or null, if the
    * class should not be modified.
    * 
-   * @param bundleid   symbolic name of the bundle
-   * @param classname  full qualified VM class name
-   * @param bytes      original class file bytes
-   * @return  instrumented class file bytes or null
+   * @param bundleid
+   *            symbolic name of the bundle
+   * @param classname
+   *            full qualified VM class name
+   * @param bytes
+   *            original class file bytes
+   * @return instrumented class file bytes or null
    */
   public byte[] instrument(String bundleid, String classname, byte[] bytes);
+
+  /**
+   * Class file instrumentation might introduce dependencies on a vendor
+   * specific runtime library. The list of Java packages returned by this
+   * method will be made available to the instrumented plug-ins.
+   * 
+   * @return comma separated list of Java package names
+   */
+  public String getRuntimePackages();
 
 }
 </pre>
@@ -203,63 +222,77 @@ public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
   collected coverage data. These few runtime classes are contained within the
   <code>emma.jar</code> library itself. Instrumenting loaded Java classes with
   EMMA adds a new runtime dependency that is neither explicitly declared in
-  existing Eclipse bundles nor available within to the bundles during a standard
-  Eclipse launch.
+  OSGi bundles under inspection nor available within to the bundles during a
+  standard Eclipse launch. As a consequence all instrumented bundles will fail
+  with a <code>NoClassDefFoundError</code>.
 </p>
 
 <p>
-  Therefore we need to find a way to make EMMA runtime classes available to
-  any bundle which classes have been instrumented for code coverage analysis.
-  The OSGi R4 specification provides an interesting example of a bundle manifest
-  header (chapter 3.14):
-</p>
-
-<pre>
-  Fragment-Host: system.bundle; <b>extension:=bootclasspath</b>
-</pre>
-
-<p>
-  I highlighted the part that suggest one can extend not just the OSGi framework
-  itself (<code>extension:=framework</code>) but also the boot class path, making
-  additional classes available to all plug-ins. Unfortunately it seems that this
-  mechanism is not supported by the Equinox OSGi implementation. Please get in
-  touch if you have any additional information about the current implementation
-  status in Equinox.
-</p>
-
-<p>
-  As long we have no better solution a "standard non-standard" Java VM parameter
-  serves as a stopgap. The <code>-Xbootclasspath/a</code> makes the EMMA
-  runtime part of the JVM boot class path and therefore available to all OSGi
-  bundles:
+  To solve this the adapter hooks come into picture again: If the coverage
+  extension exports the coverage runtime classes, e.g. has the following
+  manifest header
 </p>
 
 <pre>
-  -Xbootclasspath/a:/path/to/your/libs/emma.jar 
+  Export-Package: com.vladium.emma.rt
 </pre>
 
 <p>
-  Note that this mechanism is currently only possible due to the way how Eclipse
-  uses the boot class loader delegation, i.e. any class from the boot class path
-  is automatically available to bundles without declaring that dependency. If
-  future Eclipse versions switch to a more
-  <a href="http://wiki.eclipse.org/index.php/Equinox_Boot_Delegation">restrictive
-  class loader delegation</a> as proposed by the OSGi specification this will
-  not allow injecting any classes into Eclipse bundles any more.
+  and each instrumented bundle would have a <code>DynamicImport-Package</code>
+  declaration for this package everything would work. Of course we don't want to
+  modify the manifest files of all our bundles under test. After I published the
+  first version of this paper Thomas Watson pointed me to some internal Equinox
+  implementation classes that could do the job on-the-fly. For this we populate
+  another call-back of the <code>ClassLoadingHook</code>:
+</p>
+
+<pre class="code">
+public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
+
+  // ...
+
+  public BaseClassLoader createClassLoader(ClassLoader parent,
+      ClassLoaderDelegate delegate, BundleProtectionDomain domain,
+      BaseData data, String[] bundleclasspath) {
+    BundleLoader loader = (BundleLoader) delegate;
+    try {
+      loader.<b>addDynamicImportPackage</b>(ManifestElement.parseHeader(
+        Constants.DYNAMICIMPORT_PACKAGE, analyzer.getRuntimePackages()));
+    } catch (BundleException be) {
+      throw new RuntimeException(be);
+    }
+    return null;
+  }
+
+}
+</pre>
+
+<p>
+  Making assumptions about implementation details of the OSGi framework
+  implementation looks like bad coding style. But as an adaptor hooks you're
+  anyway closely tight to Equinox implementation. And maybe one day Equinox will
+  offer official APIs to modify bundle headers within adaptor hooks.
 </p>
 
 <h2>Running the Code Coverage Framework Extension</h2>
 
 <p>
+  So now let's try to get the example provided with this paper running. Make 
+  sure you use at least Eclipse 3.2, the version that introduced adaptor hooks 
+  in Equinox.
+</p>
+
+<p>
   The Equinox framework extension <code>com.mountainminds.eclemma.osgihook</code>
-  provided with this paper measures Java code coverage for all bundles of a Equinox based OSGi system, for example a Eclipse
-  RCP application. If the extension is installed code coverage data is
-  automatically recorded and written out when the OSGi system terminates. In the
-  current working directory a folder <code>coverage-<i>nnn</i></code> will be
-  created and populated with a HTML report and a <code>*.es</code> file for
-  further analysis (e.g. import into EclEmma). The framework extension can be
-  used for standalone OSGi applications or for program launches from the Eclipse
-  plug-in development environment (PDE).
+  measures Java code coverage for all bundles of a Equinox based OSGi system,
+  for example a Eclipse RCP application. If the extension is installed code
+  coverage data is automatically recorded and written out when the OSGi system
+  terminates. In the current working directory a folder
+  <code>coverage-<i>nnn</i></code> will be created and populated with a HTML
+  report and a <code>*.es</code> file for further analysis (e.g. import into
+  EclEmma). The framework extension can be used for standalone OSGi instances
+  as well as for program launches from the Eclipse plug-in development
+  environment (PDE).
 </p>
 
 <h3>Standalone Mode</h3>
@@ -271,17 +304,19 @@ public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
 
 <ul>
   <li>Get the compiled bundle
-    <code>com.mountainminds.eclemma.osgihook_1.0.0.jar</code> from the
+    <code>com.mountainminds.eclemma.osgihook_2.0.0.v20080311.zip</code> from the
     <a href="http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=230021">Sourceforge download page</a>.</li>
-  <li>Place it in your <code>plugins/</code> directory. This must be the same
-    directory where the <code>org.eclipse.osgi</code> bundle is located. Using
-    e.g. a extension site will not work!</li>
+  <li>Unzip the file in your Eclipse installation root. The expanded bundle
+    <code>com.mountainminds.eclemma.osgihook_2.0.0.v20080311</code> has to be
+    located in the <code>plugins</code> folder. This must be the same directory
+    where the <code>org.eclipse.osgi</code> bundle is located. Using e.g. an
+    extension site will not work! The <code>com.mountainminds.eclemma.osgihook</code>
+    must not be jared, as it contains another JAR wich can not be loaded from
+    a packaged bundles in case of framework extensions.
+    </li>
   <li>Insert the following line into the <code>./configuration/config.ini</code>
     file of your Eclipse installation:
     <pre>osgi.framework.extensions=com.mountainminds.eclemma.osgihook</pre></li>    
-  <li>Launch <code>eclipse.exe</code> with the following additional parameter
-    (insert the correct location for <code>emma.jar</code>).
-    <pre>-vmargs -Xbootclasspath/a:/path/to/your/libs/emma.jar</pre></li>
 </ul>
 
 <h3>PDE Mode</h3>
@@ -298,14 +333,14 @@ public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
     <code>https://eclemma.svn.sourceforge.net/svnroot/eclemma/research/com.mountainminds.eclemma.osgihook</code>.</li>
   <li>Due to the fact that Equinox needs any framework extension co-located with
     the OSGi framework bundle you need to also import <code>org.eclipse.osgi</code>
-    into your workspace (from the <i>Plug-Ins</i> view).</li>
+    into your workspace (from the <i>Plug-Ins</i> view's context menu select
+    <i>Import As</i> &rarr; <i>Source Project</i>).</li>
   <li>Take a existing launch configuration or create a new one. Make sure that
     the <code>com.mountainminds.eclemma.osgihook</code> and the 
     <code>org.eclipse.osgi</code> bundle are enabled.</li>
   <li>On the <i>Arguments</i> tab insert the following definition in the
     <i>VM arguments</i> field:
-    <pre>-Dosgi.framework.extensions=com.mountainminds.eclemma.osgihook
--Xbootclasspath/a:${workspace_loc}/com.mountainminds.eclemma.osgihook/emma.jar</pre></li>
+    <pre>-Dosgi.framework.extensions=com.mountainminds.eclemma.osgihook</pre></li>
 </ul>
 
 
@@ -368,27 +403,27 @@ public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
 <ul>
   <li>
     Eclipse Equinox<br/>
-    <a href="http://www.eclipse.org/equinox/">http://www.eclipse.org/equinox/</a>
+    <a class="extern" href="http://www.eclipse.org/equinox/">http://www.eclipse.org/equinox/</a>
   </li>
   <li>
     wiki.eclipse.org, Adaptor Hooks, 2006<br/>
-    <a href="http://wiki.eclipse.org/index.php/Adaptor_Hooks">http://wiki.eclipse.org/index.php/Adaptor_Hooks</a>
+    <a class="extern" href="http://wiki.eclipse.org/index.php/Adaptor_Hooks">http://wiki.eclipse.org/index.php/Adaptor_Hooks</a>
   </li>
   <li>
     wiki.eclipse.org, Equinox Boot Delegation, 2006<br/>
-    <a href="http://wiki.eclipse.org/index.php/Equinox_Boot_Delegation">http://wiki.eclipse.org/index.php/Equinox_Boot_Delegation</a>
+    <a class="extern" href="http://wiki.eclipse.org/index.php/Equinox_Boot_Delegation">http://wiki.eclipse.org/index.php/Equinox_Boot_Delegation</a>
   </li>
   <li>
     OSGi Alliance, OSGi Service Platform Release 4, 2006<br/>
-    <a href="http://www.osgi.org/osgi_technology/download_specs.asp?section=2#Release4">http://www.osgi.org/osgi_technology/download_specs.asp?section=2#Release4</a>
+    <a class="extern" href="http://www.osgi.org/osgi_technology/download_specs.asp?section=2#Release4">http://www.osgi.org/osgi_technology/download_specs.asp?section=2#Release4</a>
   </li>
   <li>
     EMMA - a free Java code coverage tool, Vlad Roubtsov, 2006<br/>
-    <a href="http://emma.sourceforge.net/">http://emma.sourceforge.net/</a>
+    <a class="extern" href="http://emma.sourceforge.net/">http://emma.sourceforge.net/</a>
   </li>
   <li>
     EclEmma - Java Code Coverage for Eclipse<br/>
-    <a href="http://www.eclemma.org/">http://www.eclemma.org/</a>
+    <a href="../../index.html">http://www.eclemma.org/</a>
   </li>
 </ul>
 
@@ -396,17 +431,31 @@ public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
 
 <ul>
   <li>
-    Compiled bundle <code>com.mountainminds.eclemma.osgihook</code><br/>
-    <a href="http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=230021">http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=230021</a>
+    Compiled bundle <code>com.mountainminds.eclemma.osgihook_2.0.0.v20080311.zip</code><br/>
+    <a class="extern" href="http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=230021">http://sourceforge.net/project/showfiles.php?group_id=177969&amp;package_id=230021</a>
   </li>
   <li>
     SVN URL 
-    (<a href="http://eclemma.svn.sourceforge.net/viewvc/eclemma/research/com.mountainminds.eclemma.osgihook/">browse repository</a>)<br/>
-    <a href="https://eclemma.svn.sourceforge.net/svnroot/eclemma/research/com.mountainminds.eclemma.osgihook">https://eclemma.svn.sourceforge.net/svnroot/eclemma/research/com.mountainminds.eclemma.osgihook</a></li>
+    (<a class="extern" href="http://eclemma.svn.sourceforge.net/viewvc/eclemma/research/com.mountainminds.eclemma.osgihook/">browse repository</a>)<br/>
+    <a class="extern" href="https://eclemma.svn.sourceforge.net/svnroot/eclemma/research/com.mountainminds.eclemma.osgihook">https://eclemma.svn.sourceforge.net/svnroot/eclemma/research/com.mountainminds.eclemma.osgihook</a></li>
   <li>
     EclEmma's <i>Open Discussion</i> forum for any remarks about this paper<br/>
-    <a href="http://sourceforge.net/forum/forum.php?forum_id=614869">http://sourceforge.net/forum/forum.php?forum_id=614869</a>
+    <a class="extern" href="http://sourceforge.net/forum/forum.php?forum_id=614869">http://sourceforge.net/forum/forum.php?forum_id=614869</a>
   </li>
+</ul>
+
+<h2>Change Log</h2>
+
+<ul>
+  <li><b>April 2007:</b> Initial Draft, the example was based on an ugly hack
+  to inject the code coverage runtime into the instrumented plug-ins. As already
+  stated in the first version of the paper, this workaround will not work for
+  proper OSGi runtimes, where the boot class loader is not visible to the
+  plug-ins. (<a class="extern" href="http://eclemma.svn.sourceforge.net/viewvc/*checkout*/eclemma/eclemmasite/content/research/instrumentingosgi/index.html?revision=314&amp;pathrev=332">SVN Rev. 314</a>)</li>
+  <li><b>March 2008:</b> New version solving the problem stated above with
+  <code>DynamicImport-Package</code> manifest headers added to the plug-ins 
+  through the adapter hook. This solution was proposed by Thomas Watson,
+  thanks!</li>
 </ul>
 
 </body>
