@@ -14,19 +14,6 @@
 
 <h1>Developer Information</h1>
 
-<span style="width:290px; float:right; margin-left:10px; margin-bottom:10px">
-<a href="http://sourceforge.net/project/stats/?group_id=177969&amp;ugn=eclemma"
-  ><img width="290" height="200" src="http://sourceforge.net/project/stats/graph/index-graph.php?group_id=177969&amp;ugn=eclemma&amp;graph=prdownload&amp;mode=year"
-        alt="Project Web Traffic"
-        style="margin-bottom:10px; border:0px solid black"/></a>
-
-<a href="http://sourceforge.net/project/stats/?group_id=177969&amp;ugn=eclemma"
-  ><img width="290" height="200" src="http://sourceforge.net/project/stats/graph/index-graph.php?group_id=177969&amp;ugn=eclemma&amp;graph=prweb&amp;mode=year"
-        alt="Project Web Traffic"
-        style="border:0px solid black"/></a>
-
-</span>
-
 <p>
   This section provides information for EclEmma contributors and ISVs using the
   EclEmma API. The project is hosted on the
@@ -38,15 +25,7 @@
   specific issues.
 </p>
 
-<h3>Development and Build Environment</h3>
-
-<p>
-  To guarantee backward compatibility the development environment is Eclipse
-  3.1.1. The PDE export functionality is used for to build the EclEmma plug-ins
-  and feature.
-</p>
-
-<h3>EclEmma API</h3>
+<h2>EclEmma API</h2>
 
 <p>  
   The <code>com.mountainminds.eclemma.core</code> plug-in exposes a public API
@@ -54,6 +33,67 @@
   for alternative user interfaces, other use cases or functional extensions. But
   please note that this API is not yet considered to be stable.
 </p>
+
+<h2>Hacking EclEmma</h2>
+
+<p>
+  Interested to working with the EclEmma code base for new features and
+  improvements? No problem, with basic PDE skills you should get started within
+  a few minutes. Here is a quick start guide:
+</p>
+
+<h3>1. Setup an Eclipse IDE for EclEmma</h3>
+
+<ul>
+  <li>
+    Have Eclipse installed at least in version 3.1 including the <i>Plug-in
+    Development Environment</i>. The PDE is for example included in the
+    <i>Eclipse Classic</i>
+    <a href="http://www.eclipse.org/downloads/" class="extern">download</a> or
+    can be added to your existing Eclipse installation via the <i>Update
+    Manager</i>.
+  </li>
+  <li> 
+    Add <a href="http://en.wikipedia.org/wiki/Subversion_%28software%29" class="extern">Subversion</a>
+    support to your Eclipse by installing
+    <a href="http://subclipse.tigris.org/" class="extern">Subclipe</a> or
+    <a href="http://www.eclipse.org/subversive/" class="extern">Subversive</a>.
+  </li>
+  <li>
+    Connect to the Subversion repository URL
+    <code>https://eclemma.svn.sourceforge.net/svnroot/eclemma</code> and
+    checkout the following projects:
+    <pre>
+    eclemma/trunk/com.mountainminds.eclemma.core
+    eclemma/trunk/com.mountainminds.eclemma.core_test
+    eclemma/trunk/com.mountainminds.eclemma.doc
+    eclemma/trunk/com.mountainminds.eclemma.ui
+    eclemma/trunk/com.mountainminds.eclemma.feature
+    </pre>
+  </li>
+</ul>
+
+
+<h3>2. Get familiar with the code base</h3>
+
+<p>
+  The high-level design principles and some implementation strategies are
+  introduced in the <a href="architecture.html">architecture description</a>.
+  Implementation details can be studied in the JavaDoc included with the
+  EclEmma source base. A good understanding of Eclipse'   
+  <a href="http://help.eclipse.org/ganymede/topic/org.eclipse.platform.doc.isv/guide/debug.htm" class="extern">launch
+  and debug framework</a> will help to get behind the <i>Coverage</i> mode
+  implementation.
+</p>
+
+<h3>3. Contribute back!</h3>
+  
+<p>
+  So you finally created a cool new feature or fixed some bug? Great, contribute
+  it back to the official EclEmma releases! Use a 
+  <a href="http://sourceforge.net/tracker/?group_id=177969">tracker item</a> to
+  describe your idea and attach your implementation as a patch.
+</p>  
   
 </body>
 </html>
