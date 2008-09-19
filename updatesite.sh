@@ -12,6 +12,8 @@ CHECKOUT_PATH1=$CHECKOUT_DIR/eclemmasite
 CHECKOUT_PATH2=$CHECKOUT_DIR/com.mountainminds.eclemma.doc
 CHECKOUT_PATH3=$CHECKOUT_DIR/com.mountainminds.eclemma.updatesite
 
+TARGET=mtnminds,eclemma@web.sourceforge.net:/home/groups/e/ec/eclemma/htdocs/
+
 rm -fr $WORKING_DIR
 mkdir $WORKING_DIR
 
@@ -24,5 +26,4 @@ cd $CHECKOUT_PATH1
 python generator/eclemmasite.py $RESULT_DIR
 
 
-scp -r $RESULT_DIR/* mtnminds@shell.sourceforge.net:/home/groups/e/ec/eclemma/htdocs/
-
+scp -r $RESULT_DIR/* $TARGET
