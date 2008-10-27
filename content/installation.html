@@ -12,13 +12,22 @@
 
 <body>
 
-<h1>Download and Installation</h1>
+<h1>Installation</h1>
 
 <p>
   EclEmma ships as a small set of Eclipse plug-ins under the
   <a href="license.html">Eclipse Public License</a>. The overall size of the
-  three plug-ins is around 750 Kbyte.
+  three plug-ins is around 750 Kbyte. Like for all standard Eclipse plug-ins
+  there are different installatione options. Using the update site is the
+  recommended procedure:
 </p>
+
+<ul>
+  <li><a href="#update34">Update site for Eclise 3.4</a></li>
+  <li><a href="#update33">Update site for Eclise 3.3 and before</a></li>
+  <li><a href="#download">Manual download and installation</a></li>
+  <li><a href="#distribution">Eclipse distribution</a></li>
+</ul>
 
 <h2>Prerequisites</h2>
 
@@ -29,7 +38,8 @@
   installation.
 </p>
 
-<h2>Option 1 - Update Site</h2>
+
+<h2><a name="update34"/>Option 1 - Update Site for Eclipse 3.4</h2>
 
 <p>
   The update site for EclEmma is <b>http://update.eclemma.org/</b>. Perform the
@@ -37,7 +47,36 @@
 </p>
 
 <p>
-  <b> 1. From your Eclipse menu select <i>Help</i> &rarr; <i>Software Updates</i> &rarr; <i>Find and Install...</i></b>
+  <b>1. From your Eclipse menu select <i>Help</i> &rarr; <i>Software Updates...</i></b>
+</p>
+
+<p>
+  <b>2. On the <i>Available Software</i> tab press <i>Add Site...</i> and enter
+  <a href="http://update.eclemma.org/">http://update.eclemma.org/</a> as
+  location. Alternatively you may also drag &amp; drop the location link from
+  your browser to the <i>Software Updates</i> dialog.</b>
+</p><p>
+  <img src="images/addsite.gif" width="492" height="176" alt="Add Site"/>
+</p>
+
+<p>
+  <b>3. Check the EclEmma item and press <i>Install...</i></b>
+</p>
+
+<p>
+  <b>4. Follow the steps in the installation wizard.</b>
+</p>
+
+
+<h2><a name="update33"/>Option 2 - Update Site for Eclipse 3.3 and Before</h2>
+
+<p>
+  The update site for EclEmma is <b>http://update.eclemma.org/</b>. Perform the
+  following steps to install EclEmma from the update site:
+</p>
+
+<p>
+  <b>1. From your Eclipse menu select <i>Help</i> &rarr; <i>Software Updates</i> &rarr; <i>Find and Install...</i></b>
 </p>
 
 <p>
@@ -45,7 +84,7 @@
 </p>
 
 <p>
-  <b>3. Press <i>New Remote Site...</i> and enter <a href="http://update.eclemma.org/">http://update.eclemma.org/</a> for the update site URL:</b>
+  <b>3. Press <i>New Remote Site...</i> and enter http://update.eclemma.org/ for the update site URL:</b>
 </p><p>
   <img src="images/newupdatesite.gif" width="356" height="147" alt="New Update Site"/>
 </p>
@@ -58,7 +97,7 @@
   <b>5. Follow the steps in the installation wizard.</b>
 </p>
 
-<h2>Option 2 - Manual Installation</h2>
+<h2><a name="download"/>Option 3 - Manual Download and Installation</h2>
 
 <p>
   For manual installation please 
@@ -75,18 +114,20 @@
 
 <p>
   Simply unzip the archive into your Eclipse installation and restart Eclipse.
+  Since Eclipse 3.4 the <code>dropins</code> folder is the right place for
+  additional plug-ins.
 </p>
 
-<h2>Option 3 - Eclipse Distribution</h2>
+<h2><a name="distribution"/>Option 4 - Eclipse Distribution</h2>
 
 <p>
-  <a href="http://ondemand.yoxos.com/geteclipse/W4TDelegate?featureId=com.mountainminds.eclemma.feature"><img src="images/yoxos.png" alt="Yoxos" width="120" height="32" style="border:0px solid black"/></a>
+  <a href="http://ondemand.yoxos.com/geteclipse/start?features=com.mountainminds.eclemma.feature"><img src="images/yoxos.png" alt="Yoxos" width="120" height="32" style="border:0px solid black"/></a>
 </p>
 
 <p>
   EclEmma can be obtained through the <a class="extern" href="http://www.yoxos.com/">Yoxos</a>
   Eclipse distribution. Get a pre-configures distribution containing EclEmma
-  <a class="extern" href="http://ondemand.yoxos.com/geteclipse/W4TDelegate?featureId=com.mountainminds.eclemma.feature">here</a>.
+  <a class="extern" href="http://ondemand.yoxos.com/geteclipse/start?features=com.mountainminds.eclemma.feature">here</a>.
 </p>
 
 

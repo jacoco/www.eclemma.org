@@ -29,6 +29,7 @@ site.item('images/screen.png', File('content/images/screen.png'))
 site.item('images/glass.gif', File('content/images/glass.gif'))
 site.item('images/ok.gif', File('content/images/ok.gif'))
 site.item('images/progress.gif', File('content/images/progress.gif'))
+site.item('images/addsite.gif', File('content/images/addsite.gif'))
 site.item('images/newupdatesite.gif', File('content/images/newupdatesite.gif'))
 site.item('images/yoxos.png', File('content/images/yoxos.png'))
 
@@ -86,7 +87,7 @@ site.item('site.xml', File('../com.mountainminds.eclemma.updatesite/site.xml'))
 
 site.nav('Overview', 'index.html')
 site.nav('Screencam Demo', 'demo.html')
-site.nav('Download and Installation', 'installation.html')
+site.nav('Installation', 'installation.html')
 
 userdoc = site.nav('User Guide', 'userdoc/index.html')
 userdoc.nav('Launching in Coverage Mode', 'userdoc/launching.html')
