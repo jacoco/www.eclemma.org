@@ -46,9 +46,8 @@
 
 <ul>
   <li>
-    Have Eclipse installed at least in version 3.1 including the <i>Plug-in
-    Development Environment</i>. The PDE is for example included in the
-    <i>Eclipse Classic</i>
+    Have Eclipse installed including the <i>Plug-in Development Environment</i>.
+    The PDE is for example included in the <i>Eclipse Classic</i>
     <a href="http://www.eclipse.org/downloads/" class="extern">download</a> or
     can be added to your existing Eclipse installation via the <i>Update
     Manager</i>.
@@ -60,6 +59,13 @@
     <a href="http://www.eclipse.org/subversive/" class="extern">Subversive</a>.
   </li>
   <li>
+    To ensure that your code complies with the <a href="../installation.html">minimal requirements</a>
+    you should have installed  
+    <a href="http://java.sun.com/j2se/1.4.2/download.html" class="extern">Java 1.4 JRE</a> and
+    <a href="http://archive.eclipse.org/eclipse/downloads/index.php" class="extern">Eclipse 3.1</a>.
+    Configure these JDK and Eclipse versions as your development target in the Eclipse preferences.
+  </li>
+  <li>
     Connect to the Subversion repository URL
     <code>https://eclemma.svn.sourceforge.net/svnroot/eclemma</code> and
     checkout the following projects:
@@ -68,8 +74,15 @@
     eclemma/trunk/com.mountainminds.eclemma.core_test
     eclemma/trunk/com.mountainminds.eclemma.doc
     eclemma/trunk/com.mountainminds.eclemma.ui
-    eclemma/trunk/com.mountainminds.eclemma.feature
-    </pre>
+    eclemma/trunk/com.mountainminds.eclemma.feature</pre>
+  </li>
+  <li>
+    The web site <a href="http://www.eclemma.org/">www.eclemma.org</a> is also
+    maintained in the same Subversion repository as a Eclipse project:
+    <pre>
+    eclemmasite</pre>
+    A <a href="http://www.python.org/" class="extern">Python</a> interpreter is required
+    to run the generator script <code>generator/eclemmasite.py</code>.
   </li>
 </ul>
 
