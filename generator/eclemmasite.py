@@ -18,6 +18,9 @@ site.item('demo.html', Page('content/demo.html'))
 site.item('demoplain.html', File('content/demoplain.html'))
 site.item('installation.html', Page('content/installation.html'))
 site.item('images/topic.gif', File('content/images/topic.gif'))
+site.item('images/book_cleancode.jpg', File('content/images/book_cleancode.jpg'));
+site.item('images/book_effectivejava.jpg', File('content/images/book_effectivejava.jpg'));
+site.item('images/book_javapowertools.jpg', File('content/images/book_javapowertools.jpg'));
 site.item('images/container.gif', File('content/images/container.gif'))
 site.item('images/extern.gif', File('content/images/extern.gif'))
 site.item('images/eclipsecon2009.gif', File('content/images/eclipsecon2009.gif'))
