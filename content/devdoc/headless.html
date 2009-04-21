@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <meta name="LastChangedDate" content="$LastChangedDate: $" />
+  <meta name="Revision" content="$Revision: $" />
+  <meta name="HeadURL" content="$HeadURL: $" />
+  <link rel="stylesheet" href="../book.css" charset="ISO-8859-1" type="text/css" />
+  <title>Headless Code Coverage for Equinox</title>
+</head>
+
+<body>
+
+<h1>Headless Code Coverage for Equinox</h1>
+
+<p>
+  EclEmma is a user interface centric tool implemented for and on top of the Eclipse IDE.
+  EclEmma also provides support for code coverage analysis of Eclipse applications itself,
+  e.g. for JUnit plug-in tests. While a code coverage tool within the IDE supports the
+  individual developer with his/her daily work, so called <i>headless</i> tools are
+  required for testing in automated environments like (continuous) build systems. Based
+  on the techniques described in <a href="../research/instrumentingosgi/index.html">this paper</a>
+  the <i>EclEmma Equinox Runtime</i> easily adds code coverage to any Java application running
+  on OSGi/Equinox.
+</p>
+
+
+<h2>Features</h2>
+
+<p>
+  [TODO]
+</p>
+
+<h2>Usage</h2>
+
+<h3>System Requirements</h3>
+
+<p>
+  The <i>EclEmma Code Coverage for Equinox</i> runtime requires Eclipse 3.2 or higher
+  and Java 1.4 or higher.
+</p>
+
+
+<h3>Headless Mode</h3>
+
+<p>
+  This will be the typical scenario when you run you plug-in tests in your
+  automated build. 
+</p>
+
+<ul>
+  <li>Download the latest version of the compiled bundle
+    <code>org.eclemma.runtime.equinox</code> from the
+    <a class="extern" href="http://sourceforge.net/TODO">SF download page</a>.</li>
+  <li>Unzip the file in your Eclipse installation root. The expanded bundle
+    <code>org.eclemma.runtime.equinox</code> has to be located in the <code>plugins</code>
+    folder. This must be the same directory  where the <code>org.eclipse.osgi</code>
+    bundle is located. Using e.g. an extension site will not work! The
+    <code>org.eclemma.runtime.equinox</code> must not be jared, as it contains another JAR
+    which can not be loaded from a packaged bundles in case of framework extensions.
+    </li>
+  <li>Insert the following line into the <code>./configuration/config.ini</code>
+    file of your target Eclipse:
+    <pre>osgi.framework.extensions=org.eclemma.runtime.equinox</pre>
+    or add the same value as a Java system property using the <code>-D</code>
+    parameter.</li>
+</ul>
+
+<h3>PDE Mode</h3>
+
+<p>
+  If you want to study or modify the extension bundle you may directly import
+  it to your PDE workspace and launch a Eclipse application in development mode.
+  The extension works for any OSGi/Equinox based launch type, i.e. Eclipse
+  application OSGi framework and JUnit plug-in test.
+</p>
+
+<ul>
+  <li>Import the latest version of the extension bundle from the SVN repository at
+    <code>https://eclemma.svn.sourceforge.net/svnroot/eclemma/eclemma/trunk/org.eclemma.runtime.equinox</code>.</li>
+  <li>Due to the fact that Equinox needs any framework extension co-located with
+    the OSGi framework bundle you need to also import <code>org.eclipse.osgi</code>
+    into your workspace (from the <i>Plug-Ins</i> view's context menu select
+    <i>Import As</i> &rarr; <i>Source Project</i>).</li>
+  <li>Take a existing launch configuration or create a new one. Make sure that
+    the <code>org.eclemma.runtime.equinox</code> and the 
+    <code>org.eclipse.osgi</code> bundle are enabled.</li>
+  <li>On the <i>Arguments</i> tab insert the following definition in the
+    <i>VM arguments</i> field:
+    <pre>-Dosgi.framework.extensions=org.eclemma.runtime.equinox</pre></li>
+</ul>
+
+<h3>Configuration Options</h3>
+
+<p>
+  [TODO]
+</p>
+
+
+
+<h3>Analyzing the Coverage Result</h3>
+
+<p>
+  The code coverage runtime create a single <i>EMMA coverage session</i> file
+  containing Meta data about all the classes of the bundles under test and the
+  actual coverage information. This file can be
+  <a href="../userdoc/importexport.html">imported into EclEmma</a> and analyzed
+  within Eclipse. Alternatively a HTML report can be created using
+  <a class="extern" href="http://emma.sourceforge.net/reference/ch02s04.html">EMMA's Ant task</a>. 
+</p>
+
+<p>
+  In both cases several coverage session files from different launches can be
+  merged into a single report.
+</p>
+
+<h2>Acknowledgment</h2>
+
+<p>
+  The <i>EclEmma Equinox Runtime</i> has been contributed and is maintained by
+  Mikkel T Andersen. Any questions and comments about the project are welcome
+  in our <a href="../support.html">forums</a>.  
+</p>
+
+</body>
+</html>
