@@ -29,7 +29,18 @@
 <h2>Features</h2>
 
 <p>
-  [TODO]
+  The <i>EclEmma Equinox Runtime</i> is a single plug-in that can be added to any Eclipse
+  application and provides code coverage information for the executed Java code. It has
+  several configuration options e.g. for selecting the plug-ins to analyze.
+</p>
+
+<h3>How does it work?</h3>
+
+<p>
+  The <i>EclEmma Equinox Runtime</i> is a so called OSGi framework extension that uses
+  specific hooks of the Equinox OSGi implementation to dynamically instrument plug-in
+  classes using the <a class="extern" href="http://emma.sourceforge.net/">EMMA</a> code
+  coverage library. 
 </p>
 
 <h2>Usage</h2>
@@ -94,9 +105,31 @@
 <h3>Configuration Options</h3>
 
 <p>
-  [TODO]
+  All configuration options are given by system properties. They can be passed into the
+  JVM with the <code>-D</code> parameter. For example
+</p>
+<pre>
+  -Demma.session.out.file=testcoverage.es
+</pre>
+<p>
+  will set the property <code>emma.session.out.file</code> to the value 
+  <code>testcoverage.es</code>. Note that the <i>EclEmma Equinox Runtime</i> will produce
+  default results without any configuration options.
 </p>
 
+<ul>
+  <li><b><code>eclemma.help</code></b><br/>
+    Setting any value to this property prints help information to the console.</li>
+  <li><b><code>eclemma.instrument.bundles</code></b><br/>
+    Comma separated list of bundle ids that should be considered for code coverage analysis.
+    Default: All bundles.</li>
+  <li><b><code>emma.session.out.file</code></b><br/>
+    Location of the EMMA session file where the coverage information will be written to.
+    Default: <code>coverage.es</code> in the working directory.</li>
+  <li><b><code>emma.session.out.merge</code></b><br/>
+    If set to <code>true</code> the result will be merged with an existing coverage session
+    file. Default: No merging.</li>
+</ul>
 
 
 <h3>Analyzing the Coverage Result</h3>
