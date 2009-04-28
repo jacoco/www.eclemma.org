@@ -128,7 +128,15 @@
     Default: <code>coverage.es</code> in the working directory.</li>
   <li><b><code>emma.session.out.merge</code></b><br/>
     If set to <code>true</code> the result will be merged with an existing coverage session
-    file. Default: No merging.</li>
+    file. Default: Merge with existing file.</li>
+  <li><b><code>emma.filter</code></b><br/>
+    Comma separated list of filters for class names that should be considered for code
+    coverage analysis. The usual wildcards <code>*</code> and <code>?</code> are possible,
+    a optional <code>+</code> or <code>-</code> prefix indicates inclusion or exclusion.
+    See <a class="extern" href="http://emma.sourceforge.net/reference_single/reference.html#instrset.filters">Emma documentation</a>
+    for details.
+    Default: All classes in the selected bundles.
+  </li>
 </ul>
 
 
