@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <meta name="LastChangedDate" content="$LastChangedDate: 2009-01-26 23:23:10 +0100 (Mo, 26 Jan 2009) $" />
+  <meta name="Revision" content="$Revision: 518 $" />
+  <meta name="HeadURL" content="$HeadURL: https://eclemma.svn.sourceforge.net/svnroot/eclemma/eclemmasite/content/devdoc/index.html $" />
+  <link rel="stylesheet" href="../book.css" charset="ISO-8859-1" type="text/css" />
+  <title>Jacoco Java Code Coverage Library</title>
+  <style type="text/css">
+    li.ok {
+      list-style-image:url(../images/ok.gif);
+    }
+    li.inwork {
+      list-style-image:url(../images/progress.gif);
+    }
+    li.investigate {
+      list-style-image:url(../images/glass.gif);
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Jacoco Java Code Coverage Library</h1>
+
+<h2>Motivation and Mission</h2>
+
+<p>
+  There are several open source coverage technologies for Java. While
+  implementing the Eclipse plug-in <a href="../index.html">EclEmma</a> the
+  observation was that none of them are really designed for integration. Most of
+  them are build for a particular tool (Ant tasks, command line, IDE plug-in)
+  and do not offer a documented API that allows embedding in different contexts.
+  One of the best and widely used available open source tools is
+  <a class="extern" href="http://emma.sourceforge.net">EMMA</a>. While EclEmma
+  is based on it the EMMA library is not actively maintained any more by the
+  original author. Due to the lack of regression tests maintenance and feature
+  additions will become very difficult.
+</p>
+
+<p> 
+  JaCoCo should become the standard tool for instrumentation based code coverage
+  in Java environments. The focus is providing a lightweight, flexible and well
+  documented library for integration with various build and development tools. A
+  ready to use Eclipse plug-in (future version of 
+  <a href="../index.html">EclEmma</a>) and
+  <a class="extern" href="http://ant.apache.org/">Ant</a> tasks are provided as
+  reference usage scenarios.
+</p>
+
+<h2>Product Definition</h2>
+
+<h3>Features</h3>
+<ul>
+  <li><i>Statement coverage</i> on Java byte code level, where instrumentation
+  and recording happens on 
+  <a class="extern" href="http://en.wikipedia.org/wiki/Basic_block"><i>basic block</i></a>
+  granularity. This is the same mechanism implemented by the
+  <a class="extern" href="http://emma.sourceforge.net">EMMA</a> library.</li>
+  <li>Optional: Branch coverage based on basic block flow.</li>
+  <li>Optional: Invocation counting.</li>
+  <li>Optional: Better handling of Exception within blocks. (e.g. record exception on active counter)</li>
+</ul>
+
+
+<h3>Non-Functional Characteristics</h3>
+<ul>
+  <li>Lightweight implementation with minimal dependencies on external
+  libraries and system resources.</li>
+  <li>Fully documented API (JavaDoc) including descriptions of the basic
+  concepts.</li>
+  <li>Regression tests with full functional test coverage based on JUnit test
+  cases.</li>
+</ul>
+
+<h3>System Requirements and Dependencies</h3>
+<ul>
+  <li>Java 1.5 as minimum runtime JVM<br/>
+    Reasoning: The
+    <a class="extern" href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/instrument/package-summary.html">JVM agent hook</a>
+    provided since Java 1.5 is a flexible instrumentation mechanism that works
+    independently from the nature of the target application and class path
+    settings.</li>
+  <li><a class="extern" href="http://asm.ow2.org/">ASM</a> for byte code
+    analysis and manipulation<br/>
+    Reasoning: Implementing the byte code specification would be a complex and
+    error-prone task. ASM is a 
+    <a class="extern" href="http://asm.ow2.org/users.html">widely used</a>,
+    lightweight and fast library that is
+    <a class="extern" href="http://svn.forge.objectweb.org/cgi-bin/viewcvs.cgi/asm?rev=HEAD&amp;view=rev">actively</a>
+    maintained. ASM is distributed under a     
+    <a class="extern" href="http://asm.ow2.org/license.html">BSD license</a>
+    and has been approved for other EPL licensed projects before. 
+  </li>
+</ul>
+
+
+<h2>Development Plan and Status</h2>
+
+<p>
+  Tentative description of the possible next steps. As there is no funding
+  behind these efforts (as with EclEmma), the actual time line depends on
+  available spare time of the involved developer(s).
+</p>
+
+<ol>
+  <li>Core Technology
+    <ul>
+      <li class="inwork">Interfaces with JavaDoc</li>
+      <li class="inwork">Implementation</li>
+      <li class="inwork">Regression test suite</li>
+      <li class="investigate">Architecture Documentation</li>
+    </ul>
+  </li>
+  <li>Reporting Module
+    <ul>
+      <li class="investigate">Design</li>
+      <li class="investigate">Interfaces with JavaDoc</li>
+      <li class="investigate">Implementation</li>
+      <li class="investigate">Regression test suite</li>
+      <li class="investigate">Sample report implementation</li>
+    </ul>
+  </li>
+  <li>Eclipse Integration
+    <ul>
+      <li class="investigate">EclEmma 2.0 based on Jacoco</li>
+    </ul>
+  </li>
+  <li>Ant Tasks
+    <ul>
+      <li class="investigate">Implementation</li>
+      <li class="investigate">Regression test suite</li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li class="investigate">Not started.</li>
+  <li class="inwork">In work</li>
+  <li class="ok">Done</li>
+</ul>
+
+<h2>License</h2>
+
+<p>
+  Any work (papers, design documents as well as the implementation itself) will
+  be published under the terms and conditions of the
+  <a class="extern" href="http://www.eclipse.org/legal/epl-v10.html">Eclipse
+  Public License Version 1.0</a> (EPL). The implementation is based on the
+  <a class="extern" href="http://asm.ow2.org/">ASM</a> library which is
+  distributed under the terms of a   
+  <a class="extern" href="http://asm.ow2.org/license.html">BSD license</a>.
+  Following the
+  <a class="extern" href="http://www.eclipse.org/legal/">guidelines</a> provided
+  by the Eclipse foundation should guarantee a clean and transparent IP process.
+</p>
+  
+</body>
+</html>
