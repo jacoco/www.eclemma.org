@@ -78,7 +78,7 @@ site.item('devdoc/architecture.html', Page('content/devdoc/architecture.html'))
 site.item('devdoc/headless.html',     Page('content/devdoc/headless.html'))
 site.item('devdoc/todos.html',        Page('content/devdoc/todos.html'))
 site.item('devdoc/checklist.html',    Page('content/devdoc/checklist.html'))
-site.item('devdoc/jacoco.html',       Page('content/devdoc/jacoco.html'))
+site.item('devdoc/jacoco.html',       Page('content/jacoco/index.html'))
 
 site.item('support.html', Page('content/support.html'))
 site.item('faq.html',     Page('../com.mountainminds.eclemma.doc/pages/faq.html'))
