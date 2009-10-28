@@ -36,6 +36,8 @@ site.item('images/install.gif', File('content/images/install.gif'))
 site.item('images/addsite.gif', File('content/images/addsite.gif'))
 site.item('images/newupdatesite.gif', File('content/images/newupdatesite.gif'))
 site.item('images/yoxos.png', File('content/images/yoxos.png'))
+site.item('images/wanted.png', File('content/images/wanted.png'))
+site.item('images/jacocoreport.png', File('content/images/jacocoreport.png'))
 
 site.item('userdoc/index.html', Page('../com.mountainminds.eclemma.doc/pages/userguide.html'))
 site.item('userdoc/launching.html', Page('../com.mountainminds.eclemma.doc/pages/launching.html'))
@@ -117,11 +119,12 @@ devdoc.nav('Architecture',           'devdoc/architecture.html')
 devdoc.nav('Headless Mode', 'devdoc/headless.html')
 devdoc.nav('Open Issues',            'devdoc/todos.html')
 devdoc.nav('Release Checklist',      'devdoc/checklist.html')
-devdoc.nav('JaCoCo',                 'jacoco/index.html')
 
 research = site.nav('Research', 'research/index.html')
 research.nav('Instrumenting OSGi Bundles', 'research/instrumentingosgi/index.html')
 
+
+site.nav('JaCoCo', 'jacoco/index.html')
 site.nav('Change Log', 'changes.html')
 site.nav('License', 'license.html')
 site.nav('Contact', 'contact.html')
