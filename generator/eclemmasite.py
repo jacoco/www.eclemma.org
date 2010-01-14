@@ -22,6 +22,7 @@ site.item('images/book_cleancode.jpg', File('content/images/book_cleancode.jpg')
 site.item('images/book_effectivejava.jpg', File('content/images/book_effectivejava.jpg'));
 site.item('images/book_javapowertools.jpg', File('content/images/book_javapowertools.jpg'));
 site.item('images/container.gif', File('content/images/container.gif'))
+site.item('images/eclipsecon2010.gif', File('content/images/eclipsecon2010.gif'))
 site.item('images/extern.gif', File('content/images/extern.gif'))
 site.item('images/class.jpg', File('content/images/class.jpg'))
 site.item('images/eclemma110_80.gif', File('content/images/eclemma110_80.gif'))
