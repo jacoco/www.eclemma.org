@@ -37,6 +37,7 @@ site.item('images/addsite.gif', File('content/images/addsite.gif'))
 site.item('images/newupdatesite.gif', File('content/images/newupdatesite.gif'))
 site.item('images/yoxos.png', File('content/images/yoxos.png'))
 site.item('images/wanted.png', File('content/images/wanted.png'))
+site.item('images/warning.gif', File('content/images/warning.gif'))
 site.item('images/jacocoreport.png', File('content/images/jacocoreport.png'))
 
 site.item('userdoc/index.html', Page('../com.mountainminds.eclemma.doc/pages/userguide.html'))
