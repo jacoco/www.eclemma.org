@@ -162,3 +162,14 @@ td.footer {
 td.footer a {
   color:#8998a5;
 }
+
+p.warn {
+  color: #000000;
+  margin: 0px 0px 0px 0px;
+  padding: 5px 5px 5px 25px;
+  background-color:#ffffe0;
+  border: 1px solid #ffcc00;
+  background-image:url(images/warning.gif);
+  background-position:5px 5px;
+  background-repeat:no-repeat;
+}
