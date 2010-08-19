@@ -42,16 +42,17 @@
   <li>Adjust plug-in's version numbers.</li>
   <li>Add new version to the update site definition (site.xml).</li>
   <li>Create SVN tag.</li>
-  <li>Build.</li>
-  <li>Create download archive (eclemma-x.y.z.zip) and add it to the SF download
-  package <i>EclEmma Releases</i>. The feature must be expanded within this
-  archive (not jar'ed).</li>
-  <li>Add separate plugin and feature jars (com.mountainminds.eclemma.*_x.y.z.jar)
-  to the SF download package <i>EclEmma Update Site</i>.</li>
-  <li>Adjust primary SF download file to new eclemma-x.y.z.zip.</li>
+  <li>Export EclEmma feature to 
+    <code>com.mountainminds.eclemma.releng.package/source</code>.</li>
+  <li>Run <code>com.mountainminds.eclemma.releng.package/build.xml</code> to
+    sign JARs and package the all-in download file
+    <code>eclemma-x.y.z.zip</code>.</li>
+  <li>Upload plug-in and feature JARs to Amazon S3 bucket.</li>
+  <li>Upload all-in download ZIP to SourceForge file release system.</li>
+  <li>Adjust default SF download to new <code>eclemma-x.y.z.zip</code> file.</li>
   <li>Adjust version in page template for www.eclemma.org.</li>
   <li>Publish www.eclemma.org.</li>
-  <li>Create SVN repository backup</li>
+  <li>Create SVN repository backup.</li>
 </ul>
 
 <h3>Support</h3>
@@ -63,7 +64,7 @@
     requests</a> resolved by the new release.</li>
   <li>Add new group for the released version in the bug tracker.</li>
   <li>Update version information on
-    <a class="extern" href="http://www.eclipseplugincentral.com/Web_Links-index-req-viewlink-cid-702.html">www.eclipseplugincentral.com</a>.</li>
+    <a class="extern" href="http://marketplace.eclipse.org/">marketplace.eclipse.org</a>.</li>
 </ul>
 
 </body>
