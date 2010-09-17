@@ -27,7 +27,7 @@
     <a href="http://sourceforge.net/projects/eclemma"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=177969&amp;type=12" width="120" height="30" alt="EclEmma at SourceForge.net" style="border:0px solid black"/></a>
   </td>
 </tr>
-<tr><td style="vertical-align:top;padding:20px 10px 80px 10px;background-color:#f7f7f7;border-left:1px solid #a5b6c6;border-right:1px solid #a5b6c6;border-bottom:1px solid #a5b6c6;">
+<tr><td style="vertical-align:top;padding:20px 10px 20px 10px;background-color:#f7f7f7;border-left:1px solid #a5b6c6;border-right:1px solid #a5b6c6;border-bottom:1px solid #a5b6c6;">
 
   <py:def function="rendermenu(item, indent)">
     <div class="${cond(path == item.href, 'menuhi', 'menu')}"
@@ -49,13 +49,16 @@
   <div class="menu" style="background-image:url(${rellink('images/extern.gif')})">
     <a href="http://emma.sourceforge.net/">EMMA Project</a>
   </div>
-  <div style="text-align:center;margin-top:20pt;">
+  <div style="text-align:center;margin-top:0pt;">
+    <a href="http://www.eclipse.org/org/press-release/20080318_AwardsWinners.php"><img src="${rellink('images/award.jpg')}" width="144" height="120" alt="Eclipse Community Award 2008" style="border:0px solid black"/></a>
+  </div>
+  <div style="text-align:center;margin-top:10pt;">
+    <a href="http://www.eclipsecon.org/summiteurope2010/sessions/?page=sessions&amp;id=1745"><img src="${rellink('images/summit.gif')}" width="100" height="100" alt="Eclipse Summit Europe 2010" style="border:0px solid black"/></a>
+  </div>
+  <div style="text-align:center;margin-top:10pt;">
     <a href="${rellink('jacoco/index.html')}"><img src="${rellink('images/wanted.png')}" height="111" width="140" alt="JaCoCo" style="border:0px solid black"/></a>
   </div>
-  <div style="text-align:center;margin-top:0pt;">
-    <a href="http://www.eclipse.org/org/press-release/20080318_AwardsWinners.php"><img src="${rellink('images/award.jpg')}" width="144" height="144" alt="Eclipse Community Award 2008" style="border:0px solid black"/></a>
-  </div>
-  <div style="text-align:center;margin-top:10pt;padding-top:20px;border-top:1px solid #a0a0a0">
+  <div style="text-align:center;margin-top:10pt;padding-top:15px;border-top:1px solid #a0a0a0">
     <a href="http://www.javaspecialists.eu/"><img src="${rellink('images/tjsn.jpg')}" width="140" height="140" alt="The Java Specialists' Newsletter" style="border:0px solid black"/></a>
   </div>
 </td><td style="vertical-align:top;padding:0px 0px 5px 20px;width:90%;border-bottom:1px solid #a5b6c6;" colspan="2">

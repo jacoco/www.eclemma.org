@@ -40,6 +40,7 @@ site.item('images/yoxos.png', File('content/images/yoxos.png'))
 site.item('images/wanted.png', File('content/images/wanted.png'))
 site.item('images/warning.gif', File('content/images/warning.gif'))
 site.item('images/jacocoreport.png', File('content/images/jacocoreport.png'))
+site.item('images/summit.gif', File('content/images/summit.gif'))
 
 site.item('userdoc/index.html', Page('../com.mountainminds.eclemma.doc/pages/userguide.html'))
 site.item('userdoc/launching.html', Page('../com.mountainminds.eclemma.doc/pages/launching.html'))
