@@ -20,10 +20,10 @@ independently of where or how they are produced.
 """
 
 __docformat__ = 'restructuredtext en'
-try:
-    __version__ = __import__('pkg_resources').get_distribution('Genshi').version
-except ImportError:
-    pass
+#try:
+#    __version__ = __import__('pkg_resources').get_distribution('Genshi').version
+#except ImportError:
+#    pass
 
 from genshi.core import *
 from genshi.input import ParseError, XML, HTML
