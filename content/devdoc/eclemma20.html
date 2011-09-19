@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <meta name="LastChangedDate" content="$LastChangedDate: $" />
+  <meta name="Revision" content="$Revision: $" />
+  <meta name="HeadURL" content="$HeadURL: $" />
+  <link rel="stylesheet" href="../book.css" charset="ISO-8859-1" type="text/css" />
+  <title>EclEmma 2.0 Whitepaper</title>
+</head>
+
+<body>
+
+<h1>EclEmma 2.0 Position Paper</h1>
+
+<p>
+  <i><b>The <a href="../index.html">EclEmma</a> code coverage plug-in for
+  Eclipse originally was designed as a wrapper for the
+  <a class="extern" href="http://emma.sourceforge.net/">EMMA</a> code coverage
+  library to make EMMA available within the Eclipse IDE. Since its initial
+  release in 2006 EclEmma became a popular addition to the Eclipse Java IDE. As
+  EMMA maintenance has stopped some years ago and we wanted to see functional
+  enhancements like branch coverage for EclEmma we started a completely new
+  code coverage backend called <a href="../jacoco/index.html">JaCoCo</a> under
+  the umbrella of the EclEmma project. The purpose of this paper is to setup
+  expectations for the EclEmma/JaCoCo user community and serve as a guide line
+  for technical decisions. The working title for the first release fully backed
+  by JaCoCo is "EclEmma 2.0".</b></i>
+</p>
+<p style="text-align:right;margin-bottom:15pt">
+  Marc R. Hoffmann, Mountainminds GmbH &amp; Co. KG, September 2011
+</p>
+
+<h2>Starting Point and Maxims</h2>
+
+<p>
+  Since its initial release in 2006 EclEmma became one of the most widely uses
+  code coverage tool in the Java developer's tool box and is one of the
+  <a class="extern" href="http://marketplace.eclipse.org/metrics/installs">most installed</a>
+  Eclipse plug-ins. As EMMA development has stopped shortly after the first
+  EclEmma release in 2006 we started working on an alternative called JaCoCo in
+  2009. The aim of the <a href="../jacoco/index.html">JaCoCo Project</a> is
+  <i>providing a lightweight, flexible and well documented library for
+  integration with various build and development tools</i>, see this
+  <a href="http://www.eclemma.org/jacoco/trunk/doc/mission.html">mission statement</a>
+  for details. In the meantime JaCoCo is fully functional and has been adopted
+  by several projects. For example the Eclipse platform integration builds are
+  analyzed using the JaCoCo Ant tasks. Many open source as well as commercial
+  projects use the
+  <a class="external" href="http://docs.codehaus.org/display/SONAR/JaCoCo+Plugin">JaCoCo plug-in for Sonar</a>
+  to control test quality.
+</p>
+
+<p>
+  As EclEmma was originally developed to provide code coverage analysis directly
+  for the individual developer, the same now applies for JaCoCo. A consistent
+  view to test coverage metrics in the automated builds as well as the local
+  Eclipse IDE requires a JaCoCo plug-in for Eclipse. From the EclEmma project's
+  point of view there are at least the following three paths towards a JaCoCo
+  integration for Eclipse:
+</p>
+
+<ul>
+  <li><b>Option 1:</b> Implement a new and separate Eclipse plug-in for JaCoCo.</li>
+  <li><b>Option 2:</b> Create a plugable architecture that allows to integrate
+      different code coverage technologies.</li>
+  <li><b>Option 3:</b> Migrate EclEmma towards JaCoCo (preferred).</li>
+</ul>
+
+<p>
+  I propose to follow option 3, which means migrate the existing EclEmma project
+  towards JaCoCo. Given the high exposure of EclEmma this options offers a set
+  of benefits:
+</p>
+
+<ul>
+  <li>Smooth upgrade path to the new version of EclEmma.</li>
+  <li>Existing functionality and features of EclEmma like "one-click" launches
+      and direct visual feedback within the IDE are kept.</li>
+  <li>Proven and robust code base.</li>
+</ul>
+  
+<p>
+  The other two options appear less attractive due to two main aspects: The
+  first point is the EMMA library itself. Given the issues described before and
+  the fact that EMMA fails with Java 7 byte code the future use of this great
+  but abandoned library is questionable. Therefore maintaining a EMMA-only
+  plug-in does not look reasonable in the long run. Users explicitly bound to
+  EMMA may continue using the EclEmma 1.x stream (see below).
+</p>
+
+<p>
+  Providing a plugable architecture for different coverage libraries looks like
+  best practice at the first glance. This is how the overall Eclipse platform
+  has been successfully crafted. When looking at different code coverage
+  libraries features and integration strategies are very different. For
+  example EMMA requires a huge overhead for instrumentation of local class files
+  and hooks to tweak class paths. JaCoCo in contrast does not require this but
+  gives additional coverage metrics and source highlighting for branch coverage.
+  A <i>code coverage framework</i> would therefore either be 
+</p>
+
+<ul>
+  <li>very small as the common overlapping is small, or</li>
+  <li>quite big containing several base services (like class path re-writing)
+      for particular code coverage libraries.</li>
+</ul>
+
+<p>
+  On the other hand the Eclipse launch and debug framework already is a
+  plugable architecture that allows different integrations for different code
+  coverage technologies even today. 
+</p>
+
+<h2>Functional Improvements</h2>
+
+<p>
+  For EclEmma 2.0 the following functional improvements are planned:
+</p>
+
+<h3>Branch Coverage</h3>
+<p>
+  This additional metric will show coverage of all decision points in the
+  program flow due to <code>if</code> and <code>switch</code> statements or the
+  <code>?</code> operator. The result will be displayed directly in the Java
+  editors similar to the JaCoCo reports using a new annotation icon in the left
+  ruler. In addition the <i>Coverage</i> view can be switched to branch
+  counters. Also the <i>Coverage</i> property page will show branch figures for
+  all Java elements. In addition cyclomatic complexity is shown in the view as
+  well as on the property page. The former "block" counters will not be
+  supported any more.
+</p>
+
+<h3>Faster Launching</h3>
+<p>
+  Due the way how the JaCoCo coverage library works there will be no additional
+  delay any more when applications under test are launched. This is an
+  significant performance improvement especially for large applications and test
+  suites.
+</p>
+
+<h3>Less Invasive</h3>
+<p>
+  Certain launch types and test scenarios require so called <i>in-place
+  instrumentation</i> in EclEmma 1.x. With this option the original class files
+  get modified on disk and need to be restored with a clean build when switching
+  back to another launch mode. Also JAR files where excluded from coverage
+  analysis when <i>in-place</i> mode is activated. Without <i>in-place
+  instrumentation</i> the class path of the application under test was modified
+  which caused trouble for some applications.    
+</p>
+<p>
+  With EclElmma 2.0 class files on disk will never be modified and the class
+  path of an applications stays untouched. This will remove several hassles
+  especially for Eclipse application launches and JUnit plug-in tests.
+</p>
+
+<h3>Intermediate and Remote Coverage Analysis</h3>
+<p>
+  JaCoCo 2.0 (or more likely one of its subsequent versions) will support
+  intermediate coverage dumps on applications running locally or remote without
+  stopping the applications under test. This will also allow to reset the
+  collected coverage information for a running application.
+</p>
+
+<h3>Flexible Analysis Scope</h3>
+<p>
+  The scope of a coverage analysis can be modified at any time afterwards. While
+  in EclEmma 1.x the scope needs to be specified on the coverage launch dialog
+  <i>before</i> the application is launched, with EclEmma 2.0 the scope can be
+  altered at any time when the result of the coverage session is viewed.
+</p>
+
+<h2>The Plug-in Project Name</h2>
+
+<p>
+  Back in 2006 <i>EclEmma</i> originally was an acronym formed from the project
+  names Eclipse and EMMA. Today the name is widely used for code coverage in
+  Eclipse without an focus on the technology used internally. Therefore the name
+  should be kept, also for the plug-in Ids and Java package names. Which
+  directly leads to the next point.
+</p>
+
+<h2>Update from EclEmma 1.x to EclEmma 2.0</h2>
+
+<p>
+  Once EclEmma 2.0 has been stabilized and the first release is published
+  EclEmma users should be able to get the new JaCoCo based implementation simply
+  through the regular update site process.
+</p>
+
+<h2>System Requirements</h2>
+
+<p>
+  EclEmma 2.0 will raise the bar a little bit and has the following system
+  requirements: 
+</p>
+
+<ul>
+<li>
+  <b>Java Runtime:</b> As JaCoCo requires Java 1.5 the same minimum JRE is
+  required for the Eclipse instance running EclEmma and the application under
+  test. Note that this does not apply to the Java class files under test: Any
+  class file version ranging from Java 1.0 to 1.7 is possible.
+</li>
+<li>  
+  <b>Eclipse:</b> The minimum Eclipse Version to install EclEmma 2.0 is not
+  determined yet but the backward compatibility down to Eclipse 3.1 will be
+  dropped to get rid of several switches and usages of APIs deprecated in the
+  meantime. Anyhow a conservative approach is targeted, e.g. Eclipse 3.5 as the
+  minimal supported version. 
+</li>
+<li>
+  <b>Operating System:</b> As JaCoCo as well as EclEmma is pure Java all
+  operating systems supported by Eclipse will also be supported including
+  Windows, Linux, Solaris, HP-UX, AIX and Mac OSX on different architectures.
+</li>
+</ul>
+
+
+<h2>Future support for EMMA and EclEmma 1.x Maintenance</h2>
+
+<p>
+  From EclEmma 2.0 on EMMA will not be supported any more as a coverage engine.
+  The only supported backend will be JaCoCo. There are not plans for a
+  "plugable" architecture to facilitate different coverage engines. The
+  different technologies are simply to different to efficiently integrate them
+  based on a common framework.
+</p>
+
+<p>
+  Beside this we will try to maintain the EMMA based 1.x stream on a best effort
+  base but with no functional enhancements planned. There will be an separate
+  update site for the 1.x versions.
+</p>
+
+
+<h2>Various Implementation Considerations</h2>
+
+<p>
+  For a new EclEmma 2.x the following ideas should be considered: 
+</p>
+
+<ul>
+  <li><b>API Compatibility:</b> As JaCoCo was explicitly designed for
+      integration, EclEmma 2.0 should be far less complex than the existing
+      1.x stream. To allow maximum reduction in code size and complexity several
+      of the existing APIs can either be simplified or removed at all.</li>
+  <li><b>Code Coverage Model:</b> Instead if defining a separate code coverage
+      model for Eclipse IDE usage only the JaCoCo model will be used directly.</li>
+  <li><b>Agent Communication:</b> Instead of writing Execution data to the file
+      system, the TCP/IP base communication will be used. This will also allow
+      intermediate dumps.</li>
+  <li><b>Increase Testability and Test Coverage:</b> Cutting several static
+      references to create more testable units will allow to increase unit test
+      coverage of EclEmma itself.</li>
+</ul>
+
+
+<h2>References</h2>
+
+<ul>
+  <li>
+    EMMA - a free Java code coverage tool, Vlad Roubtsov, 2006<br/>
+    <a class="extern" href="http://emma.sourceforge.net/">http://emma.sourceforge.net/</a>
+  </li>
+  <li>
+    EclEmma - Java Code Coverage for Eclipse, Marc R. Hoffmann et al., 2011<br/>
+    <a href="../index.html">http://www.eclemma.org/</a>
+  </li>
+  <li>
+    JaCoCo - Java Code Coverage Library, Marc R. Hoffmann et al., 2011<br/>
+    <a href="../jacoco/index.html">http://www.eclemma.org/jacoco</a>
+  </li>
+  <li>
+    Eclipse Marketplace, Eclipse Foundation, 2011<br/>
+    <a class="extern" href="http://marketplace.eclipse.org/">http://marketplace.eclipse.org/</a>
+  </li>
+  <li>
+    JaCoCo Mission Statement, Marc R. Hoffmann, 2010<br/>
+    <a class="extern" href="http://www.eclemma.org/jacoco/trunk/doc/mission.html">http://www.eclemma.org/jacoco/trunk/doc/mission.html</a>
+  </li>
+  <li>
+    JaCoCo Sonar Plugin, Evgeny Mandrikov et al., 2011<br/>
+    <a class="extern" href="http://docs.codehaus.org/display/SONAR/JaCoCo+Plugin">http://docs.codehaus.org/display/SONAR/JaCoCo+Plugin</a>
+  </li>
+</ul>
+
+
+</body>
+</html>
