@@ -163,6 +163,17 @@ td.footer a {
   color:#8998a5;
 }
 
+p.info {
+  color: #000000;
+  margin: 0px 0px 0px 0px;
+  padding: 5px 5px 5px 25px;
+  background-color:#e0e0ff;
+  border: 1px solid #8080ff;
+  background-image:url(images/info.gif);
+  background-position:5px 5px;
+  background-repeat:no-repeat;
+}
+
 p.warn {
   color: #000000;
   margin: 0px 0px 0px 0px;
