@@ -39,7 +39,7 @@ class LinkCheckFilter(object):
                 for ref in filter(lambda v: v, map(lambda n: attrs.get(n), self.ATTRIBUTES)):
                     if not filter(lambda p: ref.startswith(p), self.IGNORE_PREFIXES):
                         if urlparse.urljoin(self.path, ref) not in self.localpaths:
-                            raise str('Invalid reference %s in %s' % (ref, self.path))
+                            raise Exception('Invalid reference %s in %s' % (ref, self.path))
             yield kind, data, pos
 
 
