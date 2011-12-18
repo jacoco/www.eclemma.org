@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <meta name="LastChangedDate" content="$LastChangedDate: $" />
+  <meta name="Revision" content="$Revision: $" />
+  <meta name="HeadURL" content="$HeadURL: $" />
+  <link rel="stylesheet" href="book.css" charset="ISO-8859-1" type="text/css" />
+  <title>Installation</title>
+</head>
+
+<body>
+
+<h1>Installation of EclEmma 1.x</h1>
+
+<p>
+  Originally EclEmma was inspired by and technically based on the great
+  <a class="extern" href="http://emma.sourceforge.net/">EMMA</a> library
+  developed by Vlad Roubtsov. In case you explicitly need the EMMA backend you
+  can manually install a old EclEmma 1.x version.
+</p>
+
+<h2>Prerequisites</h2>
+
+<p>
+  EclEmma 1.x requires <b>Eclipse 3.1</b> or higher and <b>Java 1.4</b> or 
+  higher. It has no dependencies on a particular operating system. Of course
+  your Eclipse installation needs to contain the Java development tools (JDT)
+  which is included in the default SDK installation.
+</p>
+
+<h2>Manual Download and Installation</h2>
+
+<p>
+  For manual installation please 
+  <a class="extern" href="http://sourceforge.net/projects/eclemma/files/01_EclEmma_Releases/">download</a>
+  the latest EclEmma 1.x release. The downloaded archive contains these files:
+</p>
+
+<ul>
+  <li><code>features/com.mountainminds.eclemma.feature_x.y.z/*&nbsp;</code> - EclEmma feature definition</li>
+  <li><code>plugins/com.mountainminds.eclemma.core_x.y.z.jar&nbsp;&nbsp;&nbsp;</code> - Core implementation</li>
+  <li><code>plugins/com.mountainminds.eclemma.ui_x.y.z.jar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> - User interface</li>
+  <li><code>plugins/com.mountainminds.eclemma.doc_x.y.z.jar&nbsp;&nbsp;&nbsp;&nbsp;</code> - Online help</li>
+</ul>
+
+<p>
+  Simply unzip the archive into your Eclipse installation and restart Eclipse.
+  Since Eclipse 3.4 the <code>dropins</code> folder is the right place for
+  additional plug-ins.
+</p>
+
+
+<h2>Verification</h2>
+
+<p>
+  The installation was successful if you can see the coverage launcher in the
+  toolbar of the Java perspective:
+</p>
+
+<p>
+  <img src="userdoc/images/launchtoolbar.gif" alt="Launching Toolbar" width="112" height="27" />
+</p>
+
+</body>
+</html>

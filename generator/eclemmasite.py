@@ -17,10 +17,8 @@ site.item('index.html', Page('content/index.html'))
 site.item('demo.html', Page('content/demo.html'))
 site.item('demoplain.html', File('content/demoplain.html'))
 site.item('installation.html', Page('content/installation.html'))
+site.item('installation1x.html', Page('content/installation1x.html'))
 site.item('images/topic.gif', File('content/images/topic.gif'))
-site.item('images/book_cleancode.jpg', File('content/images/book_cleancode.jpg'));
-site.item('images/book_effectivejava.jpg', File('content/images/book_effectivejava.jpg'));
-site.item('images/book_javapowertools.jpg', File('content/images/book_javapowertools.jpg'));
 site.item('images/container.gif', File('content/images/container.gif'))
 site.item('images/extern.gif', File('content/images/extern.gif'))
 site.item('images/class.jpg', File('content/images/class.jpg'))
@@ -33,11 +31,9 @@ site.item('images/screen.png', File('content/images/screen.png'))
 site.item('images/glass.gif', File('content/images/glass.gif'))
 site.item('images/ok.gif', File('content/images/ok.gif'))
 site.item('images/progress.gif', File('content/images/progress.gif'))
-site.item('images/install.gif', File('content/images/install.gif'))
-site.item('images/addsite.gif', File('content/images/addsite.gif'))
-site.item('images/newupdatesite.gif', File('content/images/newupdatesite.gif'))
+site.item('images/install.png', File('content/images/install.png'))
 site.item('images/yoxos.png', File('content/images/yoxos.png'))
-site.item('images/wanted.png', File('content/images/wanted.png'))
+site.item('images/jacoco.png', File('content/images/jacoco.png'))
 site.item('images/info.gif', File('content/images/info.gif'))
 site.item('images/warning.gif', File('content/images/warning.gif'))
 site.item('images/jacocoreport.png', File('content/images/jacocoreport.png'))
@@ -92,13 +88,12 @@ site.item('changes.html', Page('../com.mountainminds.eclemma.doc/pages/changes.h
 site.item('license.html', Page('../com.mountainminds.eclemma.doc/pages/license.html'))
 site.item('contact.html', Page('content/contact.html'))
 
-site.item('site.xml', File('../com.mountainminds.eclemma.updatesite/site.xml'))
-
 # Site Structure
 
 site.nav('Overview', 'index.html')
 site.nav('Screencam Demo', 'demo.html')
-site.nav('Installation', 'installation.html')
+installation = site.nav('Installation', 'installation.html')
+installation.nav('EclEmma 1.x', 'installation1x.html')
 
 userdoc = site.nav('User Guide', 'userdoc/index.html')
 userdoc.nav('Launching in Coverage Mode', 'userdoc/launching.html')

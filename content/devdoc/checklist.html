@@ -23,7 +23,6 @@
 <ul>
   <li>Check for compiler warnings.</li>
   <li>Check for missing Javadoc.</li>
-  <li>Check for missing NLS tags.</li>
   <li>Run JUnit tests.</li>
   <li>Run findbugs.</li>
 </ul>
@@ -35,22 +34,29 @@
   <li>Finalize <a href="../changes.html">change log</a>.</li>
 </ul>
 
-<h3>Delivery</h3>
+<h3>Build and Distribution</h3>
 
 <ul>
-  <li>Adjust plug-in's version numbers.</li>
-  <li>Add new version to the update site definition (site.xml).</li>
   <li>Create SVN tag.</li>
-  <li>Export EclEmma feature to 
-    <code>com.mountainminds.eclemma.releng.package/source</code>.</li>
-  <li>Run <code>com.mountainminds.eclemma.releng.package/build.xml</code> to
-    sign JARs and package the all-in download file
-    <code>eclemma-x.y.z.zip</code>.</li>
-  <li>Upload plug-in and feature JARs to Amazon S3 bucket.</li>
-  <li>Upload all-in download ZIP to SourceForge file release system.</li>
+  <li>Run Maven build with <code>mvn clean install</code> in the
+    <code>com.mountainminds.eclemma.build</code> project as working directory.
+    Also set the following options for bundle signing:
+    <code>jarsigner.keystore</code> (path to JKS file),
+    <code>jarsigner.alias</code> (mtnminds),
+    <code>jarsigner.storepass</code> (keystore password),
+    <code>jarsigner.tsa</code> (https://timestamp.geotrust.com/tsa),
+    <code>jarsigner.tsacert</code> (mtnminds)
+  </li>
+  <li>Upload update site to Amazon S3 bucket for update.eclemma.org, adjust ACL
+    for public read access.</li>
+  <li>Rename zipped updates site (<code>site_assembly.zip</code>) to
+    <code>eclemma-x.y.z.zip</code> and upload to SourceForge file release system.</li>
   <li>Adjust default SF download to new <code>eclemma-x.y.z.zip</code> file.</li>
   <li>Adjust version in page template for www.eclemma.org.</li>
-  <li>Publish www.eclemma.org.</li>
+  <li>Adjust <code>eclemmasite/updatesite.sh</code> to point to the new tag to
+    fetch the correct version of user documentation.</li>
+  <li>Publish www.eclemma.org by running <code>eclemmasite/updatesite.sh</code>.</li>
+  <li>Increment plug-in's version numbers (<code>MANIFEST.MF</code> and <code>pom.xml</code>).</li>
   <li>Create SVN repository backup.</li>
 </ul>
 

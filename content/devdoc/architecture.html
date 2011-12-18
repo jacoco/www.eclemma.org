@@ -26,8 +26,9 @@
   <li>Seamless integration into the Eclipse workbench: Use existing tools and
   paradigms; adopt the Eclipse look &amp; feel.</li>
   <li>The primary focus are local launches and interactive coverage analysis
-  within the Eclipse workbench. For automated instrumentation builds and report
-  generation EMMA's Ant tasks are the better choice.</li>
+  within the Eclipse workbench. For automated builds and report generation
+  JaCoCo's various <a href="http://www.eclemma.org/jacoco/trunk/doc/integrations.html">integrations</a>
+  with build tools like Ant and Maven are the better choice.</li>
   <li>No project modification: Coverage analysis is a way to look at your
   projects, but it is not an inherent part of your projects. Therefore a coverage
   tool should work without touching your project's source tree or configuration.</li>
@@ -48,15 +49,15 @@
   for launching and analysis. It has no dependencies on the Eclipse UI and all
   functionality can also be used in <i>headless</i> mode. The JUnit tests for
   the core plug-in run <i>headless</i>. The UI plug-in provides the workbench
-  integration and relies on the core's public API only (no "x-friend"
-  declarations). This approach also verifies the usability of the core API.
+  integration and relies on the core's public API only. This approach also
+  verifies the usability of the core API.
 </p>
 
-<h3>EMMA Data Files</h3>
+<h3>JaCoCo Execution Data Files</h3>
 
 <p>
-  EMMA creates meta data and coverage result files. To avoid modifying 
-  projects these files are stored in the plug-in's state location.
+  To avoid modifying projects all data files are stored in the plug-in's state
+  location.
 </p>
 
 <h3>Launching in Coverage Mode</h3>
@@ -68,36 +69,10 @@
 </p>
 
 <ol>
-  <li>Instrument selected class files.</li>
-  <li>Create a temporary working copy of the launch configuration and adjust
-  it to inject the instrumented classes and EMMA runtime properties.</li>
-  <li>Delegate to the launcher for <i>Run</i> mode of this launch type.</li>
+  <li>Create a temporary working copy of the launch configuration and adjust the
+  VM arguments to add the JaCoCo agent to the Java VM.</li>
+  <li>Delegate to the launcher for <i>Run</i> mode of the same launch type.</li>
 </ol>
-
-<h3>Instrumentation</h3>
-
-<p>
-  EclEmma follows the <i>offline instrumentation</i> approach, i.e. class files
-  are prepared before the application is started. The class file instrumentation 
-  is triggered by the coverage launcher and always performed incrementally.
-  Depending on the launch type two different instrumentation modes are possible:
-  The class files can be instrumented <i>in-place</i>, i.e. the compiled
-  binaries are replaced with instrumented versions. This is only allowed for
-  class files compiled from source folders, as these file can easily be
-  reconstructed with a new <i>clean</i> build. In <i>copy</i> mode instrumented
-  versions of the class files are stored in the plug-in's state location.
-  While this requires tweaking the classpath also binary libraries can
-  safely be instrumented this way.  
-</p>
-
-<h3>EMMA Runtime Properties</h3>
-
-<p>
-  At runtime EMMA needs some basic properties like the file's location where to
-  write the coverage information. These properties are defined in a dynamically
-  created <code>emma.properties</code> file, which in turn is packed into a JAR
-  archive and injected into the class path.
-</p>
 
 <h3>Coverage Session</h3>
 
@@ -111,7 +86,7 @@
 <ul>
   <li>provide coverage highlighting in Java editors,</li>
   <li>populate the <i>Coverage</i> view and</li>
-  <li>export coverage reports using EMMA's reporting capabilities.</li>
+  <li>export coverage reports in different formats.</li>
 </ul>
 
 <p>
@@ -124,14 +99,13 @@
 <h3>Coverage Analysis</h3>
 
 <p>
-  When a coverage session becomes active the corresponding meta data and coverage
-  data files are processed directly using the <code>com.vladium.emma.data</code>
-  package. Coverage information is described by
-  <code>com.mountainminds.eclemma.core.analysis.IJavaElementCoverage</code>
-  instances for each Java model element (see 
-  <code>org.eclipse.jdt.core</code> package). An adapter factory allows obtaining
-  the corresponding <code>IJavaElementCoverage</code> instances for a particular
-  Java model element via <code>IJavaElement.getAdapter()</code>.
+  As soon as a coverage session becomes active the corresponding execution data
+  is processed and analyzed against the classes in the workspace. Coverage
+  information is described by a <code>org.jacoco.core.analysis.ICoverageNode</code>
+  instances for each Java model element (see <code>org.eclipse.jdt.core</code>
+  package). An adapter factory allows obtaining the corresponding
+  <code>ICoverageNode</code> instances for a particular Java model element via
+  <code>IJavaElement.getAdapter()</code>.
 </p>
 
 <h3>Editor Highlighting</h3>

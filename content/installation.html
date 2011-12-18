@@ -17,29 +17,27 @@
 <p>
   EclEmma ships as a small set of Eclipse plug-ins under the
   <a href="license.html">Eclipse Public License</a>. The overall size of the
-  three plug-ins is around 750 Kbyte. Like for all standard Eclipse plug-ins
+  six plug-ins is less than 1 MByte. Like for all standard Eclipse plug-ins
   there are different installation options. Using the update site is the
   recommended procedure.
 </p>
 
 <ul>
-  <li><a href="#update36">Option 1: Install with Eclipse Marketplace Client for Eclipse 3.6</a></li>
-  <li><a href="#update35">Option 2: Update site for Eclipse 3.5 and 3.6</a></li>
-  <li><a href="#update34">Option 3: Update site for Eclipse 3.4</a></li>
-  <li><a href="#update33">Option 4: Update site for Eclipse 3.3 and before</a></li>
-  <li><a href="#download">Option 5: Manual download and installation</a></li>
+  <li><a href="#marketplace">Option 1: Install from Eclipse Marketplace Client</a></li>
+  <li><a href="#updatesite">Option 2: Installation from update site</a></li>
+  <li><a href="#manual">Option 3: Manual download and installation</a></li>
 </ul>
 
 <h2>Prerequisites</h2>
 
 <p>
-  EclEmma requires <b>Eclipse 3.1</b> or higher and <b>Java 1.4</b> or higher. It has no
-  dependencies on a particular operating system. Of course your Eclipse installation
-  needs to contain the Java development tools (JDT) which is included in the default
-  SDK installation.
+  EclEmma requires <b>Eclipse 3.5</b> or higher and <b>Java 1.5</b> or higher.
+  It has no dependencies on a particular operating system. Of course your
+  Eclipse installation needs to contain the Java development tools (JDT) which
+  is included in the default SDK installation.
 </p>
 
-<h2><a name="update36"/>Option 1: Install with Eclipse Marketplace Client for Eclipse 3.6</h2>
+<h2><a name="marketplace"/>Option 1: Install from Eclipse Marketplace Client</h2>
 
 <p>
   Since Eclipse 3.6 the
@@ -64,7 +62,7 @@
 </p>
 
 
-<h2><a name="update35"/>Option 2 - Update Site for Eclipse 3.5 and 3.6</h2>
+<h2><a name="updatesite"/>Option 2 - Installation from Update Site</h2>
 
 <p>
   The update site for EclEmma is <b>http://update.eclemma.org/</b>. Perform the
@@ -79,7 +77,7 @@
   <b>2. In the <i>Install</i> dialog enter http://update.eclemma.org/ at the
   <i>Work with</i> field.</b>
 </p><p>
-  <img src="images/install.gif" width="507" height="502" alt="Install"/>
+  <img src="images/install.png" width="546" height="538" alt="Install Dialog"/>
 </p>
 
 <p>
@@ -90,82 +88,24 @@
   <b>4. Follow the steps in the installation wizard.</b>
 </p>
 
-<h2><a name="update34"/>Option 3 - Update Site for Eclipse 3.4</h2>
-
-<p>
-  The update site for EclEmma is <b>http://update.eclemma.org/</b>. Perform the
-  following steps to install EclEmma from the update site:
-</p>
-
-<p>
-  <b>1. From your Eclipse menu select <i>Help</i> &rarr; <i>Software Updates...</i></b>
-</p>
-
-<p>
-  <b>2. On the <i>Available Software</i> tab press <i>Add Site...</i> and enter
-  http://update.eclemma.org/ as location.</b>
-</p><p>
-  <img src="images/addsite.gif" width="418" height="157" alt="Add Site"/>
-</p>
-
-<p>
-  <b>3. Check the EclEmma item and press <i>Install...</i></b>
-</p>
-
-<p>
-  <b>4. Follow the steps in the installation wizard.</b>
-</p>
-
-
-<h2><a name="update33"/>Option 4 - Update Site for Eclipse 3.3 and Before</h2>
-
-<p>
-  The update site for EclEmma is <b>http://update.eclemma.org/</b>. Perform the
-  following steps to install EclEmma from the update site:
-</p>
-
-<p>
-  <b>1. From your Eclipse menu select <i>Help</i> &rarr; <i>Software Updates</i> &rarr; <i>Find and Install...</i></b>
-</p>
-
-<p>
-  <b>2. Check <i>Search for new features</i> and press <i>Next</i>.</b>
-</p>
-
-<p>
-  <b>3. Press <i>New Remote Site...</i> and enter http://update.eclemma.org/ for the update site URL:</b>
-</p><p>
-  <img src="images/newupdatesite.gif" width="356" height="147" alt="New Update Site"/>
-</p>
-
-<p>
-  <b>4. Press <i>Finish</i>.</b>
-</p>
-
-<p>
-  <b>5. Follow the steps in the installation wizard.</b>
-</p>
-
-<h2><a name="download"/>Option 5 - Manual Download and Installation</h2>
+<h2><a name="manual"/>Option 3 - Manual Download and Installation</h2>
 
 <p>
   For manual installation please 
-  <a class="extern" href="http://sourceforge.net/project/platformdownload.php?group_id=177969">download</a>
-  the latest EclEmma release. The downloaded archive contains these files:
+  <a class="extern" href="http://sourceforge.net/projects/eclemma/files/latest/download">download</a>
+  the latest EclEmma release. Unzip the archive into <code>dropins</code> folder of your Eclipse
+  installation and restart Eclipse:
 </p>
 
-<ul>
-  <li><code>features/com.mountainminds.eclemma.feature_x.y.z/*&nbsp;</code> - EclEmma feature definition</li>
-  <li><code>plugins/com.mountainminds.eclemma.core_x.y.z.jar&nbsp;&nbsp;&nbsp;</code> - Core implementation</li>
-  <li><code>plugins/com.mountainminds.eclemma.ui_x.y.z.jar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> - User interface</li>
-  <li><code>plugins/com.mountainminds.eclemma.doc_x.y.z.jar&nbsp;&nbsp;&nbsp;&nbsp;</code> - Online help</li>
-</ul>
-
-<p>
-  Simply unzip the archive into your Eclipse installation and restart Eclipse.
-  Since Eclipse 3.4 the <code>dropins</code> folder is the right place for
-  additional plug-ins.
-</p>
+<pre>
+&lt;your eclipse installation&gt;/
++- dropins/
+   +- eclemma-x.y.z/
+      +- plugins/
+      |  +- ...
+      +- feature/
+         +- ...
+</pre>
 
 
 <h2>Verification</h2>
