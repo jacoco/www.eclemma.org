@@ -6,7 +6,7 @@ $Revision$
 import os, os.path, sys, urlparse
 import itertools
 import genshi, genshi.input, genshi.template
-
+import gitlog
 
 templateloader = genshi.template.TemplateLoader(['./templates'])
         
@@ -79,7 +79,7 @@ class Page(OutputItem):
           cond = cond,
           menuitems = site.rootnode.children,
           rellink = lambda link: _rellink(path, link),
-          meta = lambda name: str(content.select('head/meta[@name="%s"]/@content' % name))
+          properties = gitlog.get_log_info(self.src)
         ))
         page = PAGE.generate(ctx)
         page |= LinkCheckFilter(path, site.localpaths())

@@ -6,7 +6,7 @@
       lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="date" content="${meta('LastChangedDate').split()[1]}" />
+  <meta name="date" content="${properties['commitdate']}" />
   <link rel="stylesheet" href="${rellink('book.css')}" type="text/css" />
   <link rel="shortcut icon" href="${rellink('favicon.ico')}" type="image/x-icon" />
   <title>EclEmma - ${content.select('head/title/text()')}</title>
@@ -44,7 +44,7 @@
   </py:for>
 
   <div class="menu" style="margin-top:15pt;background-image:url(${rellink('images/extern.gif')})">
-    <a href="http://sourceforge.net/projects/eclemma">SourceForge Home</a>
+    <a href="https://github.com/jacoco">GitHub Home</a>
   </div>
   <div style="text-align:center;margin-top:0pt;">
     <a href="http://www.eclipse.org/org/press-release/20080318_AwardsWinners.php"><img src="${rellink('images/award.jpg')}" width="144" height="120" alt="Eclipse Community Award 2008" style="border:0px solid black"/></a>
@@ -67,14 +67,14 @@ ${content.select('body/*')}
 
 <table cellspacing="0" cellpadding="0" border="0" style="width:100%;">
 <tr>
-  <td class="footer"><a href="${rellink('license.html')}">Copyright</a> &copy; 2006, 2012 Mountainminds GmbH &amp; Co. KG &middot; Marc R. Hoffmann</td>
+  <td class="footer"><a href="${rellink('license.html')}">Copyright</a> &copy; 2006, 2012 Mountainminds GmbH &amp; Co. KG and Contributors</td>
   <td class="footer" style="text-align:right;">
     Validate
     <a href="http://validator.w3.org/check?uri=http://www.eclemma.org/${path}">XHTML</a>/<a
        href="http://jigsaw.w3.org/css-validator/validator?uri=http://www.eclemma.org/${path}">CSS</a> &middot;
     Last Modified
-    <a href="http://eclemma.svn.sourceforge.net/viewvc/${meta('HeadURL')[54:-2]}?view=log">${meta('LastChangedDate').split()[1]}</a> in 
-    <a href="http://eclemma.svn.sourceforge.net/viewvc/eclemma?view=rev&amp;revision=${meta('Revision').split()[1]}">rev. ${meta('Revision').split()[1]}</a>
+    <a href="https://github.com/jacoco/${properties['repo']}/blob/${properties['commithash']}/${properties['path']}">${properties['commitdate'].split()[0]}</a> in Commit
+    <a href="https://github.com/jacoco/${properties['repo']}/commit/${properties['commithash']}">${properties['commithash'][0:10]}</a>
   </td>
 </tr>
 </table>
