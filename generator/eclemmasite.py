@@ -75,9 +75,7 @@ site.item('research/instrumentingosgi/instrumentation.png', File('content/resear
 #site.item('research/codecoveragecornercases/cobertura-css/source-viewer.css', File('content/research/codecoveragecornercases/cobertura-css/source-viewer.css'))
 
 site.item('devdoc/index.html',        Page('content/devdoc/index.html'))
-site.item('devdoc/repository.html',   Page('content/devdoc/repository.html'))
 site.item('devdoc/architecture.html', Page('content/devdoc/architecture.html'))
-site.item('devdoc/headless.html',     Page('content/devdoc/headless.html'))
 site.item('devdoc/checklist.html',    Page('content/devdoc/checklist.html'))
 site.item('devdoc/eclemma20.html',    Page('content/devdoc/eclemma20.html'))
 site.item('jacoco/index.html',        Page('content/jacoco/index.html'))
@@ -112,10 +110,8 @@ support.nav('Frequently Asked Questions', 'faq.html')
 site.nav('Resources', 'resources.html')
 
 devdoc = site.nav('Developer Information', 'devdoc/index.html')
-devdoc.nav('Source Repository', 'devdoc/repository.html')
 devdoc.nav('Architecture',      'devdoc/architecture.html')
 devdoc.nav('EclEmma 2.0',       'devdoc/eclemma20.html')
-devdoc.nav('Headless Mode',     'devdoc/headless.html')
 devdoc.nav('Release Checklist', 'devdoc/checklist.html')
 
 research = site.nav('Research', 'research/index.html')

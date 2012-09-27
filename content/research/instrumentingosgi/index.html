@@ -3,9 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-  <meta name="LastChangedDate" content="$LastChangedDate$" />
-  <meta name="Revision" content="$Revision$" />
-  <meta name="HeadURL" content="$HeadURL$" />
   <link rel="stylesheet" href="../../book.css" charset="ISO-8859-1" type="text/css" />
   <title>Instrumenting OSGi Bundles Through Equinox Adaptor Hooks</title>
 </head>
@@ -458,7 +455,7 @@ public class InstrumentationHook implements AdaptorHook, ClassLoadingHook {
   to inject the code coverage runtime into the instrumented plug-ins. As already
   stated in the first version of the paper, this workaround will not work for
   proper OSGi runtimes, where the boot class loader is not visible to the
-  plug-ins. (<a class="extern" href="http://eclemma.svn.sourceforge.net/viewvc/*checkout*/eclemma/eclemmasite/content/research/instrumentingosgi/index.html?revision=314&amp;pathrev=332">SVN Rev. 314</a>)</li>
+  plug-ins. (<a class="extern" href="https://raw.github.com/jacoco/www.eclemma.org/bc0ef99e9e595cb242ee7cb5cbd5f82695981d10/content/research/instrumentingosgi/index.html">first version</a>)</li>
   <li><b>March 2008:</b> New version solving the problem stated above with
   <code>DynamicImport-Package</code> manifest headers added to the plug-ins 
   through the adapter hook. This solution was proposed by Thomas Watson,

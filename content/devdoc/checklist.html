@@ -3,9 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-  <meta name="LastChangedDate" content="$LastChangedDate$" />
-  <meta name="Revision" content="$Revision$" />
-  <meta name="HeadURL" content="$HeadURL$" />
   <link rel="stylesheet" href="../book.css" charset="ISO-8859-1" type="text/css" />
   <title>Release Checklist</title>
 </head>
@@ -50,7 +47,8 @@
   <li>Upload update site to Amazon S3 bucket for update.eclemma.org, adjust ACL
     for public read access.</li>
   <li>Rename zipped updates site (<code>EclEmma.zip</code>) to
-    <code>eclemma-x.y.z.zip</code> and upload to SourceForge file release system.</li>
+    <code>eclemma-x.y.z.zip</code> and upload to GitHub
+    <a class="extern" href="https://github.com/jacoco/eclemma/downloads">downloads</a>.</li>
   <li>Adjust default SF download to new <code>eclemma-x.y.z.zip</code> file.</li>
   <li>Adjust version in page template for www.eclemma.org.</li>
   <li>Adjust <code>eclemmasite/updatesite.sh</code> to point to the new tag to
@@ -63,10 +61,9 @@
 <h3>Support</h3>
 
 <ul>
-  <li>Close 
-    <a class="extern" href="http://sourceforge.net/tracker/?group_id=177969&amp;atid=883351">bugs</a> and 
-    <a class="extern" href="http://sourceforge.net/tracker/?group_id=177969&amp;atid=883354">feature
-    requests</a> resolved by the new release.</li>
+  <li>Close all
+    <a class="extern" href="https://github.com/jacoco/eclemma/issues">issues</a>
+    resolved by the new release.</li>
   <li>Add new group for the released version in the bug tracker.</li>
   <li>Update version information on
     <a class="extern" href="http://marketplace.eclipse.org/">marketplace.eclipse.org</a>.</li>

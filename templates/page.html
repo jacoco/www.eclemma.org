@@ -53,7 +53,7 @@
     <a href="${rellink('jacoco/index.html')}"><img src="${rellink('images/jacoco.png')}" height="62" width="140" alt="JaCoCo" style="border:0px solid black"/></a>
   </div>
   <div style="text-align:center;margin-top:10pt;padding-top:15px;border-top:1px solid #a0a0a0">
-    <a href="http://www.eclipsecon.org/europe2011"><img border="0" 
+    <a href="http://www.eclipsecon.org/europe2011"><img  style="border:0px solid black"
       src="http://www.eclipsecon.org/europe2012/sites/eclipsecon.org.europe2012/files/125x72.png?1332285067" 
       height="72" width="125" alt="EclipseCon Europe 2012"/></a>
   </div>
@@ -74,7 +74,7 @@ ${content.select('body/*')}
        href="http://jigsaw.w3.org/css-validator/validator?uri=http://www.eclemma.org/${path}">CSS</a> &middot;
     Last Modified
     <a href="https://github.com/jacoco/${properties['repo']}/blob/${properties['commithash']}/${properties['path']}">${properties['commitdate'].split()[0]}</a> in Commit
-    <a href="https://github.com/jacoco/${properties['repo']}/commit/${properties['commithash']}">${properties['commithash'][0:10]}</a>
+    <a href="https://github.com/jacoco/${properties['repo']}/commit/${properties['commithash']}">${properties['commithash'][0:8]}</a>
   </td>
 </tr>
 </table>

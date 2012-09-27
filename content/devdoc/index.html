@@ -3,9 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-  <meta name="LastChangedDate" content="$LastChangedDate$" />
-  <meta name="Revision" content="$Revision$" />
-  <meta name="HeadURL" content="$HeadURL$" />
   <link rel="stylesheet" href="../book.css" charset="ISO-8859-1" type="text/css" />
   <title>Developer Documentation</title>
 </head>
@@ -17,9 +14,9 @@
 <p>
   This section provides information for EclEmma contributors and ISVs using the
   EclEmma API. The project is hosted on the
-  <a class="extern" href="http://sourceforge.net">SourceForge.net</a> platform,
-  its overview page is
-  <a class="extern" href="http://sourceforge.net/projects/eclemma">http://sourceforge.net/projects/eclemma</a>.
+  <a class="extern" href="https://github.com/">GitHub</a> platform,
+  its organization page is
+  <a class="extern" href="https://github.com/jacoco">https://github.com/jacoco</a>.
   The <a class="extern" href="https://groups.google.com/d/forum/jacoco">JaCoCo
   and EclEmma Users Group</a> is the place to discuss ideas, ask questions and
   get in touch with the developers.
@@ -59,10 +56,9 @@
     Manager</i>.
   </li>
   <li> 
-    Add <a href="http://en.wikipedia.org/wiki/Subversion_%28software%29" class="extern">Subversion</a>
-    support to your Eclipse by installing
-    <a href="http://subclipse.tigris.org/" class="extern">Subclipse</a> or
-    <a href="http://www.eclipse.org/subversive/" class="extern">Subversive</a>.
+    Add <a href="http://git-scm.com/" class="extern">Git</a> support to your
+    Eclipse by installing the latest version of
+    <a href="http://www.eclipse.org/egit/" class="extern">EGit</a>.
   </li>
   <li>
     To ensure that your code complies with the <a href="../installation.html">minimal requirements</a>
@@ -73,28 +69,20 @@
   </li>
   <li>
     The EclEmma plug-ins depend on JaCoCo and ASM bundles. For these
-    dependencies you can simply install the latest JaCoCo trunk build into your
+    dependencies you can simply install the latest EclEmma trunk build into your
     target platform from this update site:
     http://download.eclipselab.org/eclemma/trunk/update
   </li>
   <li>
-    Connect to the Subversion repository URL
-    <code>https://eclemma.svn.sourceforge.net/svnroot/eclemma</code> and
-    checkout the following projects:
-    <pre>
-    eclemma/trunk/com.mountainminds.eclemma.core
-    eclemma/trunk/com.mountainminds.eclemma.core_test
-    eclemma/trunk/com.mountainminds.eclemma.doc
-    eclemma/trunk/com.mountainminds.eclemma.ui
-    eclemma/trunk/com.mountainminds.eclemma.feature</pre>
+    Clone from the repository URL
+    <code>https://github.com/jacoco/eclemma.git</code> and import the Eclipse
+    projects contained in the repository.
   </li>
   <li>
     The web site <a href="http://www.eclemma.org/">www.eclemma.org</a> is also
-    maintained in the same Subversion repository:
-    <pre>
-    eclemmasite</pre>
-    A <a href="http://www.python.org/" class="extern">Python</a> interpreter is required
-    to run the generator script <code>generator/eclemmasite.py</code>.
+    maintained a <a href="https://github.com/jacoco/www.eclemma.org" class="extern">Git
+    repository</a>. A <a href="http://www.python.org/" class="extern">Python</a>
+    interpreter is required to run the generator script <code>generator/eclemmasite.py</code>.
   </li>
 </ul>
 
@@ -115,9 +103,11 @@
   
 <p>
   So you finally created a cool new feature or fixed some bug? Great, contribute
-  it back to the official EclEmma releases! Use a 
-  <a href="http://sourceforge.net/tracker/?group_id=177969">tracker item</a> to
-  describe your idea and attach your implementation as a patch.
+  it back to the official EclEmma releases! Open a 
+  <a href="https://github.com/jacoco/eclemma/issues" class="extern">feature request</a>
+  or create a
+  <a href="https://github.com/jacoco/eclemma/pulls" class="extern">pull request</a>
+  with your implementation.
 </p>  
   
 </body>
