@@ -34,7 +34,7 @@
 <h3>Build and Distribution</h3>
 
 <ul>
-  <li>Create GIT tag.</li>
+  <li>Create Git tag.</li>
   <li>Run Maven build with <code>mvn clean install</code> in the
     <code>com.mountainminds.eclemma.build</code> project as working directory.
     Also set the following options for bundle signing:
@@ -47,15 +47,16 @@
   <li>Upload update site to Amazon S3 bucket for update.eclemma.org, adjust ACL
     for public read access.</li>
   <li>Rename zipped updates site (<code>EclEmma.zip</code>) to
-    <code>eclemma-x.y.z.zip</code> and upload to GitHub
-    <a class="extern" href="https://github.com/jacoco/eclemma/downloads">downloads</a>.</li>
-  <li>Adjust default SF download to new <code>eclemma-x.y.z.zip</code> file.</li>
+    <code>eclemma-x.y.z.zip</code> and upload to Amazon S3 bucket for
+    download.eclipselab.org.</li>
+  <li>Add new entry to the
+    <a href="http://www.eclemma.org/download.html">download page</a>
+    for <code>eclemma-x.y.z.zip</code> file.</li>
   <li>Adjust version in page template for www.eclemma.org.</li>
   <li>Adjust <code>eclemmasite/updatesite.sh</code> to point to the new tag to
     fetch the correct version of user documentation.</li>
   <li>Publish www.eclemma.org by running <code>eclemmasite/updatesite.sh</code>.</li>
   <li>Increment plug-in's version numbers (<code>MANIFEST.MF</code> and <code>pom.xml</code>).</li>
-  <li>Create SVN repository backup.</li>
 </ul>
 
 <h3>Support</h3>
@@ -64,7 +65,6 @@
   <li>Close all
     <a class="extern" href="https://github.com/jacoco/eclemma/issues">issues</a>
     resolved by the new release.</li>
-  <li>Add new group for the released version in the bug tracker.</li>
   <li>Update version information on
     <a class="extern" href="http://marketplace.eclipse.org/">marketplace.eclipse.org</a>.</li>
 </ul>
