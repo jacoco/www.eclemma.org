@@ -57,8 +57,6 @@ site.item('userdoc/images/coverageviewmenu.png', File('../eclemma/com.mountainmi
 site.item('userdoc/images/launchdialog.png', File('../eclemma/com.mountainminds.eclemma.doc/pages/images/launchdialog.png'))
 site.item('userdoc/images/decorators.png', File('../eclemma/com.mountainminds.eclemma.doc/pages/images/decorators.png'))
 site.item('userdoc/images/launchtoolbar.gif', File('../eclemma/com.mountainminds.eclemma.doc/pages/images/launchtoolbar.gif'))
-site.item('userdoc/images/importdialog.png', File('../eclemma/com.mountainminds.eclemma.doc/pages/images/importdialog.png'))
-site.item('userdoc/images/exportdialog.png', File('../eclemma/com.mountainminds.eclemma.doc/pages/images/exportdialog.png'))
 
 site.item('resources.html', Page('content/resources.html'))
 
