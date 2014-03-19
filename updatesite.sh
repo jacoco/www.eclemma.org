@@ -10,7 +10,7 @@ BRANCH1=master
 
 GIT_URL2=https://github.com/jacoco/eclemma.git
 CHECKOUT_PATH2=$CHECKOUT_DIR/eclemma
-BRANCH2=v2.2.1
+BRANCH2=v2.3.0
 
 TARGET=mtnminds,eclemma@web.sourceforge.net:/home/groups/e/ec/eclemma/htdocs/
 
