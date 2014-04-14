@@ -37,7 +37,6 @@ site.item('images/info.gif', File('content/images/info.gif'))
 site.item('images/warning.gif', File('content/images/warning.gif'))
 site.item('images/jacocoreport.png', File('content/images/jacocoreport.png'))
 site.item('images/cloudbees.png', File('content/images/cloudbees.png'))
-site.item('images/eclipsecon.jpg', File('content/images/eclipsecon.jpg'))
 
 site.item('userdoc/index.html', Page('../eclemma/com.mountainminds.eclemma.doc/pages/userguide.html'))
 site.item('userdoc/launching.html', Page('../eclemma/com.mountainminds.eclemma.doc/pages/launching.html'))
