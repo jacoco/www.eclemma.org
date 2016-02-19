@@ -36,11 +36,21 @@ git checkout $BRANCH2
 cd $CHECKOUT_PATH1
 python generator/eclemmasite.py $RESULT_DIR
 
+
+TEMP=/tmp/jacoco-snapshot
+mkdir $TEMP
+wget -O $TEMP/download.zip "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.jacoco&a=jacoco&e=zip&v=LATEST"
+unzip $TEMP/download.zip -d $TEMP
+
+TARGET=$RESULT_DIR/jacoco/trunk
+mkdir $TARGET
+cp $TEMP/index.html $TARGET
+cp -r $TEMP/doc $TARGET/doc
+cp -r $TEMP/test $TARGET/test
+cp -r $TEMP/coverage $TARGET/coverage
+
+
 cd $RESULT_DIR
-
-# Content of "jacoco" directory must be published from https://github.com/jacoco/jacoco/tree/gh-pages
-rm -rf jacoco
-
 git init
 git add .
 git commit -m "Automatic deployment"
