@@ -51,6 +51,10 @@ cp -r $TEMP/coverage $TARGET/coverage
 
 
 cd $RESULT_DIR
+
+# https://help.github.com/articles/files-that-start-with-an-underscore-are-missing/
+touch .nojekyll
+
 git init
 git add .
 git commit -m "Automatic deployment"
