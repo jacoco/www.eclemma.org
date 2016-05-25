@@ -15,7 +15,7 @@ RESULT_DIR=$WORKING_DIR/result
 
 GIT_URL1=https://github.com/jacoco/www.eclemma.org.git
 CHECKOUT_PATH1=$CHECKOUT_DIR/www.eclemma.org
-BRANCH1=master
+BRANCH1=relative-paths
 
 GIT_URL2=https://github.com/jacoco/eclemma.git
 CHECKOUT_PATH2=$CHECKOUT_DIR/eclemma
