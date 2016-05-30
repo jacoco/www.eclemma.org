@@ -32,23 +32,20 @@ git clone -- $GIT_URL2 $CHECKOUT_PATH2
 cd $CHECKOUT_PATH2
 git checkout $BRANCH2
 
-
-cd $CHECKOUT_PATH1
-python generator/eclemmasite.py $RESULT_DIR
-
-
-TEMP=/tmp/jacoco-snapshot
+TEMP=$CHECKOUT_DIR/jacoco-snapshot
 mkdir $TEMP
 wget -O $TEMP/download.zip "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.jacoco&a=jacoco&e=zip&v=LATEST"
 unzip $TEMP/download.zip -d $TEMP
 
 TARGET=$RESULT_DIR/jacoco/trunk
-mkdir $TARGET
+mkdir -p $TARGET
 cp $TEMP/index.html $TARGET
 cp -r $TEMP/doc $TARGET/doc
 cp -r $TEMP/test $TARGET/test
 cp -r $TEMP/coverage $TARGET/coverage
 
+cd $CHECKOUT_PATH1
+python generator/eclemmasite.py $RESULT_DIR
 
 cd $RESULT_DIR
 
