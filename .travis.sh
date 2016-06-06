@@ -62,4 +62,13 @@ git commit -m "Automatic deployment"
 if [[ ${TRAVIS_PULL_REQUEST} == 'false' && ${TRAVIS_BRANCH} == 'master' ]]
 then
   git push --force "https://${GH_TOKEN}@github.com/jacoco/jacoco.github.io" master > /dev/null 2>&1
+
+  echo "jacoco.org" > CNAME && git add CNAME && git commit --amend --reuse-message=HEAD
+  git push --force "https://${GH_TOKEN}@github.com/jacoco/jacoco.org" master:gh-pages > /dev/null 2>&1
+
+  echo "eclemma.org" > CNAME && git add CNAME && git commit --amend --reuse-message=HEAD
+  git push --force "https://${GH_TOKEN}@github.com/jacoco/eclemma.org" master:gh-pages > /dev/null 2>&1
+
+  echo "eclemma.com" > CNAME && git add CNAME && git commit --amend --reuse-message=HEAD
+  git push --force "https://${GH_TOKEN}@github.com/jacoco/eclemma.com" master:gh-pages > /dev/null 2>&1
 fi
