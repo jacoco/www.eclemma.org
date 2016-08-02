@@ -19,7 +19,7 @@ BRANCH1=master
 
 GIT_URL2=https://github.com/jacoco/eclemma.git
 CHECKOUT_PATH2=$CHECKOUT_DIR/eclemma
-BRANCH2=v2.3.2
+BRANCH2=v2.3.3
 
 rm -fr $WORKING_DIR
 mkdir $WORKING_DIR
