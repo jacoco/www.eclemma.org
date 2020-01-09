@@ -5,6 +5,7 @@ $Revision$
 """
 
 import sys
+import glob
 from sitegen import * 
 
 site = Site()
@@ -77,6 +78,17 @@ site.item('faq.html',     Page('work/checkout/eclemma/org.eclipse.eclemma.doc/pa
 site.item('changes.html', Page('work/checkout/eclemma/org.eclipse.eclemma.doc/pages/changes.html'))
 site.item('license.html', Page('work/checkout/eclemma/org.eclipse.eclemma.doc/pages/legal.html'))
 site.item('contact.html', Page('content/contact.html'))
+
+# Download Signatures
+signatures = glob.glob("content/jacoco/download/*.md5") + \
+             glob.glob("content/jacoco/download/*.sha256")
+for s in signatures:
+    site.item('jacoco/download/' + s.split('/')[-1], File(s))
+
+signatures = glob.glob("content/download/*.md5") + \
+             glob.glob("content/download/*.sha256")
+for s in signatures:
+    site.item('download/' + s.split('/')[-1], File(s))
 
 # Site Structure
 
