@@ -80,13 +80,13 @@ site.item('license.html', Page('work/checkout/eclemma/org.eclipse.eclemma.doc/pa
 site.item('contact.html', Page('content/contact.html'))
 
 # Download Signatures
-signatures = glob.glob("content/jacoco/download/*.md5") + \
-             glob.glob("content/jacoco/download/*.sha256")
+signatures = glob.glob("content/jacoco/download/*.md5.txt") + \
+             glob.glob("content/jacoco/download/*.sha256.txt")
 for s in signatures:
     site.item('jacoco/download/' + s.split('/')[-1], File(s))
 
-signatures = glob.glob("content/download/*.md5") + \
-             glob.glob("content/download/*.sha256")
+signatures = glob.glob("content/download/*.md5.txt") + \
+             glob.glob("content/download/*.sha256.txt")
 for s in signatures:
     site.item('download/' + s.split('/')[-1], File(s))
 
