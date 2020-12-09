@@ -6,7 +6,7 @@ RESULT_DIR=$WORKING_DIR/result
 
 GIT_URL_ECLEMMA=https://github.com/eclipse/eclemma.git
 CHECKOUT_PATH_ECLEMMA=$CHECKOUT_DIR/eclemma
-BRANCH_ECLEMMA=v3.1.3
+BRANCH_ECLEMMA=v3.1.4
 
 rm -fr $WORKING_DIR
 mkdir $WORKING_DIR
