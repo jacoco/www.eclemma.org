@@ -1,7 +1,0 @@
-# Use container-based infrastructure:
-sudo: false
-
-# Skip "install" stage:
-install: true
-
-script: ./.travis.sh
