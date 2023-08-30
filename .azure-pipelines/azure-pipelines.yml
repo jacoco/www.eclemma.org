@@ -32,17 +32,17 @@ steps:
     git add .
     git commit -q -m "Automatic deployment"
 
-    git push --force "https://${GH_TOKEN}@github.com/jacoco/jacoco.github.io" master > /dev/null 2>&1
+    #git push --force "https://${GH_TOKEN}@github.com/jacoco/jacoco.github.io" master > /dev/null 2>&1
 
     echo "www.jacoco.org" > CNAME && git add CNAME && git commit -q --amend --reuse-message=HEAD
-    git push --force "https://${GH_TOKEN}@github.com/jacoco/jacoco.org" master:gh-pages > /dev/null 2>&1
+    #git push --force "https://${GH_TOKEN}@github.com/jacoco/jacoco.org" master:gh-pages > /dev/null 2>&1
 
     echo "www.eclemma.org" > CNAME && git add CNAME && git commit -q --amend --reuse-message=HEAD
-    git push --force "https://${GH_TOKEN}@github.com/jacoco/eclemma.org" master:gh-pages > /dev/null 2>&1
+    #git push --force "https://${GH_TOKEN}@github.com/jacoco/eclemma.org" master:gh-pages > /dev/null 2>&1
 
     echo "www.eclemma.com" > CNAME && git add CNAME && git commit -q --amend --reuse-message=HEAD
     git push --force "https://${GH_TOKEN}@github.com/jacoco/eclemma.com" master:gh-pages > /dev/null 2>&1
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/csp-test'))
   displayName: Deploy
   env:
     GIT_COMMITTER_NAME: $(GIT_COMMITTER_NAME)
