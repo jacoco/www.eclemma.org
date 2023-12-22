@@ -4,7 +4,7 @@ WORKING_DIR="`pwd`/work"
 CHECKOUT_DIR=$WORKING_DIR/checkout
 RESULT_DIR=$WORKING_DIR/result
 
-GIT_URL_ECLEMMA=https://github.com/eclipse/eclemma.git
+GIT_URL_ECLEMMA=https://github.com/eclipse-eclemma/eclemma.git
 CHECKOUT_PATH_ECLEMMA=$CHECKOUT_DIR/eclemma
 BRANCH_ECLEMMA=v3.1.8
 
