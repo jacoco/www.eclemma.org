@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2006-2007 Edgewall Software
+# Copyright (C) 2006-2009 Edgewall Software
 # All rights reserved.
 #
 # This software is licensed as described in the file COPYING, which
@@ -13,9 +13,15 @@
 
 """Core classes for markup processing."""
 
+from functools import reduce
+import sys
+from itertools import chain
 import operator
 
-from genshi.util import plaintext, stripentities, striptags
+import six
+
+from genshi.compat import stringrepr
+from genshi.util import stripentities, striptags
 
 __all__ = ['Stream', 'Markup', 'escape', 'unescape', 'Attrs', 'Namespace',
            'QName']
@@ -51,11 +57,12 @@ class Stream(object):
     returns the complete generated text at once. Both accept various parameters
     that impact the way the stream is serialized.
     """
-    __slots__ = ['events']
+    __slots__ = ['events', 'serializer']
 
     START = StreamEventKind('START') #: a start tag
     END = StreamEventKind('END') #: an end tag
     TEXT = StreamEventKind('TEXT') #: literal text
+    XML_DECL = StreamEventKind('XML_DECL') #: XML declaration
     DOCTYPE = StreamEventKind('DOCTYPE') #: doctype declaration
     START_NS = StreamEventKind('START_NS') #: start namespace mapping
     END_NS = StreamEventKind('END_NS') #: end namespace mapping
@@ -64,12 +71,17 @@ class Stream(object):
     PI = StreamEventKind('PI') #: processing instruction
     COMMENT = StreamEventKind('COMMENT') #: comment
 
-    def __init__(self, events):
+    def __init__(self, events, serializer=None):
         """Initialize the stream with a sequence of markup events.
         
         :param events: a sequence or iterable providing the events
+        :param serializer: the default serialization method to use for this
+                           stream
+
+        :note: Changed in 0.5: added the `serializer` argument
         """
-        self.events = events
+        self.events = events #: The underlying iterable producing the events
+        self.serializer = serializer #: The default serializion method
 
     def __iter__(self):
         return iter(self.events)
@@ -81,8 +93,8 @@ class Stream(object):
         Assume the following stream produced by the `HTML` function:
         
         >>> from genshi.input import HTML
-        >>> html = HTML('''<p onclick="alert('Whoa')">Hello, world!</p>''')
-        >>> print html
+        >>> html = HTML('''<p onclick="alert('Whoa')">Hello, world!</p>''', encoding='utf-8')
+        >>> print(html)
         <p onclick="alert('Whoa')">Hello, world!</p>
         
         A filter such as the HTML sanitizer can be applied to that stream using
@@ -90,7 +102,7 @@ class Stream(object):
         
         >>> from genshi.filters import HTMLSanitizer
         >>> sanitizer = HTMLSanitizer()
-        >>> print html | sanitizer
+        >>> print(html | sanitizer)
         <p>Hello, world!</p>
         
         Filters can be any function that accepts and produces a stream (where
@@ -101,20 +113,24 @@ class Stream(object):
         ...         if kind is TEXT:
         ...             data = data.upper()
         ...         yield kind, data, pos
-        >>> print html | sanitizer | uppercase
+        >>> print(html | sanitizer | uppercase)
         <p>HELLO, WORLD!</p>
         
         Serializers can also be used with this notation:
         
         >>> from genshi.output import TextSerializer
         >>> output = TextSerializer()
-        >>> print html | sanitizer | uppercase | output
+        >>> print(html | sanitizer | uppercase | output)
         HELLO, WORLD!
         
         Commonly, serializers should be used at the end of the "pipeline";
         using them somewhere in the middle may produce unexpected results.
+        
+        :param function: the callable object that should be applied as a filter
+        :return: the filtered stream
+        :rtype: `Stream`
         """
-        return Stream(_ensure(function(self)))
+        return Stream(_ensure(function(self)), serializer=self.serializer)
 
     def filter(self, *filters):
         """Apply filters to the stream.
@@ -130,41 +146,73 @@ class Stream(object):
         is equivalent to::
         
             stream | filter1 | filter2
+        
+        :param filters: one or more callable objects that should be applied as
+                        filters
+        :return: the filtered stream
+        :rtype: `Stream`
         """
         return reduce(operator.or_, (self,) + filters)
 
-    def render(self, method='xml', encoding='utf-8', **kwargs):
+    def render(self, method=None, encoding=None, out=None, **kwargs):
         """Return a string representation of the stream.
         
-        :param method: determines how the stream is serialized; can be either
-                       "xml", "xhtml", "html", "text", or a custom serializer
-                       class
-        :param encoding: how the output string should be encoded; if set to
-                         `None`, this method returns a `unicode` object
-
         Any additional keyword arguments are passed to the serializer, and thus
         depend on the `method` parameter value.
         
-        :see: XMLSerializer.__init__, XHTMLSerializer.__init__,
-              HTMLSerializer.__init__, TextSerializer.__init__
+        :param method: determines how the stream is serialized; can be either
+                       "xml", "xhtml", "html", "text", or a custom serializer
+                       class; if `None`, the default serialization method of
+                       the stream is used
+        :param encoding: how the output string should be encoded; if set to
+                         `None`, this method returns a `unicode` object
+        :param out: a file-like object that the output should be written to
+                    instead of being returned as one big string; note that if
+                    this is a file or socket (or similar), the `encoding` must
+                    not be `None` (that is, the output must be encoded)
+        :return: a `str` or `unicode` object (depending on the `encoding`
+                 parameter), or `None` if the `out` parameter is provided
+        :rtype: `basestring`
+        
+        :see: XMLSerializer, XHTMLSerializer, HTMLSerializer, TextSerializer
+        :note: Changed in 0.5: added the `out` parameter
         """
+        from genshi.output import encode
+        if method is None:
+            method = self.serializer or 'xml'
         generator = self.serialize(method=method, **kwargs)
-        output = u''.join(list(generator))
-        if encoding is not None:
-            errors = 'replace'
-            if method != 'text':
-                errors = 'xmlcharrefreplace'
-            return output.encode(encoding, errors)
-        return output
+        return encode(generator, method=method, encoding=encoding, out=out)
 
     def select(self, path, namespaces=None, variables=None):
         """Return a new stream that contains the events matching the given
         XPath expression.
         
+        >>> from genshi import HTML
+        >>> stream = HTML('<doc><elem>foo</elem><elem>bar</elem></doc>', encoding='utf-8')
+        >>> print(stream.select('elem'))
+        <elem>foo</elem><elem>bar</elem>
+        >>> print(stream.select('elem/text()'))
+        foobar
+        
+        Note that the outermost element of the stream becomes the *context
+        node* for the XPath test. That means that the expression "doc" would
+        not match anything in the example above, because it only tests against
+        child elements of the outermost element:
+        
+        >>> print(stream.select('doc'))
+        <BLANKLINE>
+        
+        You can use the "." expression to match the context node itself
+        (although that usually makes little sense):
+        
+        >>> print(stream.select('.'))
+        <doc><elem>foo</elem><elem>bar</elem></doc>
+        
         :param path: a string containing the XPath expression
         :param namespaces: mapping of namespace prefixes used in the path
         :param variables: mapping of variable names to values
         :return: the selected substream
+        :rtype: `Stream`
         :raises PathSyntaxError: if the given path expression is invalid or not
                                  supported
         """
@@ -179,24 +227,22 @@ class Stream(object):
         the serialized output incrementally, as opposed to returning a single
         string.
         
-        :param method: determines how the stream is serialized; can be either
-                       "xml", "xhtml", "html", "text", or a custom serializer
-                       class
-        
         Any additional keyword arguments are passed to the serializer, and thus
         depend on the `method` parameter value.
         
-        :see: XMLSerializer.__init__, XHTMLSerializer.__init__,
-              HTMLSerializer.__init__, TextSerializer.__init__
+        :param method: determines how the stream is serialized; can be either
+                       "xml", "xhtml", "html", "text", or a custom serializer
+                       class; if `None`, the default serialization method of
+                       the stream is used
+        :return: an iterator over the serialization results (`Markup` or
+                 `unicode` objects, depending on the serialization method)
+        :rtype: ``iterator``
+        :see: XMLSerializer, XHTMLSerializer, HTMLSerializer, TextSerializer
         """
-        from genshi import output
-        cls = method
-        if isinstance(method, basestring):
-            cls = {'xml':   output.XMLSerializer,
-                   'xhtml': output.XHTMLSerializer,
-                   'html':  output.HTMLSerializer,
-                   'text':  output.TextSerializer}[method]
-        return cls(**kwargs)(_ensure(self))
+        from genshi.output import get_serializer
+        if method is None:
+            method = self.serializer or 'xml'
+        return get_serializer(method, **kwargs)(_ensure(self))
 
     def __str__(self):
         return self.render()
@@ -204,10 +250,14 @@ class Stream(object):
     def __unicode__(self):
         return self.render(encoding=None)
 
+    def __html__(self):
+        return self
+
 
 START = Stream.START
 END = Stream.END
 TEXT = Stream.TEXT
+XML_DECL = Stream.XML_DECL
 DOCTYPE = Stream.DOCTYPE
 START_NS = Stream.START_NS
 END_NS = Stream.END_NS
@@ -216,14 +266,30 @@ END_CDATA = Stream.END_CDATA
 PI = Stream.PI
 COMMENT = Stream.COMMENT
 
+
 def _ensure(stream):
     """Ensure that every item on the stream is actually a markup event."""
-    for event in stream:
-        if type(event) is not tuple:
+    stream = iter(stream)
+    try:
+        event = next(stream)
+    except StopIteration:
+        return
+
+    # Check whether the iterable is a real markup event stream by examining the
+    # first item it yields; if it's not we'll need to do some conversion
+    if type(event) is not tuple or len(event) != 3:
+        for event in chain([event], stream):
             if hasattr(event, 'totuple'):
                 event = event.totuple()
             else:
-                event = TEXT, unicode(event), (None, -1, -1)
+                event = TEXT, six.text_type(event), (None, -1, -1)
+            yield event
+        return
+
+    # This looks like a markup event stream, so we'll just pass it through
+    # unchanged
+    yield event
+    for event in stream:
         yield event
 
 
@@ -284,21 +350,53 @@ class Attrs(tuple):
     def __contains__(self, name):
         """Return whether the list includes an attribute with the specified
         name.
+        
+        :return: `True` if the list includes the attribute
+        :rtype: `bool`
         """
         for attr, _ in self:
             if attr == name:
                 return True
+        return False
+
+    def __getitem__(self, i):
+        """Return an item or slice of the attributes list.
+        
+        >>> attrs = Attrs([('href', '#'), ('title', 'Foo')])
+        >>> attrs[1]
+        ('title', 'Foo')
+        >>> attrs[1:]
+        Attrs([('title', 'Foo')])
+        """
+        items = tuple.__getitem__(self, i)
+        if type(i) is slice:
+            return Attrs(items)
+        return items
 
     def __getslice__(self, i, j):
+        """Return a slice of the attributes list.
+        
+        >>> attrs = Attrs([('href', '#'), ('title', 'Foo')])
+        >>> attrs[1:]
+        Attrs([('title', 'Foo')])
+        """
         return Attrs(tuple.__getslice__(self, i, j))
 
     def __or__(self, attrs):
         """Return a new instance that contains the attributes in `attrs` in
-        addition to any already existing attributes.
+        addition to any already existing attributes. Any attributes in the new
+        set that have a value of `None` are removed.
+        
+        :return: a new instance with the merged attributes
+        :rtype: `Attrs`
         """
-        repl = dict([(an, av) for an, av in attrs if an in self])
-        return Attrs([(sn, repl.get(sn, sv)) for sn, sv in self] +
-                     [(an, av) for an, av in attrs if an not in self])
+        remove = set([an for an, av in attrs if av is None])
+        replace = dict([(an, av) for an, av in attrs
+                        if an in self and av is not None])
+        return Attrs([(sn, replace.get(sn, sv)) for sn, sv in self
+                      if sn not in remove] +
+                     [(an, av) for an, av in attrs
+                      if an not in self and an not in remove])
 
     def __repr__(self):
         if not self:
@@ -308,8 +406,12 @@ class Attrs(tuple):
     def __sub__(self, names):
         """Return a new instance with all attributes with a name in `names` are
         removed.
+        
+        :param names: the names of the attributes to remove
+        :return: a new instance with the attribute removed
+        :rtype: `Attrs`
         """
-        if isinstance(names, basestring):
+        if isinstance(names, six.string_types):
             names = (names,)
         return Attrs([(name, val) for name, val in self if name not in names])
 
@@ -321,6 +423,7 @@ class Attrs(tuple):
         :param default: the value to return when the attribute does not exist
         :return: the attribute value, or the `default` value if that attribute
                  does not exist
+        :rtype: `object`
         """
         for attr, value in self:
             if attr == name:
@@ -334,41 +437,41 @@ class Attrs(tuple):
         attributes joined together.
         
         >>> Attrs([('href', '#'), ('title', 'Foo')]).totuple()
-        ('TEXT', u'#Foo', (None, -1, -1))
+        ('TEXT', '#Foo', (None, -1, -1))
+        
+        :return: a `TEXT` event
+        :rtype: `tuple`
         """
-        return TEXT, u''.join([x[1] for x in self]), (None, -1, -1)
+        return TEXT, ''.join([x[1] for x in self]), (None, -1, -1)
 
 
-class Markup(unicode):
+class Markup(six.text_type):
     """Marks a string as being safe for inclusion in HTML/XML output without
     needing to be escaped.
     """
     __slots__ = []
 
-    def __new__(cls, text='', *args):
-        if args:
-            text %= tuple(map(escape, args))
-        return unicode.__new__(cls, text)
-
     def __add__(self, other):
-        return Markup(unicode(self) + unicode(escape(other)))
+        return Markup(six.text_type.__add__(self, escape(other)))
 
     def __radd__(self, other):
-        return Markup(unicode(escape(other)) + unicode(self))
+        return Markup(six.text_type.__add__(escape(other), self))
 
     def __mod__(self, args):
-        if not isinstance(args, (list, tuple)):
-            args = [args]
-        return Markup(unicode.__mod__(self, tuple(map(escape, args))))
+        if isinstance(args, dict):
+            args = dict(zip(args.keys(), map(escape, args.values())))
+        elif isinstance(args, (list, tuple)):
+            args = tuple(map(escape, args))
+        else:
+            args = escape(args)
+        return Markup(six.text_type.__mod__(self, args))
 
     def __mul__(self, num):
-        return Markup(unicode(self) * num)
-
-    def __rmul__(self, num):
-        return Markup(num * unicode(self))
+        return Markup(six.text_type.__mul__(self, num))
+    __rmul__ = __mul__
 
     def __repr__(self):
-        return '<%s %r>' % (self.__class__.__name__, unicode(self))
+        return "<%s %s>" % (type(self).__name__, six.text_type.__repr__(self))
 
     def join(self, seq, escape_quotes=True):
         """Return a `Markup` object which is the concatenation of the strings
@@ -382,57 +485,63 @@ class Markup(unicode):
         :param escape_quotes: whether double quote characters in the elements
                               should be escaped
         :return: the joined `Markup` object
+        :rtype: `Markup`
         :see: `escape`
         """
-        return Markup(unicode(self).join([escape(item, quotes=escape_quotes)
-                                          for item in seq]))
+        escaped_items = [escape(item, quotes=escape_quotes) for item in seq]
+        return Markup(six.text_type.join(self, escaped_items))
 
+    @classmethod
     def escape(cls, text, quotes=True):
         """Create a Markup instance from a string and escape special characters
         it may contain (<, >, & and \").
         
         >>> escape('"1 < 2"')
-        <Markup u'&#34;1 &lt; 2&#34;'>
+        <Markup '&#34;1 &lt; 2&#34;'>
         
         If the `quotes` parameter is set to `False`, the \" character is left
         as is. Escaping quotes is generally only required for strings that are
         to be used in attribute values.
         
         >>> escape('"1 < 2"', quotes=False)
-        <Markup u'"1 &lt; 2"'>
+        <Markup '"1 &lt; 2"'>
         
         :param text: the text to escape
         :param quotes: if ``True``, double quote characters are escaped in
                        addition to the other special characters
         :return: the escaped `Markup` string
-        :see: `genshi.core.escape`
+        :rtype: `Markup`
         """
         if not text:
             return cls()
         if type(text) is cls:
             return text
-        text = unicode(text).replace('&', '&amp;') \
-                            .replace('<', '&lt;') \
-                            .replace('>', '&gt;')
+        if hasattr(text, '__html__'):
+            return cls(text.__html__())
+
+        text = text.replace('&', '&amp;') \
+                   .replace('<', '&lt;') \
+                   .replace('>', '&gt;')
         if quotes:
             text = text.replace('"', '&#34;')
         return cls(text)
-    escape = classmethod(escape)
 
     def unescape(self):
         """Reverse-escapes &, <, >, and \" and returns a `unicode` object.
         
         >>> Markup('1 &lt; 2').unescape()
-        u'1 < 2'
+        '1 < 2'
         
+        :return: the unescaped string
+        :rtype: `unicode`
         :see: `genshi.core.unescape`
         """
         if not self:
-            return u''
-        return unicode(self).replace('&#34;', '"') \
-                            .replace('&gt;', '>') \
-                            .replace('&lt;', '<') \
-                            .replace('&amp;', '&')
+            return ''
+        return six.text_type(self).replace('&#34;', '"') \
+                                  .replace('&gt;', '>') \
+                                  .replace('&lt;', '<') \
+                                  .replace('&amp;', '&')
 
     def stripentities(self, keepxmlentities=False):
         """Return a copy of the text with any character or numeric entities
@@ -442,6 +551,8 @@ class Markup(unicode):
         the core XML entities (``&amp;``, ``&apos;``, ``&gt;``, ``&lt;`` and
         ``&quot;``) are not stripped.
         
+        :return: a `Markup` instance with entities removed
+        :rtype: `Markup`
         :see: `genshi.util.stripentities`
         """
         return Markup(stripentities(self, keepxmlentities=keepxmlentities))
@@ -449,26 +560,37 @@ class Markup(unicode):
     def striptags(self):
         """Return a copy of the text with all XML/HTML tags removed.
         
+        :return: a `Markup` instance with all tags removed
+        :rtype: `Markup`
         :see: `genshi.util.striptags`
         """
         return Markup(striptags(self))
 
 
+try:
+    from genshi._speedups import Markup
+except ImportError:
+    pass # just use the Python implementation
+
+
 escape = Markup.escape
+
 
 def unescape(text):
     """Reverse-escapes &, <, >, and \" and returns a `unicode` object.
     
     >>> unescape(Markup('1 &lt; 2'))
-    u'1 < 2'
+    '1 < 2'
     
-    If the provided `text` object is not a `Markup` instance, the text is
-    returned as-is.
+    If the provided `text` object is not a `Markup` instance, it is returned
+    unchanged.
     
     >>> unescape('1 &lt; 2')
     '1 &lt; 2'
     
     :param text: the text to unescape
+    :return: the unescsaped string
+    :rtype: `unicode`
     """
     if not isinstance(text, Markup):
         return text
@@ -486,25 +608,25 @@ class Namespace(object):
     
     >>> html = Namespace('http://www.w3.org/1999/xhtml')
     >>> html
-    <Namespace "http://www.w3.org/1999/xhtml">
+    Namespace('http://www.w3.org/1999/xhtml')
     >>> html.uri
-    u'http://www.w3.org/1999/xhtml'
+    'http://www.w3.org/1999/xhtml'
     
     The `Namespace` object can than be used to generate `QName` objects with
     that namespace:
     
     >>> html.body
-    QName(u'http://www.w3.org/1999/xhtml}body')
+    QName('http://www.w3.org/1999/xhtml}body')
     >>> html.body.localname
-    u'body'
+    'body'
     >>> html.body.namespace
-    u'http://www.w3.org/1999/xhtml'
+    'http://www.w3.org/1999/xhtml'
     
     The same works using item access notation, which is useful for element or
     attribute names that are not valid Python identifiers:
     
     >>> html['body']
-    QName(u'http://www.w3.org/1999/xhtml}body')
+    QName('http://www.w3.org/1999/xhtml}body')
     
     A `Namespace` object can also be used to test whether a specific `QName`
     belongs to that namespace using the ``in`` operator:
@@ -518,7 +640,7 @@ class Namespace(object):
     def __new__(cls, uri):
         if type(uri) is cls:
             return uri
-        return object.__new__(cls, uri)
+        return object.__new__(cls)
 
     def __getnewargs__(self):
         return (self.uri,)
@@ -530,7 +652,7 @@ class Namespace(object):
         self.uri = uri
 
     def __init__(self, uri):
-        self.uri = unicode(uri)
+        self.uri = six.text_type(uri)
 
     def __contains__(self, qname):
         return qname.namespace == self.uri
@@ -544,11 +666,19 @@ class Namespace(object):
         return self.uri == other
 
     def __getitem__(self, name):
-        return QName(self.uri + u'}' + name)
+        return QName(self.uri + '}' + name)
     __getattr__ = __getitem__
 
-    def __repr__(self):
-        return '<Namespace "%s">' % self.uri
+    def __hash__(self):
+        return hash(self.uri)
+
+    if sys.version_info[0] == 2:
+        # Only use stringrepr in python 2
+        def __repr__(self):
+            return '%s(%s)' % (type(self).__name__, stringrepr(self.uri))
+    else:
+        def __repr__(self):
+            return '%s(%r)' % (type(self).__name__, self.uri)
 
     def __str__(self):
         return self.uri.encode('utf-8')
@@ -561,46 +691,58 @@ class Namespace(object):
 XML_NAMESPACE = Namespace('http://www.w3.org/XML/1998/namespace')
 
 
-class QName(unicode):
+class QName(six.text_type):
     """A qualified element or attribute name.
     
     The unicode value of instances of this class contains the qualified name of
-    the element or attribute, in the form ``{namespace}localname``. The namespace
-    URI can be obtained through the additional `namespace` attribute, while the
-    local name can be accessed through the `localname` attribute.
+    the element or attribute, in the form ``{namespace-uri}local-name``. The
+    namespace URI can be obtained through the additional `namespace` attribute,
+    while the local name can be accessed through the `localname` attribute.
     
     >>> qname = QName('foo')
     >>> qname
-    QName(u'foo')
+    QName('foo')
     >>> qname.localname
-    u'foo'
+    'foo'
     >>> qname.namespace
     
     >>> qname = QName('http://www.w3.org/1999/xhtml}body')
     >>> qname
-    QName(u'http://www.w3.org/1999/xhtml}body')
+    QName('http://www.w3.org/1999/xhtml}body')
     >>> qname.localname
-    u'body'
+    'body'
     >>> qname.namespace
-    u'http://www.w3.org/1999/xhtml'
+    'http://www.w3.org/1999/xhtml'
     """
     __slots__ = ['namespace', 'localname']
 
     def __new__(cls, qname):
+        """Create the `QName` instance.
+        
+        :param qname: the qualified name as a string of the form
+                      ``{namespace-uri}local-name``, where the leading curly
+                      brace is optional
+        """
         if type(qname) is cls:
             return qname
 
-        parts = qname.split(u'}', 1)
+        qname = qname.lstrip('{')
+        parts = qname.split('}', 1)
         if len(parts) > 1:
-            self = unicode.__new__(cls, u'{%s' % qname)
-            self.namespace, self.localname = map(unicode, parts)
+            self = six.text_type.__new__(cls, '{%s' % qname)
+            self.namespace, self.localname = map(six.text_type, parts)
         else:
-            self = unicode.__new__(cls, qname)
-            self.namespace, self.localname = None, unicode(qname)
+            self = six.text_type.__new__(cls, qname)
+            self.namespace, self.localname = None, six.text_type(qname)
         return self
 
     def __getnewargs__(self):
         return (self.lstrip('{'),)
 
-    def __repr__(self):
-        return 'QName(%s)' % unicode.__repr__(self.lstrip('{'))
+    if sys.version_info[0] == 2:
+        # Only use stringrepr in python 2
+        def __repr__(self):
+            return '%s(%s)' % (type(self).__name__, stringrepr(self.lstrip('{')))
+    else:
+        def __repr__(self):
+            return '%s(%r)' % (type(self).__name__, self.lstrip('{'))

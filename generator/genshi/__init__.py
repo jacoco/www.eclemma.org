@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2006 Edgewall Software
+# Copyright (C) 2006-2009 Edgewall Software
 # All rights reserved.
 #
 # This software is licensed as described in the file COPYING, which
@@ -20,10 +20,7 @@ independently of where or how they are produced.
 """
 
 __docformat__ = 'restructuredtext en'
-#try:
-#    __version__ = __import__('pkg_resources').get_distribution('Genshi').version
-#except ImportError:
-#    pass
+__version__ = '0.8'
 
 from genshi.core import *
 from genshi.input import ParseError, XML, HTML

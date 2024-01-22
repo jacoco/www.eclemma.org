@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2007-2009 Edgewall Software
+# Copyright (C) 2007-2008 Edgewall Software
 # All rights reserved.
 #
 # This software is licensed as described in the file COPYING, which
@@ -11,10 +11,17 @@
 # individuals. For the exact contribution history, see the revision
 # history and logs, available at http://genshi.edgewall.org/log/.
 
-"""Implementation of a number of stream filters."""
+import doctest
+import unittest
 
-from genshi.filters.html import HTMLFormFiller, HTMLSanitizer
-from genshi.filters.i18n import Translator
-from genshi.filters.transform import Transformer
+def suite():
+    from genshi.filters.tests import test_html, i18n, transform
+    suite = unittest.TestSuite()
+    suite.addTest(test_html.suite())
+    suite.addTest(i18n.suite())
+    if hasattr(doctest, 'NORMALIZE_WHITESPACE'):
+        suite.addTest(transform.suite())
+    return suite
 
-__docformat__ = 'restructuredtext en'
+if __name__ == '__main__':
+    unittest.main(defaultTest='suite')
