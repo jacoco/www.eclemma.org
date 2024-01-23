@@ -10,7 +10,7 @@ import gitlog
 
 templateloader = genshi.template.TemplateLoader(['./templates'])
         
-PAGE = templateloader.load('page.html')
+PAGE = templateloader.load('page.html', encoding='utf-8')
 
 def _rellink(base, href):
     base = base.split('/')
@@ -83,7 +83,7 @@ class Page(OutputItem):
         ))
         page = PAGE.generate(ctx)
         page |= LinkCheckFilter(path, site.localpaths())
-        return page.render('xhtml')
+        return page.render('xhtml', encoding='utf-8')
         
 
 class NavigationNode(object):
