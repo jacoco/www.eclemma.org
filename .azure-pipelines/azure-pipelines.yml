@@ -1,6 +1,12 @@
 pool:
   vmImage: 'ubuntu-20.04'
 steps:
+- bash: |
+    python2 --version
+    curl -fsSL -O https://bootstrap.pypa.io/pip/2.7/get-pip.py
+    python2 get-pip.py --no-python-version-warning && rm -f get-pip.py
+    python2 -m pip --version
+    python2 -m pip install six
 - bash: ./render.sh
   displayName: Build
 - bash: |
