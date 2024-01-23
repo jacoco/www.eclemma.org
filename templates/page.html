@@ -9,7 +9,7 @@
   <meta name="date" content="${properties['commitdate']}" />
   <link rel="stylesheet" href="${rellink('book.css')}" type="text/css" />
   <link rel="shortcut icon" href="${rellink('favicon.ico')}" type="image/x-icon" />
-  <title>EclEmma - ${content.select('head/title/text()')}</title>
+  <title>EclEmma - ${content.select('head//title/text()')}</title>
   <style py:replace="content.select('head/style')" />
 </head>
 
