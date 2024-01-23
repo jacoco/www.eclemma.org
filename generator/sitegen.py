@@ -130,6 +130,7 @@ class Site(object):
         items = self.items.items()
         items.sort()
         for (path, item) in items:
+            print '[DEBUG] %s' % (path)
             outpath = os.path.normpath(os.path.join(basedir, path))
             try:
                 os.makedirs(os.path.dirname(outpath))
