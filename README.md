@@ -1,1 +1,1 @@
-[![Build Status](https://dev.azure.com/jacoco-org/JaCoCo/_apis/build/status/Site?branchName=master)](https://dev.azure.com/jacoco-org/JaCoCo/_build/latest?definitionId=2&branchName=master)
+[![Build Status](https://github.com/jacoco/www.eclemma.org/actions/workflows/ci.yml/badge.svg)](https://github.com/jacoco/www.eclemma.org/actions/workflows/ci.yml)
