@@ -5,10 +5,12 @@ on:
   - repository_dispatch
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
+    container:
+      image: python:2.7.18
     environment: ${{ (github.repository == 'jacoco/www.eclemma.org' && github.ref == 'refs/heads/master') && 'sites' || null }}
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
       - name: 'Build'
