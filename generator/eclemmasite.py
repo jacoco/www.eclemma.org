@@ -1,7 +1,4 @@
-"""EclEmma's site structure at SourceForge
-
-$LastChangedDate$
-$Revision$
+"""EclEmma's web site structure
 """
 
 import sys
