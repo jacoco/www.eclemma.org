@@ -6,15 +6,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    container:
-      image: python:2.7.18
     environment: ${{ (github.repository == 'jacoco/www.eclemma.org' && github.ref == 'refs/heads/master') && 'sites' || null }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
       - name: 'Build'
-        run: ./render.sh
+        run: |
+          docker run \
+            --user $(id -u):$(id -g) \
+            -v "/var/run/docker.sock":"/var/run/docker.sock" \
+            -v ${{ github.workspace }}:/work \
+            -w /work \
+            --entrypoint bash \
+            python:2.7.18 \
+            -c /work/render.sh
       - name: 'Deploy'
         if: ${{ (github.repository == 'jacoco/www.eclemma.org' && github.ref == 'refs/heads/master') }}
         env:
@@ -26,8 +32,13 @@ jobs:
           RESULT_DIR=$WORKING_DIR/result
           TEMP=/tmp/jacoco-snapshot
           mkdir $TEMP
-          wget -O $TEMP/download.zip "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.jacoco&a=jacoco&e=zip&v=LATEST"
-          unzip $TEMP/download.zip -d $TEMP
+          JACOCO_VERSION=0.8.14-SNAPSHOT
+          mvn -V -B -e --no-transfer-progress \
+            dependency:get \
+            -Dtransitive=false \
+            -DremoteRepositories=snapshot::default::https://central.sonatype.com/repository/maven-snapshots/ \
+            -Dartifact=org.jacoco:jacoco:$JACOCO_VERSION:zip
+          unzip $HOME/.m2/repository/org/jacoco/jacoco/$JACOCO_VERSION/jacoco-$JACOCO_VERSION.zip -d $TEMP
 
           TARGET=$RESULT_DIR/jacoco/trunk
           mkdir $TARGET
