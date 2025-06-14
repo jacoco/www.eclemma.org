@@ -14,5 +14,6 @@ mkdir $WORKING_DIR
 git clone -- $GIT_URL_ECLEMMA $CHECKOUT_PATH_ECLEMMA
 git -C $CHECKOUT_PATH_ECLEMMA checkout $BRANCH_ECLEMMA
 
-python2 generator/eclemmasite.py $RESULT_DIR
+pip install -r requirements.txt
+python3 generator/eclemmasite.py $RESULT_DIR
 

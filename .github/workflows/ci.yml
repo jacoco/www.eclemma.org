@@ -12,15 +12,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: 'Build'
-        run: |
-          docker run \
-            --user $(id -u):$(id -g) \
-            -v "/var/run/docker.sock":"/var/run/docker.sock" \
-            -v ${{ github.workspace }}:/work \
-            -w /work \
-            --entrypoint bash \
-            python:2.7.18 \
-            -c /work/render.sh
+        run: ./render.sh
       - name: 'Deploy'
         if: ${{ (github.repository == 'jacoco/www.eclemma.org' && github.ref == 'refs/heads/master') }}
         env:

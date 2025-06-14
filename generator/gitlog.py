@@ -15,7 +15,7 @@ def get_log_info(file):
     repo_dir = _get_repo_dir(file)
     fmt = '%n'.join(map(lambda p : '='.join(p), _PROPERTIES))
     output = _execute(repo_dir, 'git', 'log', '-1', '--pretty=%s' % fmt, '--name-only', '--', file)
-    lines = output.split('\n')
+    lines = output.decode().split('\n')
     info = {}
     for l in lines:
         if not l:
