@@ -32,7 +32,7 @@ jobs:
           RESULT_DIR=$WORKING_DIR/result
           TEMP=/tmp/jacoco-snapshot
           mkdir $TEMP
-          JACOCO_VERSION=0.8.14-SNAPSHOT
+          JACOCO_VERSION=0.8.15-SNAPSHOT
           mvn -V -B -e --no-transfer-progress \
             dependency:get \
             -Dtransitive=false \
