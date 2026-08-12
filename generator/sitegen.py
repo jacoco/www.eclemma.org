@@ -1,16 +1,15 @@
-"""Simple Generator for EclEmma's site at SourceForge
-
-$LastChangedDate$
-$Revision$
+"""Simple Generator for www.eclemma.org
 """
-import os, os.path, sys, urlparse
+import os, os.path, sys
 import itertools
 import genshi, genshi.input, genshi.template
 import gitlog
 
+from urllib.parse import urljoin
+
 templateloader = genshi.template.TemplateLoader(['./templates'])
         
-PAGE = templateloader.load('page.html')
+PAGE = templateloader.load('page.html', encoding='UTF-8')
 
 def _rellink(base, href):
     base = base.split('/')
@@ -38,7 +37,7 @@ class LinkCheckFilter(object):
                 attrs = data[1]
                 for ref in filter(lambda v: v, map(lambda n: attrs.get(n), self.ATTRIBUTES)):
                     if not filter(lambda p: ref.startswith(p), self.IGNORE_PREFIXES):
-                        if urlparse.urljoin(self.path, ref) not in self.localpaths:
+                        if urljoin(self.path, ref) not in self.localpaths:
                             raise Exception('Invalid reference %s in %s' % (ref, self.path))
             yield kind, data, pos
 
@@ -56,17 +55,16 @@ class File(OutputItem):
         OutputItem.__init__(self, src)
 
     def create(self, site, path):
-        f = open(self.src, 'r+b')
-        content = f.read()
-        f.close()
-        return content
+        with open(self.src, 'r+b') as f:
+            return f.read()
         
 class Page(OutputItem):
     def __init__(self, src):
         OutputItem.__init__(self, src)
 
     def create(self, site, path):
-        content = genshi.Stream(list(genshi.input.XMLParser(file(self.src))))
+        with open(self.src, encoding='ISO-8859-1') as f:
+            content = genshi.XML(f.read())
         def cond(c, a, b):
             if c:
                 return a
@@ -83,7 +81,7 @@ class Page(OutputItem):
         ))
         page = PAGE.generate(ctx)
         page |= LinkCheckFilter(path, site.localpaths())
-        return page.render('xhtml')
+        return page.render('xhtml', encoding='UTF-8')
         
 
 class NavigationNode(object):
@@ -127,22 +125,17 @@ class Site(object):
 
     def generate(self, basedir):
         bytesum = 0
-        items = self.items.items()
-        items.sort()
-        for (path, item) in items:
+        for (path, item) in sorted(self.items.items()):
             outpath = os.path.normpath(os.path.join(basedir, path))
             try:
                 os.makedirs(os.path.dirname(outpath))
             except:
                 pass
-            f = open(outpath, 'w+b')
             content = item.create(self, path)
-            f.write(content)
-            f.close()
+            with open(outpath, 'w+b') as f:
+                f.write(content)
             bytesum += len(content)
-            print '%6d bytes %s' % (len(content), path)
+            print('%6d bytes %s' % (len(content), path))
 
-        print '===================================================='
-        print '%6d bytes for %d files' % (bytesum, len(self.items))
-            
-            
+        print('====================================================')
+        print('%6d bytes for %d files' % (bytesum, len(self.items)))
